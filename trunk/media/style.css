@@ -1,0 +1,258 @@
+html,body{margin:0;padding:0}
+body{font:62.5% Helvetica, Verdana, Arial, sans-serif;color:#323232;
+	background:#fff;text-align:center;overflow:hidden}
+
+img{border:0}
+a{outline:none}
+
+/* Top Menu */
+#header_menu{width:100%;height:43px;margin:0;position:fixed;
+	background:url('gradients.png') repeat-x;border-bottom:1px solid #979797}
+#header_menu ul{height:50px;list-style:none;margin:0;padding:0;
+	float:left}
+#header_menu ul li{height:40px;float:left;margin:0}
+#header_menu ul li a{width:55px;height:12px;padding:25px 3px 0 3px;color:#050505;
+	text-decoration:none;display:block;margin:3px 0;
+	background-image:url('header_menu.png');background-repeat:no-repeat}
+#header_menu ul li.divider{width:2px;background:url('menu_divider.png') no-repeat;
+	margin-top:4px;padding:0 3px}
+#header_open a{background-position:17px 0}
+#header_remove a{background-position:-38px 0}
+#header_resume a{background-position:-91px 0}
+#header_pause a{background-position:-147px 0}
+#header_resume_all a{background-position:-202px 0}
+#header_pause_all a{background-position:-258px 0}
+#header_details a{background-position:-312px 0}
+#header_open a:hover{background-position:17px -35px}
+#header_remove a:hover{background-position:-38px -35px}
+#header_resume a:hover{background-position:-91px -35px}
+#header_pause a:hover{background-position:-147px -35px}
+#header_resume_all a:hover{background-position:-202px -35px}
+#header_pause_all a:hover{background-position:-258px -35px}
+#header_details a:hover{background-position:-312px -35px}
+#header_open a.disabled{background-position:17px -73px}
+#header_remove a.disabled{background-position:-38px -70px}
+#header_resume a.disabled{background-position:-91px -70px}
+#header_pause a.disabled{background-position:-147px -70px}
+#header_resume_all a.disabled{background-position:-202px -70px}
+#header_pause_all a.disabled{background-position:-258px -70px}
+#header_details a.disabled{background-position:-312px -70px}
+#header_web_search{float:right;height:23px;margin:10px;
+	background:url('bars.png') no-repeat 0 -37px}
+#header_web_search .wrapper{height:23px;width:217px;
+	background:url('bars.png') no-repeat right -37px}
+#header_web_search.active{background-position:0 -60px}
+#header_web_search.active .wrapper{background-position:right -60px}
+#web_search_dropdown{height:21px;float:left;width:30px;
+	background:url('icons.png') no-repeat 5px -78px}
+#header_web_search input{background:transparent;height:20px;width:161px;
+	float:left;border:0;display:inline;outline:none;padding:2px}
+#web_search_delete_text{border:0;width:20px;height:20px;float:left;
+	background:url('icons.png') 0 -258px}
+
+/* Filter Bar */
+#filter_bar{margin:0 350px 0 0;height:24px;right:0;border-bottom:1px solid #979797;
+	position:fixed;background:url('gradients.png') repeat-x 0 -81px;left:0;top:44px}
+#filter_bar_options,#filter_bar_type{width:50%}
+#filter_bar ul{height:18px;list-style:none;margin:0;padding:0;float:left}
+#filter_bar ul li{height:18px;float:left;margin:4px 2px 0 2px}
+#filter_bar ul li a{font-size:1.2em;color:#4E4E4F;text-decoration:none;
+	font-weight:bold;padding:1px 7px 0 7px;margin:0;height:17px;display: block;
+	vertical-align:bottom}
+#filter_bar ul li:hover{background:url('bars.png') no-repeat left -19px}
+#filter_bar ul li:hover a{background:url('bars.png') no-repeat right -19px;
+	color: #fff !important}
+#filter_bar ul li.active{background:url('bars.png') no-repeat left 0}
+#filter_bar ul li.active a{background:url('bars.png') no-repeat right 0;
+	color: #fff !important}
+#filter_search{float:right;height:18px;margin:3px 5px 3px 0;
+	background:url('bars.png') no-repeat 0 -83px}
+#filter_search .wrapper{height:18px;width:107px;
+	background:url('bars.png') no-repeat right -83px;padding:0 5px}
+#filter_search.active{background-position:0 -101px}
+#filter_search.active .wrapper{background-position:right -101px}
+#filter_search input{background:transparent;height:18px;width:85px;
+	float:left;border:0;display:inline;outline:none;padding:1px 2px;font-size:0.9em}
+#filter_search_delete_text{border:0;width:18px;height:18px;float:left;
+	background:url('icons.png') 0 -258px;margin-top:-3px}
+
+/* Torrent Container */
+#torrent_container{position:fixed;top:69px;bottom:22px;right:0px;left:0px;
+	padding:0;margin:0 350px 0 0;overflow:auto}
+#torrent_list{width:100%;margin:0;padding:0;text-align:left}
+#torrent_list li{list-style:none;clear: both;display: block;padding:0;margin:0;
+	vertical-align:middle;border-bottom: 1px solid #ccc;padding:0 30px 4px 8px}
+#torrent_list h2{margin:0;padding:6px 0;overflow:hidden;text-overflow:ellipsis}
+#torrent_list input{margin:2px 0;padding:2px 0;font-size:1.5em;font-weight:bold;
+	width:100%;display:none}
+#torrent_list span{display:block;margin:0;padding:0}
+#torrent_list li.even{background:#F5F8FD}
+#torrent_list li:hover{background:#EDF3FE}
+#torrent_list li.selected{background:url('gradients.png') repeat-x 0 -228px;
+	color:#FFF}
+#torrent_list li a{display:block;float:right;width:17px;height:17px;padding:0;
+	margin:0 -23px 0 0;background:url('icons.png') -1px -61px}
+#torrent_list li a:hover{background-position:-1px -41px;cursor:pointer}
+#torrent_list li.paused a,#torrent_list li.completed a{
+	background-position:-1px -21px}
+#torrent_list li.paused a:hover,#torrent_list li.completed a:hover{
+	background-position:-1px -1px}
+#torrent_list .torrent_name{font-size:1.3em;font-weight:bold}
+#torrent_list .progress_details,
+#torrent_list .peer_details{font-size: 1.1em}
+.progress_bar_container{height:10px;margin:3px 0 3px 0;
+	float:left;line-height:1px;font-size:1px;width:100%;border:1px solid #939393;
+	background:url('gradients.png') repeat-x 0 -198px}
+.loading .progress_bar_container{background:url('progress.gif') repeat-x}
+.seeding .progress_bar_container{border:1px solid #29AD35;
+	background-position:0 -168px}
+.completed .progress_bar_container{border:1px solid #939393;
+	background-position:0 -178px}
+.downloading .progress_bar_container{border:1px solid #3F79EE;
+	background-position:0 -198px}
+.hashing .progress_bar_container{border:1px solid #E19200;
+	background-position:0 -198px}
+.progress_bar{background:url('gradients.png') repeat-x 0 -208px;
+	height:10px}
+.seeding .progress_bar{background-position:0 -168px}
+.completed .progress_bar{background-position:0 -178px}
+.downloading .progress_bar{background-position:0 -188px;border-right:1px solid #ccc}
+.hashing .progress_bar{background-position:0 -218px;border-right:1px solid #ccc}
+
+/* Details Container */
+#details_container{position:fixed;top:44px;right:0px;bottom:22px;width:340px;
+	background-color:#e4e3e2;border-left:#aaa 1px solid;text-align:left;padding:5px;
+	overflow:auto}
+#details_header{margin-bottom:10px}
+#details_header h1{font-size:1.4em;margin:0;clear:both;padding:6px 0;
+	text-shadow:1px 1px #eee;overflow:hidden;text-overflow:}
+#details_header .rename{font-size:1.4em;margin:2px 0;padding:2px 0;clear:both;
+	font-weight:bold;display:none}
+#details_header span{font-size:1.2em;margin:0;display:block}
+#details_priority_button{float:right;border:1px solid #aaa;padding:2px 4px;
+	background:url('gradients.png') 0 -122px;margin:-17px 0 0 0;color:#323232;
+	text-decoration:none;display:none}
+#details_container .tab_center{width:100%;text-align:center}
+#details_container .tabs{padding:0;margin:0 0 0 50px;text-shadow:1px 1px #e8e8e8}
+#details_container .tabs li{float:left;list-style-type:none}
+#details_container .tabs li a{display:block;margin:10px -1px 0 0;padding:4px;
+	background:url('gradients.png') repeat-x 0 -122px;border:1px solid #787878;
+	width:50px;text-align:center;font-weight:bold;text-decoration:none;color:#323232;
+	height:15px}
+#details_container .tabs li a.selected{background-position:0 -145px;
+	text-shadow:1px 1px #c5d0e4}
+#details_container .tabs span{display:block;text-indent:-9000px;height:16px;
+	width:18px;margin-left:15px}
+#details_general span{background:url('icons.png') no-repeat 0 -142px}
+#details_files span{background:url('icons.png') no-repeat 0 -162px}
+#details_peers span{background:url('icons.png') no-repeat 0 -182px}
+#details_trackers span{background:url('icons.png') no-repeat 0 -202px}
+.details_section table{width:100%;padding:15px 5px;table-layout:fixed}
+.details_section caption{text-align:left;font-size:1.2em;font-weight:bold;
+	padding:0;margin:0;text-shadow:1px 1px #eee}
+.details_section th{width:80px}
+.details_section td{width:100%;overflow:hidden;text-overflow:ellipsis}
+#details_general_disk_space{width:300px;padding:0}
+h3{margin:0 0 10px 0;padding:0;}
+ul.labellist{list-style:none;margin:0;padding:0;border:1px solid #bbb;
+	background:url('gradients.png') repeat-x 0 -349px #ddd;border-radius:5px}
+.labellist li{margin:0;padding:4px 8px;
+	border-top:1px solid #f5f5f5;border-bottom:1px solid #c4c4c4}
+.labellist li:first-child{border-top:0}
+.labellist li:last-child{border-bottom:0}
+.labellist li h4{padding:0;margin:0;overflow:hidden;text-overflow:ellipsis}
+#details_trackers_contain li{padding-right:80px}
+#details_trackers_contain li a{height:24px;padding:0 36px;margin:-12px -76px 0 0;
+	float:right;background:url('togglebuttons.png') no-repeat 0 0}
+#details_trackers_contain li a:hover{background-position:0 -24px}
+#details_trackers_contain li a.off{background-position:0 -48px}
+#details_trackers_contain li a.off:hover{background-position:0 -72px}
+#details_files_contain .labellist .folder ul{margin-top:4px}
+#details_files_contain .labellist .folder a{padding-left:12px;font-weight:bold;
+	background:url('icons.png') no-repeat -6px -282px;color:#323232;
+	text-decoration:none;display:block}
+#details_files_contain .labellist .folder a.d{background-position:-6px -302px}
+#details_files_contain .labellist ul{margin-left:5px}
+#details_files_contain .labellist ul{list-style:none;padding-left:0;width:100%}
+#details_files_contain .labellist li{overflow:hidden;text-overflow:ellipsis}
+#details_files_contain .labellist li .priority{float:right;border:1px solid #aaa;
+	background:url(gradients.png) repeat-x 0 -122px;padding:1px 3px;cursor:pointer;
+	color:#323232;text-decoration:none}
+#details_peers_contain .labellist h4 span{float:right}
+#details_peers_contain .labellist div b{float:right;height:16px;padding:0 8px;
+	background:url('icons.png') no-repeat 0 -320px}
+#details_peers_contain .labellist div b.s{background-position:0 -340px}
+#details_peers_contain .labellist div b.o{background-position:0 -360px}
+
+#torrent_upload_frame{display:block;position:absolute;top:-1000px;left:-1000px;
+	width:0px;height:0px;border:none;padding:0;margin:0}
+
+/* Status Bar */
+#status_bar{width:100%;height:21px;margin:0;position:fixed;color:#555;bottom:0;
+	background:url('gradients.png') repeat-x 0 -60px;font-size: 1.3em;padding:0;
+	font-weight:normal;border-top:1px solid #979797;text-shadow:1px 1px #f1f2f5;
+	font-weight:bold}
+#status_bar a{color:#555;text-decoration:none}
+#status_torrents,#status_speeds{margin:2px 10px}
+#status_bar .up_arrow{height:16px;padding:0 5px;margin:0;display:inline;
+	background:url('icons.png') 0 -222px}
+#status_bar .down_arrow{height:16px;padding:0 5px;margin:0;display:inline;
+	background:url('icons.png') 0 -242px}
+#status_torrents{float:left}
+#status_speeds{float:right}
+#status_download_max,#status_upload_max,#status_order{padding:2px 6px}
+#status_download_max:hover,#status_upload_max:hover,#status_order:hover{
+	padding:2px 5px;border-right:1px solid #979797;border-left:1px solid #979797;
+	background:url('gradients.png') repeat-x 0 -328px;text-shadow:1px 1px #d1d2d5}
+
+/* Menus */
+.contextmenu{position:absolute;z-index:99;border:1px solid #979797;padding:2px 0;
+	background:#e4e3e2;margin:0;list-style:none;box-shadow:0 0 15px rgba(0,0,0,0.4);
+	-webkit-box-shadow:0 0 15px rgba(0,0,0,0.4);-moz-box-shadow:0 0px 15px rgba(0,0,0,0.4)}
+.contextmenu.rightclickmenu{box-shadow:2px 2px 4px rgba(0,0,0,0.5);
+	-webkit-box-shadow:2px 2px 4px rgba(0,0,0,0.5);-moz-box-shadow:2px 2px 4px rgba(0,0,0,0.5)}
+.contextmenu li{font-size:1.2em;font-weight:bold;color:#555;margin:1px;padding:0 3px}
+.contextmenu li:hover{color:#fff;cursor:pointer;
+	background:url('gradients.png') repeat-x 0 -228px}
+.contextmenu li:hover a{color:#fff}
+.contextmenu li.separator{background:none;border:1px dashed #AAA}
+.contextmenu li.separator:hover{background:none;cursor:default}
+.contextmenu li a{padding:2px 5px;color:#555;text-decoration:none;display:block}
+.contextmenu input{width:30px}
+#order_menu li a{padding-left:18px;text-align:left}
+#order_menu li a.desc{background:url('icons.png') no-repeat -2px -241px}
+#order_menu li a.asc{background:url('icons.png') no-repeat -2px -221px}
+#priority_menu{left:0;top:128px}
+#order_menu{left:0;bottom:21px}
+#upload_rate_menu{left:0;bottom:21px}
+#download_rate_menu{left:0;bottom:21px}
+#web_search_menu{left:0;top:30px;margin-left:5px}
+#torrent_context_menu{background:#f0f0f0}
+#torrent_context_menu li a{text-align:left;padding:4px 30px 4px 20px}
+#torrent_context_menu li.disabled a,#torrent_context_menu li.disabled a:hover{
+	color:#a1a1a1}
+#torrent_context_menu li.disabled:hover{background:none}
+#torrent_context_menu li.separator{padding:0;border-top:1px solid #e0e0e0;
+	border-bottom:1px solid #fff;border-left:0;border-right:0;margin:2px 4px}
+#torrent_context_menu li a{background:url('icons.png') no-repeat -2px -378px}
+#torrent_context_menu li.resume a{background-position:-2px -398px}
+#torrent_context_menu li.remove a{background-position:-2px -419px}
+#torrent_context_menu li.rename a{background-position:-2px -439px}
+#torrent_context_menu li.label a{background-position:-2px -459px}
+
+/* Dialoues */
+.dialogue{border:1px solid #AAA;background:#E4E3E2;padding:0;position:absolute;
+	top:50%;left:50%;margin-left:-150px;-webkit-box-shadow:0 0 60px rgba(0,0,0,0.5);
+	-moz-box-shadow:0 0 60px rgba(0,0,0,0.5);width:300px}
+.dialogue .decoration{width:100%;height:22px;border-bottom:1px solid #AAA;
+	background:url('gradients.png') repeat-x 0 -122px;margin:0}
+.dialogue .decoration .close{border:1px solid #ffeedd;height:16px;width:17px;
+	background:url('icons.png') no-repeat -1px -262px #ffccbb;float:right;margin:2px;
+	-webkit-border-radius:3px;-moz-border-radius:3px}
+.dialogue .decoration .close:hover{cursor:pointer;background-color:#eebbaa}
+.dialogue .decoration h2{margin:0;padding:3px 5px;float:left;font-size:1.3em}
+.dialogue .window{padding:10px;margin:0}
+.dialogue p{margin:0 0 10px 0;padding:0}
+.dialogue label{float:left;clear:left;margin:5px}
+.dialogue input{clear:both}
+.dialogue button{width:125px}
