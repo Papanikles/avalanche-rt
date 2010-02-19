@@ -1,0 +1,381 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+	<head>
+		<title>Keithamus' torrent client without a name</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="cache-control" content="Private" />
+		<link href="media/favicon.ico" rel="SHORTCUT ICON" />
+		<link rel="stylesheet" type="text/css" href="media/style.css"/>
+
+		<script type="text/javascript"
+			src="scripts/jquery/jquery.js"></script>
+		<script type="text/javascript"
+			src="scripts/jquery/tinysort.js"></script>
+		<script type="text/javascript"
+			src="scripts/jquery/contextmenu.js"></script>
+
+		<script type="text/javascript"
+			src="scripts/remote.js"></script>
+		<script type="text/javascript"
+			src="scripts/torrent.js"></script>
+		<script type="text/javascript"
+			src="scripts/init.js"></script>
+
+	</head>
+	<body>
+		<button id="throw_focus" style="display:none"></button>
+
+		<div id="header_menu">
+			 <ul>
+
+				 <li id="header_open">
+						<a href="#open_dialogue" rel="openDialogue">Open</a>
+					</li>
+
+					<li class="divider">&nbsp;</li>
+
+				 <li id="header_remove">
+						<a href="#removeTorrentDialogue" class="disabled" rel="func">Remove</a>
+					</li>
+
+				 <li id="header_resume">
+						<a href="#pauseResumeTorrent/resume" class="disabled" rel="func">Resume</a>
+					</li>
+
+				 <li id="header_pause">
+						<a href="#pauseResumeTorrent/pause" class="disabled" rel="func">Pause</a>
+					</li>
+
+				 <li class="divider">&nbsp;</li>
+
+					<li id="header_resume_all">
+						<a href="#pauseResumeTorrent/resume/all" class="disabled" rel="func">Resume All</a>
+					</li>
+
+				 <li id="header_pause_all">
+						<a href="#pauseResumeTorrent/pause/all" class="disabled" rel="func">Pause All</a>
+					</li>
+
+					<li class="divider">&nbsp;</li>
+
+					<li id="header_details">
+						<a href="#toggleDetailPane" rel="func">Details</a>
+					</li>
+
+			 </ul>
+
+				<div id="header_web_search">
+						<div class="wrapper">
+							<a href="#web_search_menu" id="web_search_dropdown" rel="openMenu"></a>
+							<input type="text" id="web_search" name="keyupWebSearch">
+							<a href="#" id="web_search_delete_text" style="display:none"></a>
+						</div>
+					</div>
+		</div>
+
+		<div id="filter_bar">
+			<ul>
+				 <li id="filter_torrent" class="active">
+						<a href="#filterTorrentStatus/all" rel="func">All</a>
+					</li>
+				 <li id="filter_downloading">
+						<a href="#filterTorrentStatus/downloading" rel="func">Downloading</a>
+					</li>
+				 <li id="filter_seeding">
+						<a href="#filterTorrentStatus/seeding" rel="func">Seeding</a>
+					</li>
+				 <li id="filter_paused">
+						<a href="#filterTorrentStatus/paused" rel="func">Paused</a>
+					</li>
+					<li id="filter_completed">
+						<a href="#filterTorrentStatus/completed" rel="func">Complete</a>
+					</li>
+			</ul>
+			<div id="filter_search">
+				<div class="wrapper">
+				<input type="text" id="torrent_search" name="filterTorrentTitles">
+					<a href="#clearFilterTorrent/" id="filter_search_delete_text" rel="func" style="display:none"></a>
+				</div>
+			</div>
+		</div>
+
+		<div id="torrent_container">
+			<ul id="torrent_list"></ul>
+	</div>
+
+		<div id="details_container">
+
+			<ul class="tabs">
+				<li>
+					<a href="#switchDetailTabs/general" rel="func" id="details_general" title="General" class="selected">
+						<span>General</span></a>
+				</li>
+				<li>
+					<a href="#switchDetailTabs/files" rel="func" id="details_files" title="Files">
+						<span>Files</span></a>
+				</li>
+				<li>
+					<a href="#switchDetailTabs/peers" rel="func" id="details_peers" title="Peers">
+						<span>Peers</span></a>
+				</li>
+				<li>
+					<a href="#switchDetailTabs/trackers" rel="func" id="details_trackers" title="Trackers">
+						<span>Trackers</span></a>
+				</li>
+			</ul>
+
+			<div id="details_header">
+				<h1 id="details_header_name">No Torrent Selected</h1>
+				<input class="rename">
+				<span id="details_header_size">0 B</span>
+				<a href="#setPriority/torrent/" rel="func" id="details_priority_button">
+					Normal
+				</a>
+			</div>
+
+			<div class="details_section" id="details_general_contain">
+				<table>
+					<caption>Torrent Information</caption>
+					<tr>
+						<th>Real Name:</th>
+						<td class="detail_var" id="detail_var_name" colspan="3"></td>
+					</tr>
+					<tr>
+						<th>Label:</th>
+						<td class="detail_var" id="detail_var_label" colspan="3"></td>
+					</tr>
+					<tr>
+						<th>Created On:</th>
+						<td class="detail_var" id="detail_var_formatted_date" colspan="3"></td>
+					</tr>
+					<tr>
+						<th>Hash:</th>
+						<td class="detail_var" id="detail_var_hash" colspan="3"></td>
+					</tr>
+					<tr>
+						<th>Tracker Status:</th>
+						<td class="detail_var" id="detail_var_tracker_status" colspan="3"></td>
+					</tr>
+					<tr>
+						<th>Health:</th>
+						<td class="detail_var" id="detail_var_has_been_hashed"></td>
+						<th>Private:</th>
+						<td class="detail_var" id="detail_var_private"></td>
+					</tr>
+				</table>
+
+				<table>
+					<caption>Transfer</caption>
+					<tr>
+						<th>Remaining Time:</th>
+						<td class="detail_var" id="detail_var_time_remaining" colspan="3">&#8734;</td>
+					</tr>
+					<tr>
+						<th>Downloaded:</th>
+						<td class="detail_bytes" id="detail_bytes_downloaded">0 B</td>
+						<th>Uploaded:</th>
+						<td class="detail_bytes" id="detail_bytes_uploaded">0 B</td>
+					</tr>
+					<tr>
+						<th>Download Speed:</th>
+						<td class="detail_bytes" id="detail_bytes_down_rate">0 B/s</td>
+						<th>Upload Speed:</th>
+						<td class="detail_bytes" id="detail_bytes_up_rate">0 B/s</td>
+					</tr>
+					<tr>
+						<th>Seeds:</th>
+						<td class="detail_var" id="detail_var_seeders_connected">0</td>
+						<th>Peers:</th>
+						<td class="detail_var" id="detail_var_peers_connected">0</td>
+					</tr>
+					<tr>
+						<th>Wasted Download:</th>
+						<td class="detail_bytes" id="detail_bytes_wasted_bytes">0 B</td>
+						<th>Share Ratio:</th>
+						<td class="detail_var" id="detail_var_share_ratio">0.000</td>
+					</tr>
+				</table>
+
+				<table>
+					<caption>Effect on Disk</caption>
+					<tr>
+						<td id="details_general_disk_space"
+							class="progress_bar_container downloading" colspan="4">
+							<div class="progress_bar" style="width:0px"></div>
+						</td>
+					</tr>
+					<tr>
+						<th>Free Disk Space:</th>
+						<td class="detail_bytes" id="detail_bytes_free_diskspace">Unknown</td>
+						<th>Percent Used by Torrent:</th>
+						<td class="detail_var" id="detail_var_size_percent">Unknown</td>
+					</tr>
+					<tr>
+						<th colspan="4">Saved in:</th>
+					</tr>
+					<tr>
+						<td class="detail_var" id="detail_var_base_path" colspan="4"></td>
+					</tr>
+				</table>
+
+			</div>
+
+			<div class="details_section" id="details_files_contain" style="display:none">
+				<h3>Files</h3>
+				<ul class="labellist">
+					<li>No Files</li>
+				</ul>
+			</div>
+
+			<div class="details_section" id="details_trackers_contain" style="display:none">
+				<h3>Trackers</h3>
+				<ul class="labellist">
+					<li><h4>No Trackers</h4></li>
+				</ul>
+			</div>
+
+			<div class="details_section" id="details_peers_contain" style="display:none">
+				<h3>Peers</h3>
+				<ul class="labellist">
+					<li><h4>No Peers</h4></li>
+				</ul>
+			</div>
+
+		</div>
+
+		<div id="status_bar">
+			<div id="status_torrents">
+				<span id="status_torrent_count">0</span>
+				<span> Torrents ordered by</span>
+				<a href="#order_menu" id="status_order" rel="openMenu">Name</a>
+			</div>
+			<div id="status_speeds">
+				<div class="up_arrow">&nbsp;</div>
+				<span id="status_upload">0 B/s</span>
+				<span> of</span>
+				<a href="#upload_rate_menu" id="status_upload_max" rel="openMenu">Unlimited</a>
+				<div class="down_arrow">&nbsp;</div>
+				<span id="status_download">0 B/s</span>
+				<span> of</span>
+				<a href="#download_rate_menu" id="status_download_max" rel="openMenu">Unlimited</a>
+			</div>
+		</div>
+
+		<ul id="priority_menu" class="contextmenu" style="display:none">
+			<li><a href="#setPriority/3" rel="func">High</a></li>
+			<li><a href="#setPriority/2" rel="func">Normal</a></li>
+			<li><a href="#setPriority/1" rel="func">Low</a></li>
+			<li class="separator">
+			<li><a href="#setPriority/0" rel="func">Skip</a></li>
+		</ul>
+
+		<ul id="file_priority_menu" class="contextmenu" style="display:none">
+			<li><a href="#setPriority/2" rel="func">High</a></li>
+			<li><a href="#setPriority/1" rel="func">Normal</a></li>
+			<li class="separator">
+			<li><a href="#setPriority/0" rel="func">Skip</a></li>
+		</ul>
+
+		<ul id="order_menu" class="contextmenu" style="display:none">
+			<li><a href="#setOrder/new_name" rel="func">Name</a></li>
+			<li class="separator"></li>
+			<li><a href="#setOrder/percent_done" rel="func">Percent</a></li>
+			<li><a href="#setOrder/downloaded" rel="func">Downloaded</a></li>
+			<li><a href="#setOrder/uploaded" rel="func">Uploaded</a></li>
+			<li class="separator"></li>
+			<li><a href="#setOrder/share_ratio" rel="func">Ratio</a></li>
+			<li><a href="#setOrder/peers_connected" rel="func">Peers</a></li>
+			<li><a href="#setOrder/seeds_connected" rel="func">Seeds</a></li>
+			<li class="separator"></li>
+			<li><a href="#setOrder/priority" rel="func">Priority</a></li>
+			<li><a href="#setOrder/label" rel="func">Label</a></li>
+			<li><a href="#setOrder/eta" rel="func">ETA</a></li>
+		</ul>
+
+		<ul id="download_rate_menu" class="contextmenu" style="display:none">
+			<li><a href="#setRate/download/Unlimited" rel="func">Unlimited</a></li>
+			<li class="separator"></li>
+			<li><a href="#setRate/download/5" rel="func">5 KB/s</a></li>
+			<li><a href="#setRate/download/10" rel="func">10 KB/s</a></li>
+			<li><a href="#setRate/download/20" rel="func">20 KB/s</a></li>
+			<li><a href="#setRate/download/30" rel="func">30 KB/s</a></li>
+			<li><a href="#setRate/download/40" rel="func">40 KB/s</a></li>
+			<li><a href="#setRate/download/50" rel="func">50 KB/s</a></li>
+			<li><a href="#setRate/download/75" rel="func">75 KB/s</a></li>
+			<li><a href="#setRate/download/100" rel="func">100 KB/s</a></li>
+			<li><a href="#setRate/download/150" rel="func">150 KB/s</a></li>
+			<li><a href="#setRate/download/200" rel="func">200 KB/s</a></li>
+			<li class="separator"></li>
+			<li>
+				<input id="download_rate_custom" type="text" value="&#8734;" name="setCustomUploadDownloadRate">
+				<label for="download_rate_custom"> KB/s</label>
+			</li>
+		</ul>
+
+		<ul id="upload_rate_menu" class="contextmenu" style="display:none">
+			<li><a href="#setRate/upload/Unlimited" rel="func">Unlimited</a></li>
+			<li class="separator"></li>
+			<li><a href="#setRate/upload/5" rel="func">5 KB/s</a></li>
+			<li><a href="#setRate/upload/10" rel="func">10 KB/s</a></li>
+			<li><a href="#setRate/upload/20" rel="func">20 KB/s</a></li>
+			<li><a href="#setRate/upload/30" rel="func">30 KB/s</a></li>
+			<li><a href="#setRate/upload/40" rel="func">40 KB/s</a></li>
+			<li><a href="#setRate/upload/50" rel="func">50 KB/s</a></li>
+			<li><a href="#setRate/upload/75" rel="func">75 KB/s</a></li>
+			<li><a href="#setRate/upload/100" rel="func">100 KB/s</a></li>
+			<li><a href="#setRate/upload/150" rel="func">150 KB/s</a></li>
+			<li><a href="#setRate/upload/200" rel="func">200 KB/s</a></li>
+			<li class="separator"></li>
+			<li>
+				<input id="upload_rate_custom" type="text" value="&#8734;" name="setCustomUploadDownloadRate">
+				<label for="upload_rate_custom"> KB/s</label>
+			</li>
+		</ul>
+
+		<ul class="contextmenu rightclickmenu" id="torrent_context_menu" style="display:none">
+			<li class="pause"><a href="#pauseResumeTorrent/pause" rel="func">Pause</a></li>
+			<li class="resume"><a href="#pauseResumeTorrent/resume" rel="func">Resume</a></li>
+			<li class="separator"></li>
+			<li class="remove"><a href="#removeTorrentDialogue" rel="func">Remove</a></li>
+			<li class="rename"><a href="#renameTorrent" rel="func">Rename</a></li>
+			<!--<li class="label"><a href="#relabelTorrent" rel="func">Label...</a></li>-->
+		</ul>
+
+		<ul id="web_search_menu" class="contextmenu" style="display:none"></ul>
+
+		<div class="dialogue" id="open_dialogue" style="display:none">
+			<div class="decoration">
+				<h2>Open Torrent</h2>
+				<a href="#" class="close"></a>
+			</div>
+			<div class="window">
+				<p>
+					<label for="torrent_upload_url">Torrent URL:</label>
+					<input type="text" id="torrent_upload_url" class="pfocus" style="width:100%">
+				</p>
+					<hr>
+				<p>
+					<label class="float" for="torrent_upload_start">Resume when opened</label>
+					<label for="torrent_upload_label">Torrent Label:</label>
+					<input type="checkbox" id="torrent_upload_start">
+					<input type="text" id="torrent_upload_label">
+				</p>
+				<button class="initiate" id="dialogue_open_torrent">Open Torrent</button>
+				<button class="close">Cancel</button>
+			</div>
+		</div>
+
+		<div class="dialogue" id="remove_dialogue" style="display:none">
+			<div class="decoration">
+				<h2>Remove Torrent?</h2>
+				<a href="#" class="close"></a>
+			</div>
+			<div class="window">
+				<p>Are you sure you want to delete this torrent?</p>
+				<button class="initiate" id="dialogue_remove_torrent">Remove Torrent</button>
+				<button class="close pfocus">Don't Remove</button>
+			</div>
+		</div>
+
+</body>
+</html>
