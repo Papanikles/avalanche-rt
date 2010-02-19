@@ -1,7 +1,21 @@
 <?php
+	/*
+	 * Remote.php PHP Library 0.9
+	 *
+	 * Avalanche 0.9 Beta
+	 *
+	 *	Copyright 2009 © Keithamus
+	 *	This code is licensed under the MIT license.
+	 *	For more details, see http://www.opensource.org/licenses/mit-license.php
+		*
+		* For more information, see http://code.google.com/p/avalanche-rt
+		*
+		* Date: Fri, 19th Feb 2010.
+		*
+	 */
 
 //We're going to send a header off to say we're JSON
-//header('Content-type: application/json');
+header('Content-type: application/json');
 
 //Add our includes
 require_once('lib/rtorrent.php');

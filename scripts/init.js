@@ -1,7 +1,16 @@
 	/*
-	 *	Copyright © Keithamus
+	 * Init.js Javascript Library 0.9
+	 *
+	 * Avalanche 0.9 Beta
+	 *
+	 *	Copyright 2009 © Keithamus
 	 *	This code is licensed under the MIT license.
 	 *	For more details, see http://www.opensource.org/licenses/mit-license.php
+		*
+		* For more information, see http://code.google.com/p/avalanche-rt
+		*
+		* Date: Fri, 19th Feb 2010.
+		*
 	 */
 
 //Initialise our "torrent" object.
