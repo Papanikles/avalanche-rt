@@ -125,7 +125,7 @@ a{outline:none}
 	overflow:auto}
 #details_header{margin-bottom:10px}
 #details_header h1{font-size:1.4em;margin:0;clear:both;padding:6px 0;
-	text-shadow:1px 1px #eee;overflow:hidden;text-overflow:}
+	text-shadow:1px 1px #eee;overflow:hidden;text-overflow:ellipsis}
 #details_header .rename{font-size:1.4em;margin:2px 0;padding:2px 0;clear:both;
 	font-weight:bold;display:none}
 #details_header span{font-size:1.2em;margin:0;display:block}

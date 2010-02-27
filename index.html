@@ -2,10 +2,10 @@
 <html lang="en">
 	<head>
 		<title>Avalanche</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="cache-control" content="Private" />
-		<link href="media/favicon.ico" rel="SHORTCUT ICON" />
-		<link rel="stylesheet" type="text/css" href="media/style.css"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="cache-control" content="Private">
+		<link href="media/favicon.png" rel="SHORTCUT ICON">
+		<link rel="stylesheet" type="text/css" href="media/style.css">
 
 		<script type="text/javascript"
 			src="scripts/jquery/jquery.js"></script>
@@ -23,7 +23,6 @@
 
 	</head>
 	<body>
-		<button id="throw_focus" style="display:none"></button>
 
 		<div id="header_menu">
 			 <ul>
@@ -374,6 +373,18 @@
 				<p>Are you sure you want to delete this torrent?</p>
 				<button class="initiate" id="dialogue_remove_torrent">Remove Torrent</button>
 				<button class="close pfocus">Don't Remove</button>
+			</div>
+		</div>
+
+		<div class="dialogue" id="error_popup" style="display:none">
+			<div class="decoration">
+				<h2>Communication Error</h2>
+				<a href="#" class="close"></a>
+			</div>
+			<div class="window">
+				<p>There was an error communicating with the server...</p>
+				<textarea readonly="readonly" id="error_details" cols="30" rows="7"></textarea>
+				<button class="close pfocus">Close</button>
 			</div>
 		</div>
 

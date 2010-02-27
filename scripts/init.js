@@ -29,7 +29,8 @@ $(document).ready( function() {
 	};
 
 	//Load our settings into our global settings object:
-	$.getJSON('prefs.json', function(data) {
+	//SIDE: We'd love to use getJSON, but getJSON silently fails - which is crap
+	$.ajax({url:'prefs.json', dataType: 'json', success: function(data) {
 		window.settings = data;
 		//Populate the search menu
 		$.each(data.web_searches, function(i, search)
@@ -39,7 +40,11 @@ $(document).ready( function() {
 			anchor[0].innerHTML=search.name;
 			$('#web_search_menu').append($('<li/>').append(anchor));
 		});
-	});
+	}, error: function(req,status,error){
+		torrent.openDialogue('error_popup');
+		$('#error_details').text(
+			'Error parsing prefs.json'+ "\n\n"+ status+ "\n\n"+ error).focus().select();
+	}});
 
 	//Load our remote class and torrent class
 	new Remote();

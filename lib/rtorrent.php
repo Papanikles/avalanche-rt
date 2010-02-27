@@ -31,6 +31,7 @@ class Rtorrent
 		'http11'
 	);
 
+
 		if($params['username'] && $params['password'] )
 		{
 			$this->server->setCredentials(
@@ -98,8 +99,6 @@ class Rtorrent
 			new xmlrpcval('d.is_private='), //Is torrent private?
 			new xmlrpcval('d.get_message='), //Comment
 			new xmlrpcval('d.get_priority='), //Priority (number)
-			new xmlrpcval('d.get_size_chunks='), //Chunk size in bytes
-			new xmlrpcval('d.get_size_files='), //Amount of files in torrent
 			new xmlrpcval('d.is_hash_checked='), //Has it been hash checked before?
 			new xmlrpcval('d.get_skip_total='), //How many wasted bytes?
 			new xmlrpcval('d.get_custom5='), //We use this for the torrents "new name"
@@ -151,12 +150,10 @@ class Rtorrent
 					'private' => $torrent[16],
 					'tracker_status' => $torrent[17],
 					'priority' => $torrent[18],
-					'chunk_size' => $torrent[19],
-					'file_count' => $torrent[20],
-					'has_been_hashed' => $torrent[21],
-					'wasted_bytes' => $torrent[22],
-					'new_name' => $torrent[23],
-					'label' => $torrent[24],
+					'has_been_hashed' => $torrent[19],
+					'wasted_bytes' => $torrent[20],
+					'new_name' => $torrent[21],
+					'label' => $torrent[22],
 
 				);
 
