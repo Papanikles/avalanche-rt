@@ -149,6 +149,8 @@ Torrent.prototype =
 		//Ok, so we've parsed through each torrent. All torrents have been added to
 		//the list, so now we just need to do some general interface cleanup.
 
+		//We'll change the "0" in the status_torrent_count to the number of torrents:
+		$('#status_torrent_count').text($('#torrent_list .torrent').length);
 		//We're going to change "0 B/s" at the top to "X B/s"
 		$('#status_download').text(Math.formatBytes(total_down)+ '/s');
 		//We're going to change "0 B/s" at the top to "X B/s"
@@ -493,7 +495,6 @@ Torrent.prototype =
 								'Torrent file did not open, make sure the link is right and the torrent'+
 								' doesn\'t already exist');
 							$('#torrent_list #expected').css('background','#f9e2e2');
-							console.log('Could not open torrent. Does torrent already exist?');
 							setTimeout(function(){
 								$('#torrent_list #expected').fadeIn(0).fadeOut(500,
 									function() { $('#torrent_list #expected').remove(); });
@@ -504,7 +505,7 @@ Torrent.prototype =
 				}
 				else
 				{
-					console.log('Error, could not load url: '+ $('#torrent_upload_url').val());
+//					console.log('Error, could not load url: '+ $('#torrent_upload_url').val());
 				}
 			},
 			 $('#torrent_upload_start').attr('checked') //To start automatically or not
@@ -806,12 +807,12 @@ Torrent.prototype =
 					return false;
 				}).blur(function()
 				{
-					$('#'+ id+ ' input').hide();
-					$('#'+ id+ ' h2').show();
+					$('#torrent_list li>input:not(:hidden)').hide();
+					$('#torrent_list li>h2:hidden').show();
 				}).focusout(function()
 				{
-					$('#'+ id+ ' input').hide();
-					$('#'+ id+ ' h2').show();
+					$('#torrent_list li>input:not(:hidden)').hide();
+					$('#torrent_list li>h2:hidden').show();
 				});
 			}
 		}
@@ -866,7 +867,7 @@ Torrent.prototype =
 			}
 
 			//Add a nicely calculated "health" string
-
+			//TODO: Health String
 			//Add the percentage the torrent has used of the hdd it is saved on
 			data.size_percent = ((100/data.free_diskspace)*data.size).toFixed(2)+ '%';
 
@@ -893,9 +894,6 @@ Torrent.prototype =
 			//The progress bar also needs to be set:
 			$('#details_general_disk_space .progress_bar').css('width',data.size_percent);
 			$('#details_general_disk_space').attr('title',data.size_percent);
-
-			/*Unused variables: chunk_size: 10148
-																							file_count: 115*/
 		}
 		else if(hash == 'files')
 		{
@@ -1130,7 +1128,7 @@ Torrent.prototype =
 				$('.contextmenu:not(#priority_menu)').hide();
 				$('#priority_menu').toggle();
 				left = ($('#details_priority_button').offset().left+
-					$('#details_priority_button')[0].clientWidth)-$('#priority_menu')[0].clientWidth;
+					$('#details_priority_button').outerWidth(true))-$('#priority_menu').outerWidth(true);
 				$('#priority_menu').css('left',left);
 				$.each($('#priority_menu a'), function(i,a)
 				{
@@ -1159,11 +1157,13 @@ Torrent.prototype =
 			//We just need to show the menu!
 			if(args.length==4)
 			{
+				el = $('#details_files_contain .labellist .priority[href='+
+					e.currentTarget.hash+ ']');
 				$('#file_priority_menu').toggle();
 				$('.contextmenu:not(#file_priority_menu)').hide();
-				left = ($('#'+ e.currentTarget.id).offset().left+
-					$('#'+ e.currentTarget.id)[0].clientWidth)-$('#file_priority_menu')[0].clientWidth;
-				_top = $('#'+ e.currentTarget.id).offset().top+$('#'+ e.currentTarget.id)[0].clientHeight;
+				left = (el.offset().left+el.outerWidth(true))-
+					$('#file_priority_menu').outerWidth(true);
+				_top = el.offset().top+el.outerHeight(true);
 				$('#file_priority_menu').css('left',left).css('top',_top);
 				$.each($('#file_priority_menu a'),function(i, a)
 				{
@@ -1189,13 +1189,11 @@ Torrent.prototype =
 						priorities = ['Skip','Normal','High'];
 						if($('#'+ args[3]).length>0)
 						{
-							console.log('#'+ args[3]+ ' .priority');
 							$('#'+ args[3]+ ' .priority').text(priorities[args[4]]);
 							$('#'+ args[3]).parent().children('.priority').text(priorities[args[4]]);
 						}
 						else
 						{
-							console.log('#'+ args[2]+ '_f_'+ args[3]+ ' .priority');
 							$('#'+ args[2]+ '_f_'+ args[3]+ ' .priority').text(priorities[args[4]]);
 						}
 						$('#file_priority_menu').hide();
@@ -1687,7 +1685,7 @@ Torrent.prototype =
 				element = $('#torrent_list li:not(:hidden)').last();
 			}
 			element.click();
-			$('#torrent_container').scrollTop(element[0].offsetTop-element[0].clientHeight);
+			$('#torrent_container').scrollTop(element.offset().top-element.outerHeight(true));
 		}
 		//Down arrow
 		else if(key == 40)
@@ -1702,7 +1700,7 @@ Torrent.prototype =
 				element = $('#torrent_list li:not(:hidden)').first();
 			}
 			element.click();
-			$('#torrent_container').scrollTop(element[0].offsetTop-element[0].clientHeight);
+			$('#torrent_container').scrollTop(element.offset.top()-element.outerHeight(true));
 		}
 		return true;
 	}

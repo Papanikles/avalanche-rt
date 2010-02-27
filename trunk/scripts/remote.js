@@ -57,7 +57,7 @@ Remote.prototype =
 			params = {'action':action,'id':id};
 		}
 
-		$.getJSON('remote.php', params,
+		$.ajax({url: 'remote.php', dataType: 'json', data: params, success:
 			function(data)
 			{
 				//If we returned an error we should do something with it.
@@ -75,7 +75,13 @@ Remote.prototype =
 				//Now we should run the function we were asked to:
 				func(data);
 
-			});
+			}, error: function(req,status,error)
+			{
+				torrent.openDialogue('error_popup');
+				$('#error_details').text(
+				'Error parsing remote.php'+ "\n\n"+ status+ "\n\n"+ error).focus().select();
+			}
+		});
 
 	},
 
