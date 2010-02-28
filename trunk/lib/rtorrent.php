@@ -37,7 +37,7 @@ class Rtorrent
 			$this->server->setCredentials(
 				$params['username'],
 				$params['password'],
-				$params['set_auth_digest']==true?CURLAUTH_ANY:CURLAUTH_BASIC
+				$params['set_auth_digest']?CURLAUTH_ANY:CURLAUTH_BASIC
 			);
 		}
 

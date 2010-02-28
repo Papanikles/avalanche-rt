@@ -126,40 +126,48 @@ Torrent.prototype =
 	{
 
 		window.torrentlist = torrentlist;
+		if(typeof window.torrentlist != 'object')
+		{
+			torrent.openDialogue('error_popup');
+			$('#error_details').text(
+			'Error parsing remote.php'+ "\n\nBad Json\n\n"+ window.torrentlist).focus().select();
+		}
+		else
+		{
+			//Let's set up some variables to use later on
+			var total_down = 0;
+			var total_up = 0;
 
-		//Let's set up some variables to use later on
-		var total_down = 0;
-		var total_up = 0;
+			//Each JSON object is a torrent, so we can process each one individually.
+			$.each(
+				torrentlist,
+				function(hash,data)
+				{
+					//Just put the hash into the data object, so we can later get to it.
+					data.hash = hash
 
-		//Each JSON object is a torrent, so we can process each one individually.
-		$.each(
-			torrentlist,
-			function(hash,data)
-			{
-				//Just put the hash into the data object, so we can later get to it.
-				data.hash = hash
+					//Iterate over some variables for things like "Total Transfers" etc.
+					total_down += data.down_rate;
+					total_up += data.up_rate;
 
-				//Iterate over some variables for things like "Total Transfers" etc.
-				total_down += data.down_rate;
-				total_up += data.up_rate;
+					torrent.updateTorrentListNode(data);
+				});
 
-				torrent.updateTorrentListNode(data);
-			});
+			//Ok, so we've parsed through each torrent. All torrents have been added to
+			//the list, so now we just need to do some general interface cleanup.
 
-		//Ok, so we've parsed through each torrent. All torrents have been added to
-		//the list, so now we just need to do some general interface cleanup.
+			//We'll change the "0" in the status_torrent_count to the number of torrents:
+			$('#status_torrent_count').text($('#torrent_list .torrent').length);
+			//We're going to change "0 B/s" at the top to "X B/s"
+			$('#status_download').text(Math.formatBytes(total_down)+ '/s');
+			//We're going to change "0 B/s" at the top to "X B/s"
+			$('#status_upload').text(Math.formatBytes(total_up)+ '/s');
 
-		//We'll change the "0" in the status_torrent_count to the number of torrents:
-		$('#status_torrent_count').text($('#torrent_list .torrent').length);
-		//We're going to change "0 B/s" at the top to "X B/s"
-		$('#status_download').text(Math.formatBytes(total_down)+ '/s');
-		//We're going to change "0 B/s" at the top to "X B/s"
-		$('#status_upload').text(Math.formatBytes(total_up)+ '/s');
+			torrent.updateFilterNumbers('');
 
-		torrent.updateFilterNumbers('');
-
-		//If we're updating, torrent's might have moved state, so we should re-filter:
-		$('#filter_bar li.active a').click();
+			//If we're updating, torrent's might have moved state, so we should re-filter:
+			$('#filter_bar li.active a').click();
+		}
 
 		//Now lets run this again after a set period of time to update the details:
 		setTimeout(function(){
