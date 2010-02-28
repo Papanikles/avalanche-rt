@@ -63,8 +63,9 @@ Remote.prototype =
 				//If we returned an error we should do something with it.
 				if(data && data.error)
 				{
-					remote._error = data.error;
-					console.log('Error: '+ remote._error)
+					torrent.openDialogue('error_popup');
+					$('#error_details').text(
+						'Error parsing remote.php'+ "\n\n"+ data.error).focus().select();
 				}
 				//Otherwise we're golden to set the global JSON object
 				else if(action!='retrieve')
