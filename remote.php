@@ -15,7 +15,7 @@
 	 */
 
 //We're going to send a header off to say we're JSON
-header('Content-type: application/json');
+//header('Content-type: application/json');
 
 //Add our includes
 require_once('lib/rtorrent.php');
@@ -37,6 +37,9 @@ switch($_GET['action'])
 
 	case 'retrieve':
 		$contents=$server->Retrieve();
+		break;
+	case 'debug':
+		$contents=$server->Debug();
 		break;
 	case 'pause':
 		//Does the id have the magic id of all?
