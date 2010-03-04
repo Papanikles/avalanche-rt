@@ -59,7 +59,7 @@ class Rtorrent
 		}
 		$this->server->SetCurlOptions($curlopts);
 		$response = $this->server->send($message, 60, $params['https']?'https':'http');
-$this->server->setDebug(2);
+
 		if($response->faultCode() )
 		{
 
