@@ -622,6 +622,7 @@ echo $message;
 	{
 
 		$message = new xmlrpcmsg('system.listMethods');
+		$this->server->setDebug(2);
 		print_r($this);
 		return $this->SendAndRecieve($message);
 
