@@ -28,7 +28,7 @@ class Rtorrent
 		$params['rtorrent_scgi_folder'],
 		$params['server_ip'],
 		$params['server_port'],
-		'http11'
+		$params['https']?'https':'http11'
 	);
 
 
