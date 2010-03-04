@@ -48,11 +48,18 @@ class Rtorrent
 
 		$this->server->return_type = 'phpvals';
 		$this->server->no_multicall = true;
-		$this->server->SetCurlOptions(array(
-			CURLOPT_HTTPHEADER => array('Expect:')
-		)); //Fises the HTTP/1.1 417 Expect: error.
-		$response = $this->server->send($message, $params['https']?'https':'http');
 
+		//Fixes the HTTP/1.1 417 Expect: error.
+		$curlopts = array(CURLOPT_HTTPHEADER => array('Expect:'));
+
+		//If the user has "trust_cert" set to true, then set curl to do so
+		if($params['trust_cert'])
+		{
+			$curlopts[CURLOPT_SSL_VERIFYHOST] = array(FALSE);
+		}
+		$this->server->SetCurlOptions($curlopts);
+		$response = $this->server->send($message, 60, $params['https']?'https':'http');
+$this->server->setDebug(2);
 		if($response->faultCode() )
 		{
 
