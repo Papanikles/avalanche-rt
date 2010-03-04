@@ -55,10 +55,11 @@ class Rtorrent
 		//If the user has "trust_cert" set to true, then set curl to do so
 		if($params['trust_cert'])
 		{
-			$curlopts[CURLOPT_SSL_VERIFYHOST] = array(FALSE);
+			$this->client->setSSLVerifyPeer(FALSE);
 		}
+
 		$this->server->SetCurlOptions($curlopts);
-		$response = $this->server->send($message, 60, $params['https']?'https':'http');
+		$response = $this->server->send($message);
 
 		if($response->faultCode() )
 		{
