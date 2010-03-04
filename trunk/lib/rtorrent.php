@@ -614,7 +614,15 @@ echo $message;
 	{
 
 		$message = new xmlrpcmsg('system.listMethods');
+		return $this->SendAndRecieve($message);
 
+	}
+
+	public function Debug()
+	{
+
+		$message = new xmlrpcmsg('system.listMethods');
+		print_r($this);
 		return $this->SendAndRecieve($message);
 
 	}
