@@ -51,7 +51,7 @@ class Rtorrent
 		$this->server->SetCurlOptions(array(
 			CURLOPT_HTTPHEADER => array('Expect:')
 		)); //Fises the HTTP/1.1 417 Expect: error.
-		$response = $this->server->send($message);
+		$response = $this->server->send($message, $params['https']?'https':'http');
 
 		if($response->faultCode() )
 		{
