@@ -22,7 +22,11 @@ require_once('lib/rtorrent.php');
 require_once('settings.php');
 
 //Die if we cant find appropriate settings
-if(! $configuration['server_ip']) { die('Oops'); }
+if(! $configuration['server_ip'])
+{
+	json_encode(array('error'=>'Settings file not found'));
+	die();
+}
 
 //Initiate our object
 if(strtolower($configuration['server_type']) == 'rtorrent' )
