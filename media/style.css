@@ -147,20 +147,24 @@ a{outline:none}
 #details_files span{background:url('icons.png') no-repeat 0 -162px}
 #details_peers span{background:url('icons.png') no-repeat 0 -182px}
 #details_trackers span{background:url('icons.png') no-repeat 0 -202px}
-.details_section table{width:100%;padding:15px 5px;table-layout:fixed}
-.details_section caption{text-align:left;font-size:1.2em;font-weight:bold;
-	padding:0;margin:0;text-shadow:1px 1px #eee}
-.details_section th{width:80px}
-.details_section td{width:100%;overflow:hidden;text-overflow:ellipsis}
 #details_general_disk_space{width:300px;padding:0}
-h3{margin:0 0 10px 0;padding:0;}
-ul.labellist{list-style:none;margin:0;padding:0;border:1px solid #bbb;
+h3{margin:0 0 10px 0;padding:0}
+.labellist{list-style:none;margin:0;padding:0;border:1px solid #bbb;
 	background:url('gradients.png') repeat-x 0 -349px #ddd;border-radius:5px}
 .labellist li{margin:0;padding:4px 8px;
 	border-top:1px solid #f5f5f5;border-bottom:1px solid #c4c4c4}
 .labellist li:first-child{border-top:0}
 .labellist li:last-child{border-bottom:0}
 .labellist li h4{padding:0;margin:0;overflow:hidden;text-overflow:ellipsis}
+.labellist li h3{padding:0;margin:0;overflow:hidden;text-overflow:ellipsis}
+.labellist li b{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+	display:inline-block;width:20%}
+.labellist li .col2{display:inline-block;width:45%}
+.labellist li .col2 b{width:45%}
+.labellist li .col2 span{width:50% !important;text-align:center}
+#details_general_contain li{padding-top:5px;padding-bottom:5px}
+#details_general_contain li span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+	display:inline-block;width:75%;text-align:left}
 #details_trackers_contain li{padding-right:80px}
 #details_trackers_contain li a{height:24px;padding:0 36px;margin:-12px -76px 0 0;
 	float:right;background:url('togglebuttons.png') no-repeat 0 0}
@@ -168,12 +172,14 @@ ul.labellist{list-style:none;margin:0;padding:0;border:1px solid #bbb;
 #details_trackers_contain li a.off{background-position:0 -48px}
 #details_trackers_contain li a.off:hover{background-position:0 -72px}
 #details_files_contain .labellist .folder ul{margin-top:4px}
-#details_files_contain .labellist .folder a{padding-left:12px;font-weight:bold;
-	background:url('icons.png') no-repeat -6px -282px;color:#323232;
+#details_files_contain .labellist li a{padding-left:12px;font-weight:bold;color:#323232;
 	text-decoration:none;display:block}
-#details_files_contain .labellist .folder a.d{background-position:-6px -302px}
-#details_files_contain .labellist ul{margin-left:5px}
-#details_files_contain .labellist ul{list-style:none;padding-left:0;width:100%}
+#details_files_contain .labellist .folder a.drop{background:url('icons.png') no-repeat -6px -282px}
+#details_files_contain .labellist .folder.d a.drop{background-position:-6px -302px}
+#details_files_contain .labellist ul{margin-left:4px;list-style:none;padding-left:0;width:100%;
+	border-left:1px dashed #a0a0a0}
+#details_files_contain .labellist .folder>span{margin-left:4px;padding-left:6px}
+#details_files_contain .labellist .folder.d>span{border-left:1px dashed #a0a0a0}
 #details_files_contain .labellist li{overflow:hidden;text-overflow:ellipsis}
 #details_files_contain .labellist li .priority{float:right;border:1px solid #aaa;
 	background:url(gradients.png) repeat-x 0 -122px;padding:1px 3px;cursor:pointer;
@@ -207,15 +213,16 @@ ul.labellist{list-style:none;margin:0;padding:0;border:1px solid #bbb;
 
 /* Menus */
 .contextmenu{position:absolute;z-index:99;border:1px solid #979797;padding:2px 0;
-	background:#e4e3e2;margin:0;list-style:none;box-shadow:0 0 15px rgba(0,0,0,0.4);
-	-webkit-box-shadow:0 0 15px rgba(0,0,0,0.4);-moz-box-shadow:0 0px 15px rgba(0,0,0,0.4)}
+	background:#f0f0f0;margin:0;list-style:none;box-shadow:0 0 10px rgba(0,0,0,0.4);
+	-webkit-box-shadow:0 0 10px rgba(0,0,0,0.4);-moz-box-shadow:0 0px 10px rgba(0,0,0,0.4)}
 .contextmenu.rightclickmenu{box-shadow:2px 2px 4px rgba(0,0,0,0.5);
 	-webkit-box-shadow:2px 2px 4px rgba(0,0,0,0.5);-moz-box-shadow:2px 2px 4px rgba(0,0,0,0.5)}
 .contextmenu li{font-size:1.2em;font-weight:bold;color:#555;margin:1px;padding:0 3px}
 .contextmenu li:hover{color:#fff;cursor:pointer;
 	background:url('gradients.png') repeat-x 0 -228px}
 .contextmenu li:hover a{color:#fff}
-.contextmenu li.separator{background:none;border:1px dashed #AAA}
+.contextmenu li.separator{padding:0;border-top:1px solid #e0e0e0;
+	border-bottom:1px solid #fff;border-left:0;border-right:0;margin:2px 4px}
 .contextmenu li.separator:hover{background:none;cursor:default}
 .contextmenu li a{padding:2px 5px;color:#555;text-decoration:none;display:block}
 .contextmenu input{width:30px}
@@ -227,13 +234,10 @@ ul.labellist{list-style:none;margin:0;padding:0;border:1px solid #bbb;
 #upload_rate_menu{left:0;bottom:21px}
 #download_rate_menu{left:0;bottom:21px}
 #web_search_menu{left:0;top:30px;margin-left:5px}
-#torrent_context_menu{background:#f0f0f0}
 #torrent_context_menu li a{text-align:left;padding:4px 30px 4px 20px}
 #torrent_context_menu li.disabled a,#torrent_context_menu li.disabled a:hover{
 	color:#a1a1a1}
 #torrent_context_menu li.disabled:hover{background:none}
-#torrent_context_menu li.separator{padding:0;border-top:1px solid #e0e0e0;
-	border-bottom:1px solid #fff;border-left:0;border-right:0;margin:2px 4px}
 #torrent_context_menu li a{background:url('icons.png') no-repeat -2px -378px}
 #torrent_context_menu li.resume a{background-position:-2px -398px}
 #torrent_context_menu li.remove a{background-position:-2px -419px}

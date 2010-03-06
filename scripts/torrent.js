@@ -839,8 +839,11 @@ Torrent.prototype =
 		var hash = event.currentTarget.hash.split('/')[1];
 		$('#details_container .tabs li a').removeClass('selected').filter(
 			$('#'+event.currentTarget.id)).addClass('selected');
-		$('.details_section').hide().filter(
-			$('#details_'+ hash+ '_contain')).show();
+		if($('#details_'+ hash+ '_contain').is(':hidden'))
+		{
+			$('.details_section').slideUp(250).
+				filter('#details_'+ hash+ '_contain').slideDown(250);
+		}
 
 		if(! $('#details_container').attr('torrent_id')) return false;
 		if(! torrentlist[$('#details_container').attr('torrent_id')]) return false;
@@ -925,7 +928,7 @@ Torrent.prototype =
 					//Does our file already exist?
 					if(path.length==1 && $('#details_files_contain li#'+ hash+ '_f_'+ i)[0])
 					{
-						$('#details_files_contain li#'+ hash+ '_f_'+ i);
+						//$('#details_files_contain li#'+ hash+ '_f_'+ i);
 					}
 					//Our file doesn't exist, lets create it:
 					else
@@ -962,10 +965,10 @@ Torrent.prototype =
 								{
 									priorities = ['Skip', 'Normal', 'High'];
 									$('#'+ previous_id).append($('<li/>').addClass('folder').
-									append($('<a/>').text(folder).
+									append($('<a/>').text(folder).addClass('drop').
 										attr('href','#'+ _id).
 										click(function(event){
-											event.currentTarget.className=event.currentTarget.className=='d'?'':'d';
+											$(event.currentTarget).parent().toggleClass('d');
 											$(event.currentTarget.hash).toggle();
 										})).
 									append($('<span/>').text(

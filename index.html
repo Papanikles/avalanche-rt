@@ -132,113 +132,126 @@
 				</a>
 			</div>
 
-			<div class="details_section" id="details_general_contain">
-				<table>
-					<caption>Torrent Information</caption>
-					<tr>
-						<th>Real Name:</th>
-						<td class="detail_var" id="detail_var_name" colspan="3"></td>
-					</tr>
-					<tr>
-						<th>Label:</th>
-						<td class="detail_var" id="detail_var_label" colspan="3"></td>
-					</tr>
-					<tr>
-						<th>Created On:</th>
-						<td class="detail_var" id="detail_var_formatted_date" colspan="3"></td>
-					</tr>
-					<tr>
-						<th>Hash:</th>
-						<td class="detail_var" id="detail_var_hash" colspan="3"></td>
-					</tr>
-					<tr>
-						<th>Tracker Status:</th>
-						<td class="detail_var" id="detail_var_tracker_status" colspan="3"></td>
-					</tr>
-					<tr>
-						<th>Health:</th>
-						<td class="detail_var" id="detail_var_has_been_hashed"></td>
-						<th>Private:</th>
-						<td class="detail_var" id="detail_var_private"></td>
-					</tr>
-				</table>
+				<div class="details_section" id="details_general_contain">
+					<h3>Torrent Information</h3>
+					<ul class="labellist">
+						<li>
+							<b>Real Name:</b>
+							<span class="detail_var" id="detail_var_name"></span>
+						</li>
+						<li>
+							<b>Label:</b>
+							<span class="detail_var" id="detail_var_label"></span>
+						</li>
+						<li>
+							<b>Created On:</b>
+							<span class="detail_var" id="detail_var_formatted_date"></span>
+						</li>
+						<li>
+							<b>Hash:</b>
+							<span class="detail_var" id="detail_var_hash"></span>
+						</li>
+						<li>
+							<b>Tracker:</b>
+							<span class="detail_var" id="detail_var_tracker_status"></span>
+						</li>
+						<li>
+							<div class="col2">
+								<b>Health:</b>
+								<span class="detail_var" id="detail_var_has_been_hashed"></span>
+							</div>
+							<div class="col2">
+								<b>Private:</b>
+								<span class="detail_var" id="detail_var_private"></span>
+							</div>
+						</li>
+						<li><h3>Transfer</h3></li>
+						<li>
+							<b>Time Remaining:</b>
+							<span class="detail_var" id="detail_var_time_remaining">&#8734;</span>
+						</li>
+						<li>
+							<div class="col2">
+								<b>Downloaded:</b>
+								<span class="detail_bytes" id="detail_bytes_downloaded">0 B</span>
+							</div>
+							<div class="col2">
+								<b>Uploaded:</b>
+								<span class="detail_bytes" id="detail_bytes_uploaded">0 B</span>
+							</div>
+						</li>
+						<li>
+							<div class="col2">
+								<b>Down Speed:</b>
+								<span class="detail_bytes" id="detail_bytes_down_rate">0 B/s</span>
+							</div>
+							<div class="col2">
+								<b>Up Speed:</b>
+								<span class="detail_bytes" id="detail_bytes_up_rate">0 B/s</span>
+							</div>
+						</li>
+						<li>
+							<div class="col2">
+								<b>Seeds:</b>
+								<span class="detail_var" id="detail_var_seeders_connected">0</span>
+							</div>
+							<div class="col2">
+								<b>Peers:</b>
+								<span class="detail_var" id="detail_var_peers_connected">0</span>
+							</div>
+						</li>
+						<li>
+							<div class="col2">
+								<b>Wasted:</b>
+								<span class="detail_bytes" id="detail_bytes_wasted_bytes">0 B</span>
+							</div>
+							<div class="col2">
+								<b>Share Ratio:</b>
+								<span class="detail_var" id="detail_var_share_ratio">0.000</span>
+							</div>
+						</li>
+						<li><h3>Effect on Disk</h3></li>
+						<li>
+							<div id="details_general_disk_space" class="progress_bar_container downloading">
+								<div class="progress_bar" style="width:0px"></div>
+							</div>
+							<br style="clear:both">
+							<div class="col2">
+								<b>Free Disk:</b>
+								<span class="detail_bytes" id="detail_bytes_free_diskspace">Unknown</span>
+							</div>
+							<div class="col2">
+								<b>Torrent's %:</b>
+								<span class="detail_var" id="detail_var_size_percent">Unknown</span>
+							</div>
+						</li>
+						<li>
+							<b colspan="4">Saved in:</b>
+							<span class="detail_var" id="detail_var_base_path"></span>
+						</li>
 
-				<table>
-					<caption>Transfer</caption>
-					<tr>
-						<th>Remaining Time:</th>
-						<td class="detail_var" id="detail_var_time_remaining" colspan="3">&#8734;</td>
-					</tr>
-					<tr>
-						<th>Downloaded:</th>
-						<td class="detail_bytes" id="detail_bytes_downloaded">0 B</td>
-						<th>Uploaded:</th>
-						<td class="detail_bytes" id="detail_bytes_uploaded">0 B</td>
-					</tr>
-					<tr>
-						<th>Download Speed:</th>
-						<td class="detail_bytes" id="detail_bytes_down_rate">0 B/s</td>
-						<th>Upload Speed:</th>
-						<td class="detail_bytes" id="detail_bytes_up_rate">0 B/s</td>
-					</tr>
-					<tr>
-						<th>Seeds:</th>
-						<td class="detail_var" id="detail_var_seeders_connected">0</td>
-						<th>Peers:</th>
-						<td class="detail_var" id="detail_var_peers_connected">0</td>
-					</tr>
-					<tr>
-						<th>Wasted Download:</th>
-						<td class="detail_bytes" id="detail_bytes_wasted_bytes">0 B</td>
-						<th>Share Ratio:</th>
-						<td class="detail_var" id="detail_var_share_ratio">0.000</td>
-					</tr>
-				</table>
+				</div>
 
-				<table>
-					<caption>Effect on Disk</caption>
-					<tr>
-						<td id="details_general_disk_space"
-							class="progress_bar_container downloading" colspan="4">
-							<div class="progress_bar" style="width:0px"></div>
-						</td>
-					</tr>
-					<tr>
-						<th>Free Disk Space:</th>
-						<td class="detail_bytes" id="detail_bytes_free_diskspace">Unknown</td>
-						<th>Percent Used by Torrent:</th>
-						<td class="detail_var" id="detail_var_size_percent">Unknown</td>
-					</tr>
-					<tr>
-						<th colspan="4">Saved in:</th>
-					</tr>
-					<tr>
-						<td class="detail_var" id="detail_var_base_path" colspan="4"></td>
-					</tr>
-				</table>
+				<div class="details_section" id="details_files_contain" style="display:none">
+					<h3>Files</h3>
+					<ul class="labellist">
+						<li>No Files</li>
+					</ul>
+				</div>
 
-			</div>
+				<div class="details_section" id="details_trackers_contain" style="display:none">
+					<h3>Trackers</h3>
+					<ul class="labellist">
+						<li><h4>No Trackers</h4></li>
+					</ul>
+				</div>
 
-			<div class="details_section" id="details_files_contain" style="display:none">
-				<h3>Files</h3>
-				<ul class="labellist">
-					<li>No Files</li>
-				</ul>
-			</div>
-
-			<div class="details_section" id="details_trackers_contain" style="display:none">
-				<h3>Trackers</h3>
-				<ul class="labellist">
-					<li><h4>No Trackers</h4></li>
-				</ul>
-			</div>
-
-			<div class="details_section" id="details_peers_contain" style="display:none">
-				<h3>Peers</h3>
-				<ul class="labellist">
-					<li><h4>No Peers</h4></li>
-				</ul>
-			</div>
+				<div class="details_section" id="details_peers_contain" style="display:none">
+					<h3>Peers</h3>
+					<ul class="labellist">
+						<li><h4>No Peers</h4></li>
+					</ul>
+				</div>
 
 		</div>
 
