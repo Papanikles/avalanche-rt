@@ -144,11 +144,11 @@ class Rtorrent
 					'name' => $torrent[1],
 					'is_downloading' => $torrent[2],
 					//Old versions of rtorrent use i4 which buffer overflows > 4gb
-					'size' => $torrent[3]<0?4294967296:$torrent[3],
-					'downloaded' => $torrent[4]<0?4294967296:$torrent[4],
-					'uploaded' => $torrent[5]<0?4294967296:$torrent[5],
-					'down_rate' => $torrent[6]<0?4294967296:$torrent[6],
-					'up_rate' => $torrent[7]<0?4294967296:$torrent[7],
+					'size' => $torrent[3]<0?4294967296+ substr($torrent[3],1):$torrent[3],
+					'downloaded' => $torrent[4]<0?4294967296+ substr($torrent[4],1):$torrent[4],
+					'uploaded' => $torrent[5]<0?4294967296+ substr($torrent[5],1):$torrent[5],
+					'down_rate' => $torrent[6]<0?4294967296+ substr($torrent[6],1):$torrent[6],
+					'up_rate' => $torrent[7]<0?4294967296+ substr($torrent[7],1):$torrent[7],
 					'peers_connected' => $torrent[8]-($torrent[8]-$torrent[10]),
 					'peers_total' => $torrent[9]+$torrent[8],
 					'seeders_connected' => $torrent[8]-$torrent[10],
@@ -569,7 +569,7 @@ class Rtorrent
 
 					'path' => $file[0],
 					'priority' => $file[1],
-					'size_bytes' => $file[2],
+					'size_bytes' => $file[2]<0?4294967296+ substr($file[2],1):$file[2],
 					'chunks_complete' => $file[3],
 					'chunks' => $file[4]
 
