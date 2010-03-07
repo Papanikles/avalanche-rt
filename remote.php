@@ -111,37 +111,8 @@ switch($_GET['action'])
 	case 'listcommands':
 		$contents=$server->GetListOfCommands();
 		break;
-	case 'setpref':
-		$file = 'prefs.json';
-		$settings=json_decode(file_get_contents($file) );
-		$settings[$_GET['id']]=$_GET['value'];
-		write_settings_file($file, $settings);
-		break;
-	case 'addsearchengine':
-		$file = 'prefs.json';
-		$settings=json_decode(file_get_contents($file) );
-		$settings['web_searches'][$_GET['id']]=$_GET['value'];
-		write_settings_file($file, $settings);
-		break;
-	case 'removesearchengine':
-		$file = 'prefs.json';
-		$settings=json_decode(file_get_contents($file) );
-		unset($settings['web_searches'][$_GET['id']]);
-		write_settings_file($file, $settings);
-		break;
-	case 'renametorrent':
-		$file = 'prefs.json';
-		$settings=json_decode(file_get_contents($file) );
-		$settings['rename_list'][$_GET['id']]=$_GET['value'];
-		write_settings_file($file, $settings);
-		break;
-	case 'removerenametorrent':
-		$file = 'prefs.json';
-		$settings=json_decode(file_get_contents($file) );
-		unset($settings['rename_list'][$_GET['id']]);
-		write_settings_file($file, $settings);
-		break;
 	default:
+		$contents=$server->Retrieve();
 		break;
 
 }
