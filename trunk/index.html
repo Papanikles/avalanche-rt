@@ -1,3 +1,33 @@
+<!--/*
+		* Index.html HTML Page 0.9
+	 *
+	 * Avalanche 0.9 Beta
+	 *
+	 *	This code is licensed under the GPL3, or "GNU GENERAL PUBLIC LICENSE Version 3"
+	 *	For more details, see http://opensource.org/licenses/gpl-3.0.html
+		*
+		* For more information, see http://code.google.com/p/avalanche-rt
+		*
+		* Date: Tue, 09th Mar 2010.
+		*
+		* @author Keith Cirkel ('keithamus') <avalanche@keithcirkel.co.uk>
+		* @license http://opensource.org/licenses/gpl-3.0.html
+		* @copyright Copyright © 2010, Keith Cirkel
+		*
+		* This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+
+  * You should have received a copy of the GNU General Public License
+  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+		*
+	 */-->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 	<head>
@@ -13,6 +43,8 @@
 			src="scripts/jquery/tinysort.js"></script>
 		<script type="text/javascript"
 			src="scripts/jquery/contextmenu.js"></script>
+		<script type="text/javascript"
+			src="scripts/extend.js"></script>
 
 		<script type="text/javascript"
 			src="scripts/remote.js"></script>
@@ -297,11 +329,11 @@
 			<li class="separator"></li>
 			<li><a href="#setOrder/share_ratio" rel="func">Ratio</a></li>
 			<li><a href="#setOrder/peers_connected" rel="func">Peers</a></li>
-			<li><a href="#setOrder/seeds_connected" rel="func">Seeds</a></li>
+			<li><a href="#setOrder/seeders_connected" rel="func">Seeds</a></li>
 			<li class="separator"></li>
 			<li><a href="#setOrder/priority" rel="func">Priority</a></li>
 			<li><a href="#setOrder/label" rel="func">Label</a></li>
-			<li><a href="#setOrder/eta" rel="func">ETA</a></li>
+			<li><a href="#setOrder/time_remaining" rel="func">ETA</a></li>
 		</ul>
 
 		<ul id="download_rate_menu" class="contextmenu" style="display:none">
