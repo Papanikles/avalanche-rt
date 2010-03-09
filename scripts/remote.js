@@ -35,8 +35,9 @@ Remote.prototype =
 	/*
 	 * A generic request handler to make internal functions easier.
 	 */
-	request: function(action, id, func, value, value2)
+	request: function(action, id, func, value, value2, remote_url)
 	{
+
 		//Flush the json object.
 		this.json = [];
 
@@ -57,11 +58,18 @@ Remote.prototype =
 			params = {'action':action,'id':id};
 		}
 
-		$.ajax({url: 'remote.php', dataType: 'json', data: params, success:
-			function(data)
+		$.ajax({url: remote_url || 'remote.php', dataType: 'json', data: params,
+			success: function(data)
 			{
 				//If we returned an error we should do something with it.
-				if(data && data.error)
+				if(typeof data != 'object')
+				{
+					torrent.openDialogue('error_popup');
+					$('#error_details').text(
+					'Error parsing remote.php'+ "\n\nBad Json\n\n"+ window.torrentlist).
+						focus().select();
+				}
+				else if(data && data.error)
 				{
 					torrent.openDialogue('error_popup');
 					$('#error_details').text(
@@ -74,7 +82,7 @@ Remote.prototype =
 				}
 
 				//Now we should run the function we were asked to:
-				func(data);
+				if(func) func(data);
 
 			}, error: function(req,status,error)
 			{
@@ -208,6 +216,15 @@ Remote.prototype =
 	openURL: function(url, func, start)
 	{
 		this.request('loadurl', url, func, start);
+	},
+
+	setSetting: function(key, value, value2, action, func)
+	{
+		this.request(action?'remove':'set', key, function(data)
+		{
+			window.settings = data;
+			if(func){ func(data); }
+		}, value, value2, 'setsettings.php');
 	}
 
 }

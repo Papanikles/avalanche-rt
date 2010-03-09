@@ -3,13 +3,29 @@
 	 *
 	 * Avalanche 0.9 Beta
 	 *
-	 *	Copyright 2009 Â© Keithamus
-	 *	This code is licensed under the MIT license.
-	 *	For more details, see http://www.opensource.org/licenses/mit-license.php
+	 *	This code is licensed under the GPL3, or "GNU GENERAL PUBLIC LICENSE Version 3"
+	 *	For more details, see http://opensource.org/licenses/gpl-3.0.html
 		*
 		* For more information, see http://code.google.com/p/avalanche-rt
 		*
-		* Date: Fri, 19th Feb 2010.
+		* Date: Tue, 09th Mar 2010.
+		*
+		* @author Keith Cirkel ('keithamus') <avalanche@keithcirkel.co.uk>
+		* @license http://opensource.org/licenses/gpl-3.0.html
+		* @copyright Copyright © 2010, Keith Cirkel
+		*
+		* This program is free software: you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation, either version 3 of the License, or
+  * (at your option) any later version.
+  *
+  * This program is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+
+  * You should have received a copy of the GNU General Public License
+  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		*
 	 */
 
@@ -111,6 +127,7 @@ Torrent.prototype =
 			$('#torrent_upload_url').attr('value',file?file:'');
 		}
 
+		window.firstrun = true;
 		//Use updateUserInterface to generate a list of torrents.
 		remote.retrieve(this.updateUserInterface);
 
@@ -169,6 +186,19 @@ Torrent.prototype =
 			$('#filter_bar li.active a').click();
 		}
 
+		if(window.firstrun)
+		{
+			if(window.settings.default_sort)
+			{
+				$('#order_menu a[href="#setOrder/'+ window.settings.default_sort+ '"]').click();
+				if(window.settings.default_sort_by == 'desc')
+				{
+					$('#order_menu a[href="#setOrder/'+ window.settings.default_sort+ '"]').click();
+				}
+			}
+			window.firstrun = false;
+		}
+
 		//Now lets run this again after a set period of time to update the details:
 		setTimeout(function(){
 			remote.retrieve(torrent.updateUserInterface) }, settings.refresh_delay);
@@ -211,6 +241,9 @@ Torrent.prototype =
 
 		//Also put a "percentage done" in the data object, very useful:
 		data.percent_done = ((100/ data.size)* data.downloaded).toFixed(2);
+
+		//Add a "time remaining" entry:
+		data.time_remaining = (data.size - data.downloaded) / data.down_rate;
 
 		//Remove all status classes so we can put the ones we want back in:
 		$('#'+ data.hash).removeClass('hashing seeding downloading completed paused');
@@ -307,6 +340,10 @@ Torrent.prototype =
 		{
 			$('#'+ data.hash+ ' .peer_details').text('Paused');
 		}
+
+		$.each(data, function(key,value){
+			$('#'+ data.hash).attr('data-'+ key, value);
+		});
 
 		//Lastly, if the details pane is open with a torrent, it needs to be updated too
 		if($('#details_container').attr('torrent_id') == data.hash)
@@ -1236,10 +1273,9 @@ Torrent.prototype =
  *
  * The click handler to toggle the details pane
  *
- * @argument event {object} The click event
  *
  */
-	toggleDetailPane: function(event)
+	toggleDetailPane: function()
 	{
 		if($('#details_container').is(':hidden'))
 		{
@@ -1249,7 +1285,7 @@ Torrent.prototype =
 			//Set the filter bar to the same
 			$('#filter_bar').css('margin-right',$('#torrent_container').css('margin-right'));
 			$('#details_container').show();
-
+			window.remote.setSetting('detail_pane_open', 'true');
 		}
 		else
 		{
@@ -1261,6 +1297,7 @@ Torrent.prototype =
 			//Set the filter bar to the same
 			$('#filter_bar').css('margin-right',$('#torrent_container').css('margin-right'));
 			$('#details_container').hide();
+			window.remote.setSetting('detail_pane_open', 'false');
 		}
 	},
 
@@ -1475,18 +1512,22 @@ Torrent.prototype =
  * @argument event {object} The click event
  *
  */
-	setOrder: function(e)
+	setOrder: function(e, dontset)
 	{
 		var ordervar = e.currentTarget.hash.split('/')[1];
-		var c = e.currentTarget.className;
+		var c = e.currentTarget.className=='asc'?'desc':'asc';
 		$('#order_menu a').removeClass();
-		$.each($('#torrent_list li'), function(i, dom)
+		e.currentTarget.className=c;
+		$('#torrent_list>li').tsort({order:c, attr:'data-'+ordervar});
+		$('#status_order').text($(e.currentTarget).text());
+		if(window.settings.default_sort!=ordervar)
 		{
-			_id = dom.id;
-			$('#'+ _id).attr('sort', torrentlist[_id][ordervar]);
-		});
-		e.currentTarget.className=c=='asc'?'desc':'asc';
-		$('#torrent_list>li').tsort({order:c=='asc'?'desc':'asc', attr:'sort'});
+			window.remote.setSetting('default_sort', ordervar);
+		}
+		if(window.settings.default_sort_by!=c && window.firstrun!=true)
+		{
+			window.remote.setSetting('default_sort_by', c);
+		}
 	},
 
 	/*
@@ -1689,14 +1730,19 @@ Torrent.prototype =
 			if($('#torrent_list li.selected')[0] &&
 				$('#torrent_list li.selected').prevAll(':not(:hidden)')[0])
 			{
-				element = $('#torrent_list li.selected').prevAll(':not(:hidden)').slice(0,1);
+				element = $('#torrent_list li.selected').prevAll(':not(:hidden)').first();
 			}
 			else
 			{
 				element = $('#torrent_list li:not(:hidden)').last();
 			}
-			element.click();
-			$('#torrent_container').scrollTop(element.offset().top-element.outerHeight(true));
+			if(element.length)
+			{
+				element.click();
+				$('#torrent_container').scrollTop(
+					element.offset().top - $('#torrent_container').offset().top);
+				return false;
+			}
 		}
 		//Down arrow
 		else if(key == 40)
@@ -1704,14 +1750,19 @@ Torrent.prototype =
 			if($('#torrent_list li.selected')[0] &&
 				$('#torrent_list li.selected').nextAll(':not(:hidden)')[0])
 			{
-				element = $('#torrent_list li.selected').nextAll(':not(:hidden)').slice(0,1);
+				element = $('#torrent_list li.selected').nextAll(':not(:hidden)').first();
 			}
 			else
 			{
 				element = $('#torrent_list li:not(:hidden)').first();
 			}
-			element.click();
-			$('#torrent_container').scrollTop(element.offset.top()-element.outerHeight(true));
+			if(element.length)
+			{
+				element.click();
+				$('#torrent_container').scrollTop(
+					element.offset().top - $('#torrent_container').offset().top);
+				return false;
+			}
 		}
 		return true;
 	}
