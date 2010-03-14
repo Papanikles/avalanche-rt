@@ -1,4 +1,5 @@
 #summary Common errors Avalanche throws, and their solutions
+#labels Featured,Phase-Support
 
 = Introduction =
 
