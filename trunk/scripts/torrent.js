@@ -920,7 +920,7 @@ Torrent.prototype =
 			data.size_percent = ((100/data.total_diskspace)*data.size).toFixed(2);
 			if(data.size_percent>100) { data.size_percent = 100; }
 			data.disk_used_percent =
-				100 - (((100/data.total_diskspace)*data.free_diskspace).toFixed(2) - data.size_percent);
+				(100 - ((100/data.total_diskspace)*data.free_diskspace).toFixed(2)) - data.size_percent;
 			if(data.disk_used_percent>100) { data.disk_used_percent = 100; }
 			data.size_percent = data.size_percent+ '%';
 			data.disk_used_percent = data.disk_used_percent+ '%';
