@@ -182,6 +182,12 @@ This will install to the root website. We'll also need to make the files executa
 sudo chmod 755 /var/www/* -R
 }}}
 
+Finally, you need to edit the settings.php to put in data that relates to YOUR server. For help, visit the Settings.php guide.
+
+{{{
+sudo nano /var/www/settings.php
+}}}
+
 Now everything appears to be set up, you can visit your server's IP to see. Your server's IP address can be quickly had using:
 
 {{{
