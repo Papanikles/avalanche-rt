@@ -192,6 +192,21 @@ Invalid JSON: <br />
 === The Problem: In Detail ===
 Your settings.php is either missing, or unreadable by Avalanche. 
 
-=== Solution === 
+=== Possible Solutions === 
   # *Missing settings.php*: Make sure your settings.php is in the same place as your remote.php.
   # *Settings.php permission error*: Make sure your settings.php is readable by your remote.php, if in doubt you can run `sudo chmod 755 settings.php`
+
+== Error 14 ==
+
+{{{
+Error parsing remote.php
+
+Couldn't open file for reading
+}}}
+
+=== The Problem: In Detail ===
+One of the files Avalanche reads from (quite likely to be prefs.json) can't be read.
+
+=== Possible Solutions === 
+  # *Missing prefs.json*: Make sure your prefs.json is in the same place as your remote.php.
+  # *Prefs.json permission error*: Make sure your prefs.json is readable by your remote.php, if in doubt you can run `sudo chmod 755 prefs.json`
