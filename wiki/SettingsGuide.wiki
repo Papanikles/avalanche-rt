@@ -5,6 +5,21 @@
 
 This guide will go through each of the settings in settings.php, giving you answers as to how to do certain tasks in Avalanche
 
+= Adding or Editing Settings = 
+
+To edit each setting, you simply need to change the text in the *right hand side string*. For example, if I wanted to change the password, I'd change this:
+
+{{{
+"password"=>"password"
+}}}
+
+to 
+
+{{{
+"password"=>"avalanche"
+}}}
+
+Changing settings can be the biggest cause for errors avalanche, so make sure you are careful when making changes. For example, if you remove any comma at the end of a setting, it'll crash. If the last setting in the set has a comma, it'll crash.
 
 = Default Settings =
 
@@ -24,17 +39,33 @@ These are the stock settings that everyone will need to use to allow Avalanche t
 
 == server_type ==
 
+{{{
+"server_type"=>"rtorrent",
+}}}
+
 Server_type is a setting that _*does not need to change*_ server_type is a variable that will enable you to use a different server library, to enable support for other bittorrent clients, other than rtorrent. There are currently no other libraries. One day, there may be. You are free to create your own library, but there is no documentation to help you, sorry.
 
 == server_ip ==
+
+{{{
+"server_ip"=>"127.0.0.1",
+}}}
 
 This one is self explanatory, this is the IP address of the SCGI server you wish to connect to. It will almost always be left to 127.0.0.1.
 
 == server_port ==
 
+{{{
+"server_ip"=>"80",
+}}}
+
 This one is self explanatory, this is the port of the SCGI server you wish to connect to. It will almost always be left to 80. If you use HTTPS, you will need to change this to 443.
 
 == rtorrent_scgi_folder ==
+
+{{{
+"rtorrent_scgi_folder"=>"/RPC2",
+}}}
 
 This is the name of the folder handler you use for rtorrent to work. The Avalanche setup guides uses /RPC1, most other setup guides will use RPC2. It can be literally anything you want, like /SpongeBobSquarePants. Just make sure that it matches what is in your Apache settings!
 
@@ -42,9 +73,17 @@ This is the name of the folder handler you use for rtorrent to work. The Avalanc
 
 == username ==
 
+{{{
+"username"=>"username",
+}}}
+
 Well, in the trend of obvious settings, this one lets you use a username for the SCGI server. In the setup guides the username is "rtorrentscgi". Once again, use whatever you want here. Please note that, as opposed to the scgi folder, chosing a good username does indeed make a difference to your security.
 
 == password ==
+
+{{{
+"password"=>"password",
+}}}
 
 This setting lets you use a password for your SCGI server. In the setup guides, you set it up when you ran the htpasswd command. You were told to remember it, so hopefully you did as you need it here!
 
@@ -52,19 +91,28 @@ This setting lets you use a password for your SCGI server. In the setup guides, 
 
 = Hidden Settings =
 
+Avalanche also features a few hidden settings. The hidden settings are usually either heavily in testing (but are assured not to break Avalanche when not in use) or are hidden because 99% of users will not need them. For the 1% who will, here they are:
 
 == set_auth_digest ==
+
+{{{
+"set_auth_digest"=>TRUE,
+}}}
 
 Adding this setting, and setting it to TRUE will use the "DIGEST" authentication for apache, as opposed to "basic". The difference is digest makes an md5 sum of your password before sending it to the server. This is untested, which is why it is hidden. It will work come version 1.0 (hopefully!)
 
 == https ==
 
+{{{
+"https"=>TRUE,
+}}}
+
 Adding https and setting it to TRUE will enable the use of HTTPS, surprise surprise. Use this in conjunction with server_port 443. This is slightly tested, and hopefully will work (but it will remain hidden in future releases).
 
 == trust_cert ==
 
+{{{
+"trust_cert"=>TRUE,
+}}}
+
 Trust_cert, if set to true, will explicitly trust certificates coming from the HTTPS server. If not set, and your cert isn't signed, Avalanche will REJECT connections.
-
-== use_batsignal ==
-
-Ok, this one doesn't exist. One day it will though! Mwahahaha!
