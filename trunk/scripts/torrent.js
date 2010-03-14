@@ -917,7 +917,13 @@ Torrent.prototype =
 			//Add a nicely calculated "health" string
 			//TODO: Health String
 			//Add the percentage the torrent has used of the hdd it is saved on
-			data.size_percent = ((100/data.free_diskspace)*data.size).toFixed(2)+ '%';
+			data.size_percent = ((100/data.total_diskspace)*data.size).toFixed(2);
+			if(data.size_percent>100) { data.size_percent = 100; }
+			data.disk_used_percent =
+				(((100/data.total_diskspace)*data.free_diskspace).toFixed(2) - data.size_percent);
+			if(data.disk_used_percent>100) { data.disk_used_percent = 100; }
+			data.size_percent = data.size_percent+ '%';
+			data.disk_used_percent = data.disk_used_percent+ '%';
 
 			//Now for each of the "detail_var"s, they just want to be filled with the variable
 			// in their "id", so we can quickly go through those:
@@ -940,8 +946,11 @@ Torrent.prototype =
 			$('#details_priority_button').show().text(priorities[data.priority]).
 				attr('href','#setPriority/torrent/'+ data.hash);
 			//The progress bar also needs to be set:
-			$('#details_general_disk_space .progress_bar').css('width',data.size_percent);
-			$('#details_general_disk_space').attr('title',data.size_percent);
+			$('#details_general_disk_space .progress_bar.used').css('width',data.disk_used_percent);
+			$('#details_general_disk_space .progress_bar.file').css('width',data.size_percent);
+			$('#details_general_disk_space').attr('title',
+					'Used Disk Space: '+ data.disk_used_percent+ "\n"+
+					'Used by Torrent: '+ data.size_percent);
 		}
 		else if(hash == 'files')
 		{

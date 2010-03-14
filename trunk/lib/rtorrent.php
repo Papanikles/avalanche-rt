@@ -136,19 +136,11 @@ class Rtorrent
 
 		}
 
-		//Because of a bug in rtorrent where complete torrents will not report the
-		//free disk space, I've put this little hack here to malform it so it does.
 		foreach($torrents as $torrent)
 		{
-			if($torrent[15]>0)
-			{
-				$disk_space = $torrent[15];
-				break;
-			}
-		}
 
-		foreach($torrents as $torrent)
-		{
+				$df = @disk_free_space(dirname($torrent[14]));
+				$dt = @disk_total_space(dirname($torrent[14]));
 
 				$return_array[$torrent[0]] = array(
 
@@ -168,7 +160,8 @@ class Rtorrent
 					'date_added' => $torrent[13],
 					'base_path' => $torrent[14],
 					//Remember the bug above? We're going to mangle this a bit...
-					'free_diskspace' => $torrent[15]>0?$torrent[15]:$disk_space,
+					'free_diskspace' => $df?$df:$torrent[15],
+					'total_diskspace' => $dt?$dt:0,
 					'private' => $torrent[16],
 					'tracker_status' => $torrent[17],
 					'priority' => $torrent[18],

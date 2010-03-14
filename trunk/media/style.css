@@ -143,11 +143,11 @@ a{outline:none}
 .hashing .progress_bar_container{border:1px solid #E19200;
 	background-position:0 -198px}
 .progress_bar{background:url('gradients.png') repeat-x 0 -208px;
-	height:10px}
+	height:10px;float:left}
 .seeding .progress_bar{background-position:0 -168px}
 .completed .progress_bar{background-position:0 -178px}
 .downloading .progress_bar{background-position:0 -188px;border-right:1px solid #ccc}
-.hashing .progress_bar{background-position:0 -218px;border-right:1px solid #ccc}
+.file.progress_bar, .hashing .progress_bar{background-position:0 -218px;border-right:1px solid #ccc}
 
 /* Details Container */
 #details_container{position:fixed;top:44px;right:0px;bottom:22px;width:340px;
