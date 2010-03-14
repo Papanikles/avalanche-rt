@@ -1,5 +1,5 @@
 #summary A quick tutorial on how to use Avalanche
-#labels Deprecated,Phase-Support
+#labels Featured,Phase-Support
 
 = Main Interface =
 
