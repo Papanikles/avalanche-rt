@@ -1,0 +1,17 @@
+#summary A guide to install Avalanche onto Ubuntu Server edition.
+#labels Deprecated,Phase-Deploy
+
+= Introduction =
+
+Remember that, if you prefer, you can watch the installation video tutorials here:
+
+<wiki:video url="http://www.youtube.com/watch?v=qSUwEe__pik"/>
+<wiki:video url="http://www.youtube.com/watch?v=H7Br9mc7rF4"/>
+
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
