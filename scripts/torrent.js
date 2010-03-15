@@ -776,6 +776,11 @@ Torrent.prototype =
 		$('#torrent_search').keyup();
 		//Then we should update the pause and resume buttons so the right ones are disabled.
 		torrent.updatePauseResumeButtons();
+		if(window.settings.default_filter_by!=filter)
+		{
+			window.settings.default_filter_by = filter;
+			window.remote.setSetting('default_filter_by', filter);
+		}
 	},
 
 	/*
@@ -954,7 +959,7 @@ Torrent.prototype =
 		}
 		else if(hash == 'files')
 		{
-			remote.getFiles($('#details_container').attr('torrent_id'), function()
+			remote.getFiles($('#details_container').attr('torrent_id'), function(data)
 			{
 				selector = '#details_files_contain .labellist';
 				//Get rid of old files, if we're on a different torrent:
@@ -966,8 +971,9 @@ Torrent.prototype =
 				$('#details_files_contain').attr('current_id',
 					$('#details_container').attr('torrent_id'));
 				hash = $('#details_files_contain').attr('current_id');
+				folders = {};
 				//And add the new ones
-				$.each(remote.json, function(i, info)
+				$.each(data, function(i, info)
 				{
 					//Split the path info:
 					path = info.path.split('/');
@@ -981,16 +987,21 @@ Torrent.prototype =
 					{
 						file = path[path.length-1];
 						_id = hash+ '_f_'+ i;
+						_i = i;
 						//Create the file LI
-						priorities = ['Skip', 'Normal', 'High'];
-						_element = $('<li/>').attr('id',_id).
-							append($('<h4/>').text(file)).
+						_element = $('<li/>').addClass(info.priority==0?'disabled':'').attr('id',_id).
+							append($('<a/>').addClass('enablecheck').attr(
+								'href','#setPriority/'+ $('#details_container').attr('torrent_id')+
+								'/'+ i+ '/0').click(torrent.setFilePriority).attr('title','Enable this file for download')).
+							append($('<h4/>').text(file).attr('title',file)).
 							append($('<span/>').text(
 								(((100/ info.chunks)* info.chunks_complete).toFixed(2))+
 								'% of '+ Math.formatBytes(info.size_bytes))).
-							append($('<a/>').text(priorities[info.priority]).attr(
-								'href','#setPriority/file/'+ $('#details_container').attr('torrent_id')+
-								'/'+ i).addClass('priority').click(torrent.setPriority));
+							append($('<a/>').addClass('turbocheck').
+								addClass(info.priority==2?'on':'').attr('title','Give the file a high priority').
+								attr('href','#setPriority/'+ $('#details_container').attr('torrent_id')+
+								'/'+ i+ '/2').click(torrent.setFilePriority));
+
 
 						//Do we have folders above us?
 						if(path.length>1)
@@ -1001,28 +1012,96 @@ Torrent.prototype =
 							//Cycle through each of the parent folders:
 							$.each(path, function(i, folder)
 							{
+
+								//We want to add our numbers to the totals for the parent folder, so the
+								//parent folder accurately displays the total numbers inside!
+								if(previous_id!='details_files_contain .labellist')
+								{
+									if(!folders[previous_id]) {
+										folders[previous_id] = {chunks: 0,chunks_complete: 0,
+											size_bytes: 0, files: 0, filesEnabled: 0, filesHigh: 0, ids: []};
+									}
+									fldr = folders[previous_id];
+									fldr.ids.push(_i);
+									fldr.size_bytes += info.size_bytes;
+									fldr.files += 1;
+									fldr.filesEnabled += info.priority>0?1:0;
+									fldr.filesHigh += info.priority>1?1:0;
+									fldr.chunks += info.chunks;
+									fldr.chunks_complete += info.chunks_complete;
+									folders[previous_id] = fldr;
+								}
+
 								_id = hash+ '_'+ folder.replace(/[^A-Za-z0-9]/g,'_');
 								//We're at the final folder's file:
 								if(i==finali && !$('#details_files_contain #'+ file_id)[0]) {
-									$('#details_files_contain ul#'+ previous_id).append(_element);
+									parent_ul = $('#details_files_contain ul#'+ previous_id);
+
+									//Add our element
+									parent_ul.append(_element);
+
+									parent_li = parent_ul.parent('li');
+
+									//Change the text to reflect the new totals we have
+									parent_ul.children('span').
+										text((((100/ fldr.chunks)* fldr.chunks_complete).toFixed(2))+
+											'% of '+ Math.formatBytes(fldr.size_bytes)).attr('title',
+											fldr.files+ ' files, '+ fldr.filesEnabled+ ' active, '+ fldr.filesHigh+ ' high');
+
+									//If no files are enabled, set the enabled checkbox to off
+									if(fldr.filesEnabled==0)
+									{
+										parent_li.addClass('disabled');
+									}
+									//If all the files in the folder are disabled, check the box to on
+									else if(fldr.filesEnabled == fldr.files)
+									{
+										parent_li.removeClass('disabled');
+									}
+									//If some are, and some arent, make the box a ?
+									else
+									{
+										parent_li.removeClass('disabled').children('a.enablecheck').first().addClass('q');
+									}
+
+									//If all files are set to high, then check the box to on
+									if(fldr.files == fldr.filesHigh)
+									{
+										parent_li.children('a.turbocheck').first().addClass('on');
+									}
+									//Otherwise, check it to off, or a ?
+									else
+									{
+										parent_li.children('a.turbocheck').first().
+											removeClass('on').addClass(fldr.filesHigh>0?'q':'');
+									}
+
+									//Change our anchors to reflect all the IDs we have under the folder:
+									href = parent_li.children('a.turbocheck').first().attr('href').split('/');
+									href[2] = fldr.ids.join(',');
+									parent_li.children('a.turbocheck').first().attr('href',href.join('/'));
+
+									href = parent_li.children('a.enablecheck').first().attr('href').split('/');
+									href[2] = fldr.ids.join(',');
+									parent_li.children('a.enablecheck').first().attr('href',href.join('/'));
 								}
-								//Our parent folder exists, but we don't, so lets append to it!
-								else if(i<finali && $('#'+ previous_id)[0] && !$('#'+ _id)[0])
+								//Our parent folder doesn't exist:
+								else if(i<finali && $('#'+ previous_id).length>0 && $('#'+ _id).length==0)
 								{
-									priorities = ['Skip', 'Normal', 'High'];
 									$('#'+ previous_id).append($('<li/>').addClass('folder').
+									append($('<a/>').addClass('enablecheck').attr(
+								'href','#setPriority/'+ $('#details_container').attr('torrent_id')+
+								'/'+ i+ '/0').click(torrent.setFilePriority).attr('title','Enable this file for download')).
 									append($('<a/>').text(folder).addClass('drop').
 										attr('href','#'+ _id).
 										click(function(event){
 											$(event.currentTarget).parent().toggleClass('d');
 											$(event.currentTarget.hash).toggle();
 										})).
-									append($('<span/>').text(
-										(((100/ info.chunks)* info.chunks_complete).toFixed(2))+
-										'% of '+ Math.formatBytes(info.size_bytes))).
-									append($('<a/>').text(priorities[info.priority]).attr(
-										'href','#setPriority/folder/'+ $('#details_container').attr('torrent_id')+
-										'/'+ _id).addClass('priority').click(torrent.setPriority)).
+									append($('<span/>')).append($('<a/>').addClass('turbocheck').
+										attr('title','Give the file a high priority').
+										attr('href','#setPriority/'+ $('#details_container').attr('torrent_id')+
+											'/'+ i+ '/2').click(torrent.setFilePriority)).
 									append($('<ul/>').attr('id',_id).hide()));
 								}
 								previous_id = _id;
@@ -1132,33 +1211,33 @@ Torrent.prototype =
 				{
 
 					$('#details_trackers_contain .labellist').append($('<li/>').attr('id',url).
+						append($('<a/>').
+							attr('id',$('#details_container').attr('torrent_id')+ '_t_'+ info.id).
+							addClass(info.enabled?'on':'off').attr('title','Toggle Tracker').
+							attr('rel',info.id).click(function(event)
+								{
+									//event.currentTarget.
+									//(id, tracker_id, enabled, func)
+									enable = event.currentTarget.className=='on'?0:1;
+									remote.setTracker(
+										$('#details_container').attr('torrent_id'),
+										event.currentTarget.rel,
+										enable,
+										function(data){
+											if(data.settracker && event.currentTarget.className=='on')
+											{
+												$('#'+ event.currentTarget.id).removeClass('on').addClass('off');
+											}
+											else if(data.settracker)
+											{
+												$('#'+ event.currentTarget.id).removeClass('off').addClass('on');
+											}
+										});
+								})).
 						append($('<h4/>').text(url)).
 						append($('<span/>').text(url=='dht://'?
 							info.peers+ ' peers accross '+ info.nodes+ ' nodes':
-							info.seeders+ ' seeds and '+ info.peers+ ' peers').
-					append($('<a/>').
-						attr('id',$('#details_container').attr('torrent_id')+ '_t_'+ info.id).
-						addClass(info.enabled?'on':'off').attr('title','Toggle Tracker').
-						attr('rel',info.id).click(function(event)
-							{
-								//event.currentTarget.
-								//(id, tracker_id, enabled, func)
-								enable = event.currentTarget.className=='on'?0:1;
-								remote.setTracker(
-									$('#details_container').attr('torrent_id'),
-									event.currentTarget.rel,
-									enable,
-									function(data){
-										if(data.settracker && event.currentTarget.className=='on')
-										{
-											$('#'+ event.currentTarget.id).removeClass('on').addClass('off');
-										}
-										else if(data.settracker)
-										{
-											$('#'+ event.currentTarget.id).removeClass('off').addClass('on');
-										}
-									});
-							}))));
+							info.seeders+ ' seeds and '+ info.peers+ ' peers')));
 
 				});
 			});
@@ -1168,7 +1247,7 @@ Torrent.prototype =
 	/*
  * setPriority
  *
- * The click handler to set the ordering of torrents.
+ * The click handler to set the priority of torrents.
  *
  * @argument event {object} The click event
  *
@@ -1209,55 +1288,61 @@ Torrent.prototype =
 				});
 			}
 		}
-		else if(type=='file' || type=='folder')
+	},
+
+	/*
+ * setFilePriority
+ *
+ * The click handler to set the priority of files within a torrent.
+ *
+ * @argument event {object} The click event
+ *
+ */
+	setFilePriority: function(e)
+	{
+		selector = $('a[href="'+e.currentTarget.hash+'"]');
+		args = e.currentTarget.hash.split('/');
+		//We're trying to toggle a "high" status
+		if(args[3]==2)
 		{
-			//We just need to show the menu!
-			if(args.length==4)
+			//Our priority is either 1 or 2, depending on if it was 2 or 1 before
+			priority = $(e.currentTarget).hasClass('on')?1:2;
+		}
+		//We're trying to toggle a "disabled" status
+		else
+		{
+			//Our priority is either 0 or 1, depending on if it was 1 or 0 before
+			priority = $('#'+ args[1]+ '_f_'+ args[2]).hasClass('disabled')?1:0;
+		}
+
+		remote.setFilePriority(args[1],args[2],priority, function(data)
+		{
+			if(data.setpriority)
 			{
-				el = $('#details_files_contain .labellist .priority[href='+
-					e.currentTarget.hash+ ']');
-				$('#file_priority_menu').toggle();
-				$('.contextmenu:not(#file_priority_menu)').hide();
-				left = (el.offset().left+el.outerWidth(true))-
-					$('#file_priority_menu').outerWidth(true);
-				_top = el.offset().top+el.outerHeight(true);
-				$('#file_priority_menu').css('left',left).css('top',_top);
-				$.each($('#file_priority_menu a'),function(i, a)
+				//If we wanted to toggle the "high" status, and we set it to high
+				if(args[3]==2 && priority == 2)
 				{
-					hash = a.hash.split('/');
-					priority = hash[hash.length-1];
-					a.href = '#setPriority/'+ type+ '/'+ args[2]+ '/'+ args[3]+ '/'+ priority;
-				});
-			}
-			else
-			{
-				if($('#details_files_contain #'+ args[3]).length>0) {
-					_id = $('#details_files_contain #'+ args[3]+ ' li').first().attr('id').substr(-1)+
-						':'+ $('#details_files_contain #'+ args[3]+ ' li').last().attr('id').substr(-1);
+					selector.removeClass('q').addClass('on').parent('li').removeClass('disabled');
 				}
+				//If we wanted to toggle the "high" status and we set it to normal
+				else if(args[3]==2 && priority == 1)
+				{
+					selector.removeClass('q on').parent('li').removeClass('disabled').
+						children('.enablecheck').removeClass('q');
+				}
+				//We wanted to toggle disable status, and we enabled
+				else if(args[3]==0 && priority == 1)
+				{
+					selector.removeClass('q on').parent('li').removeClass('disabled').
+						children('.enablecheck').removeClass('q')
+				}
+				//We wanted to toggle disable, and we disabled.
 				else
 				{
-					_id = args[3];
+					selector.removeClass('q on').parent('li').addClass('disabled');
 				}
-				remote.setFilePriority(args[2],_id,args[4], function(data)
-				{
-					if(data.setpriority)
-					{
-						priorities = ['Skip','Normal','High'];
-						if($('#'+ args[3]).length>0)
-						{
-							$('#'+ args[3]+ ' .priority').text(priorities[args[4]]);
-							$('#'+ args[3]).parent().children('.priority').text(priorities[args[4]]);
-						}
-						else
-						{
-							$('#'+ args[2]+ '_f_'+ args[3]+ ' .priority').text(priorities[args[4]]);
-						}
-						$('#file_priority_menu').hide();
-					}
-				});
 			}
-		}
+		});
 	},
 
 	/*
@@ -1585,6 +1670,10 @@ Torrent.prototype =
 	setWebSearchString: function(e)
 	{
 		url = e.currentTarget.hash.substr(20);
+		uri = url.split('/');
+		uri = uri[0]=='http:'?uri[2]:uri[0];
+		$('#web_search_dropdown').css('background-image',
+			'url("http://www.google.com/s2/favicons?domain='+ uri+ '")');
 		$('#web_search_dropdown').attr('title',event.currentTarget.innerHTML);
 		$('#web_search_menu').hide();
 		$('#web_search').attr('search_string',url).focus().select();

@@ -74,7 +74,7 @@ a{outline:none}
 #header_web_search.active{background-position:0 -60px}
 #header_web_search.active .wrapper{background-position:right -60px}
 #web_search_dropdown{height:21px;float:left;width:30px;
-	background:url('icons.png') no-repeat 5px -78px}
+	background:url('http://www.google.com/s2/favicons?domain=') no-repeat 9px 4px}
 #header_web_search input{background:transparent;height:20px;width:161px;
 	float:left;border:0;display:inline;outline:none;padding:2px}
 #web_search_delete_text{border:0;width:20px;height:20px;float:left;
@@ -159,11 +159,13 @@ a{outline:none}
 #details_header .rename{font-size:1.4em;margin:2px 0;padding:2px 0;clear:both;
 	font-weight:bold;display:none}
 #details_header span{font-size:1.2em;margin:0;display:block}
-#details_priority_button{float:right;border:1px solid #aaa;padding:2px 4px;
-	background:url('gradients.png') 0 -122px;margin:-17px 0 0 0;color:#323232;
-	text-decoration:none;display:none}
-#details_container .tab_center{width:100%;text-align:center}
+#details_priority_button{float:right;border:1px solid #7a7a7a;padding:3px 6px;
+	background:url('gradients.png') 0 -122px;margin:-22px 0 0 0;color:#323232;
+	text-decoration:none;display:none;border-radius:4px;box-shadow:0 1px 1px #b6b6b5;
+	-webkit-box-shadow:0 1px 0 #b6b6b5;-moz-box-shadow:0 1px 1px #b6b6b5}
 #details_container .tabs{padding:0;margin:0 0 0 50px;text-shadow:1px 1px #e8e8e8}
+#details_container .tabs li.f a{border-radius:2px 0 0 2px}
+#details_container .tabs li.l a{border-radius:0 2px 2px 0}
 #details_container .tabs li{float:left;list-style-type:none}
 #details_container .tabs li a{display:block;margin:10px -1px 0 0;padding:4px;
 	background:url('gradients.png') repeat-x 0 -122px;border:1px solid #787878;
@@ -187,33 +189,44 @@ h3{margin:0 0 10px 0;padding:0}
 .labellist li:last-child{border-bottom:0}
 .labellist li h4{padding:0;margin:0;overflow:hidden;text-overflow:ellipsis}
 .labellist li h3{padding:0;margin:0;overflow:hidden;text-overflow:ellipsis}
-.labellist li b{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
-	display:inline-block;width:20%}
 .labellist li .col2{display:inline-block;width:45%}
 .labellist li .col2 b{width:45%}
 .labellist li .col2 span{width:50% !important;text-align:center}
+
 #details_general_contain li{padding-top:5px;padding-bottom:5px}
 #details_general_contain li span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
 	display:inline-block;width:75%;text-align:left}
+#detail_general_contain .labellist li b{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+	display:inline-block;width:20%}
+
 #details_trackers_contain li{padding-right:80px}
-#details_trackers_contain li a{height:24px;padding:0 36px;margin:-12px -76px 0 0;
-	float:right;background:url('togglebuttons.png') no-repeat 0 0}
-#details_trackers_contain li a:hover{background-position:0 -24px}
-#details_trackers_contain li a.off{background-position:0 -48px}
-#details_trackers_contain li a.off:hover{background-position:0 -72px}
-#details_files_contain .labellist .folder ul{margin-top:4px}
+#details_trackers_contain li a{padding:8px;float:left;
+	background:url('icons.png') no-repeat -3px -503px;margin:6px 2px 0 -4px;border:0}
+#details_trackers_contain li a.off{background-position:-3px -483px}
+
+#details_files_contain .labellist .folder .drop{margin-left:13px}
+#details_files_contain .labellist .folder ul{margin-top:4px;margin-left:18px}
+#details_files_contain .labellist .folder ul li{margin-right:20px}
+#details_files_contain .labellist h4{margin-right:15px;overflow:hidden;white-space:nowrap}
 #details_files_contain .labellist li a{padding-left:12px;font-weight:bold;color:#323232;
 	text-decoration:none;display:block}
-#details_files_contain .labellist .folder a.drop{background:url('icons.png') no-repeat -6px -282px}
-#details_files_contain .labellist .folder.d a.drop{background-position:-6px -302px}
+#details_files_contain .labellist .folder a.drop{background:url('icons.png') no-repeat -5px -282px}
+#details_files_contain .labellist .folder.d a.drop{background-position:-5px -302px}
 #details_files_contain .labellist ul{margin-left:4px;list-style:none;padding-left:0;width:100%;
 	border-left:1px dashed #a0a0a0}
 #details_files_contain .labellist .folder>span{margin-left:4px;padding-left:6px}
 #details_files_contain .labellist .folder.d>span{border-left:1px dashed #a0a0a0}
 #details_files_contain .labellist li{overflow:hidden;text-overflow:ellipsis}
-#details_files_contain .labellist li .priority{float:right;border:1px solid #aaa;
-	background:url(gradients.png) repeat-x 0 -122px;padding:1px 3px;cursor:pointer;
-	color:#323232;text-decoration:none}
+#details_files_contain .labellist li .enablecheck{padding:8px;float:left;
+	background:url('icons.png') no-repeat -3px -503px;margin:6px 2px 0 -4px;border:0}
+#details_files_contain .labellist li .turbocheck{padding:8px;float:right;
+	background:url('icons.png') no-repeat -3px -523px;margin:-6px -6px 0 0;border:0}
+#details_files_contain .labellist li.disabled .enablecheck{background-position:-3px -483px}
+#details_files_contain .labellist li .turbocheck.on{background-position:-3px -543px}
+#details_files_contain .labellist li .turbocheck.q,
+#details_files_contain .labellist li .enablecheck.q{background-position:-3px -563px}
+#details_files_contain .labellist li.disabled{color:#777}
+
 #details_peers_contain .labellist h4 span{float:right}
 #details_peers_contain .labellist div b{float:right;height:16px;padding:0 8px;
 	background:url('icons.png') no-repeat 0 -320px}
@@ -259,7 +272,7 @@ h3{margin:0 0 10px 0;padding:0}
 #order_menu li a{padding-left:18px;text-align:left}
 #order_menu li a.desc{background:url('icons.png') no-repeat -2px -241px}
 #order_menu li a.asc{background:url('icons.png') no-repeat -2px -221px}
-#priority_menu{left:0;top:128px}
+#priority_menu{left:0;top:124px}
 #order_menu{left:0;bottom:21px}
 #upload_rate_menu{left:0;bottom:21px}
 #download_rate_menu{left:0;bottom:21px}
@@ -280,10 +293,10 @@ h3{margin:0 0 10px 0;padding:0}
 	-moz-box-shadow:0 0 60px rgba(0,0,0,0.5);width:300px}
 .dialogue .decoration{width:100%;height:22px;border-bottom:1px solid #AAA;
 	background:url('gradients.png') repeat-x 0 -122px;margin:0}
-.dialogue .decoration .close{border:1px solid #ffeedd;height:16px;width:17px;
-	background:url('icons.png') no-repeat -1px -262px #ffccbb;float:right;margin:2px;
-	-webkit-border-radius:3px;-moz-border-radius:3px}
-.dialogue .decoration .close:hover{cursor:pointer;background-color:#eebbaa}
+.dialogue .decoration .close{height:16px;width:17px;float:right;margin:2px;
+	background:url('icons.png') no-repeat -2px -101px}
+.dialogue .decoration .close:hover{cursor:pointer;
+	background:url('icons.png') no-repeat -2px -81px;}
 .dialogue .decoration h2{margin:0;padding:3px 5px;float:left;font-size:1.3em}
 .dialogue .window{padding:10px;margin:0}
 .dialogue p{margin:0 0 10px 0;padding:0}

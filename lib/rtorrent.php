@@ -334,6 +334,24 @@ class Rtorrent
 
 			}
 		}
+		elseif(strpos($file_id,','))
+		{
+			$priorities_ar = array();
+			$file_id= explode(',', $file_id);
+			$count = count($file_id);
+			for($i=0; $i<=$count; ++$i)
+			{
+				$priorities_ar[]= new xmlrpcval(array(
+						'methodName'=>new xmlrpcval('f.set_priority'),
+						'params'=>new xmlrpcval(array(
+								new xmlrpcval($id),
+								new xmlrpcval($file_id[$i], 'int'),
+								new xmlrpcval($priority, 'int'),
+							), 'array')
+					),'struct');
+
+			}
+		}
 		else
 		{
 			$priorities_ar = array(new xmlrpcval(array(

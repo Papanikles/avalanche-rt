@@ -32,9 +32,14 @@ $(document).ready( function() {
 	//SIDE: We'd love to use getJSON, but getJSON silently fails - which is crap
 	$.ajax({url:'prefs.json', dataType: 'json', success: function(data) {
 		window.settings = $.extend(window.settings, data);
+		//If the details pane has a setting telling it to close, close it.
 		if(data.detail_pane_open==false || data.detail_pane_open=='false')
 		{
 			torrent.toggleDetailPane();
+		}
+		//If the default_filter_by setting is active, then filter to that group:
+		if(data.default_filter_by) {
+			$('a[href="#filterTorrentStatus/'+ data.default_filter_by+ '"]').click();
 		}
 		//Populate the search menu
 		$.each(data.web_searches, function(i, search)
@@ -44,6 +49,8 @@ $(document).ready( function() {
 			anchor[0].innerHTML=search.name;
 			$('#web_search_menu').append($('<li/>').append(anchor));
 		});
+		//Make the first search engine in the list the default.
+		$('#web_search_menu a').first().click();
 	}, error: function(req,status,error){
 		torrent.openDialogue('error_popup');
 		$('#error_details').text(
