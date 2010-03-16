@@ -219,7 +219,6 @@ Torrent.prototype =
 		//Does the node actually exist? If it doesn't we should create it:
 		if(!$('#'+ data.hash).get(0))
 		{
-			$('#torrent_list #expected').remove();
 			// Lots of chaining here, but its all self explanatory:
 			$('#torrent_list').append($('<li/>').addClass('torrent').attr('id',data.hash).
 				click(torrent.clickTorrent).
@@ -498,63 +497,118 @@ Torrent.prototype =
  */
 	openTorrent: function()
 	{
-		//We don't want it if it isnt a URL:
-		if($('#torrent_upload_url').val().substr(0,4)!='http') return false;
-		remote.openURL(
-			$('#torrent_upload_url').val(), //The URL
-			function(){
-				if(remote.json.openurl)
+		//We've been asked to open a file:
+		if($('#open_dialogue .tab.l').hasClass('a'))
+		{
+			$('#open_iframe').load(function(){
+				result = $.parseJSON($(this).contents().find('body').html());
+				console.log(result);
+				if(result.openfile)
 				{
-					//Close the dialogue box
-					$('#open_dialogue').hide();
-					//Get the torrent file name, and the first "word"
-					search = $('#torrent_upload_url').val().split('/');
-					torrent_name = search[search.length-1];
-					search = torrent_name.split('_')[0].split('.')[0];
-
-					//We're going to now create a "fake" torrent to use as a guide to show the
-					//torrent is opening:
-					$('#torrent_list').append($('<li/>').addClass('torrent loading').
-						attr('id','expected').
-						click(torrent.clickTorrent).
-						append($('<h2/>').text(torrent_name)).
-						append($('<input/>')).
-						append($('<span/>').addClass('progress_details').text('Opening torrent file...')).
-						append($('<div/>').addClass('progress_bar_container throbber')).
-						append($('<a/>').click(torrent.clickTorrentButton)).
-						append($('<span/>').addClass('peer_details').html('&nbsp;')).hide());
-
-					$('#filter_torrent').click();
-					$('#torrent_search').val(search).keyup().focus().select();
-					$('#torrent_upload_url').val('');
-					$('#expected').fadeOut(0).fadeIn(500);
-
-					//Set an "opening" timeout so the users knows his torrent hasnt opened.
-					setTimeout(function(){
-						if($('#torrent_list #expected')[0])
-						{
-							$('#torrent_list #expected h2').text(
-								$('#torrent_list #expected h2').text()+
-								' - Timeout error: torrent not created');
-							$('#torrent_list #expected .progress_details').text(
-								'Torrent file did not open, make sure the link is right and the torrent'+
-								' doesn\'t already exist');
-							$('#torrent_list #expected').css('background','#f9e2e2');
-							setTimeout(function(){
-								$('#torrent_list #expected').fadeIn(0).fadeOut(500,
-									function() { $('#torrent_list #expected').remove(); });
-								},5000);
-						}
-					}, settings.refresh_delay * 2);
-
+						$('#open_dialogue .decoration').addClass('good').
+							children('h2').text('Torrent Added');
+						$('#open_dialogue .buttonset').hide().
+							filter('#open_dialogue .buttonset.done').show();
 				}
 				else
 				{
-//					console.log('Error, could not load url: '+ $('#torrent_upload_url').val());
+						$('#open_dialogue .decoration').addClass('bad').
+							children('h2').text('Error Opening Torrent');
+						$('#open_dialogue .buttonset').hide().
+							filter('#open_dialogue .buttonset.done').show();
 				}
-			},
-			 $('#torrent_upload_start').attr('checked') //To start automatically or not
-		);
+			});
+
+			$('#open_file').submit();
+			$('#open_dialogue .window').slideUp(125);
+			$('#open_dialogue').animate({marginTop:'-'+
+				(($('#open_dialogue').height() -
+					$('#open_dialogue .window').outerHeight(true)) / 2)+ 'px'},125);
+
+			$('#open_dialogue .buttonset').hide().
+				filter('#open_dialogue .buttonset.loading').show();
+			$('#open_dialogue .decoration h2').text('Opening Torrent');
+
+		}
+		//We've been asked to open a URL
+		else if($('#open_dialogue .tab.f').hasClass('a'))
+		{
+
+			//We don't want it if it isnt a URL:
+			if($('#torrent_upload_url').val().substr(0,4)!='http') return false;
+			remote.openURL(
+				$('#torrent_upload_url').val(), //The URL
+				function(){
+					if(remote.json.openurl)
+					{
+						//So the command was passed to rtorrent. Unfortunately we don't know what
+						//rtorrent does with it, so we have to play the waiting game...
+
+						//Change the UI to a "loading" dialogue
+						$('#open_dialogue .window').slideUp(125);
+						$('#open_dialogue').animate({marginTop:'-'+
+							(($('#open_dialogue').height() -
+								$('#open_dialogue .window').outerHeight(true)) / 2)+ 'px'},125);
+
+						$('#open_dialogue .buttonset').hide().
+							filter('#open_dialogue .buttonset.loading').show();
+						$('#open_dialogue .decoration h2').text('Opening Torrent');
+
+						//Set an "opening" timeout so the users knows his torrent hasnt opened.
+						window.openFailTimer = setTimeout(function()
+						{
+							$('#open_dialogue .decoration').addClass('bad').
+								children('h2').text('Error Opening Torrent');
+							$('#open_dialogue .buttonset').hide().
+								filter('#open_dialogue .buttonset.done').show();
+							clearTimeout(window.openFailTimer);
+							delete window.openFailTimer;
+						}, (settings.refresh_delay * 10)+ 100);
+
+						//Set a timer that checks every refresh delay to see if it opened
+						window.openSuccessFunc = function()
+						{
+							window.openSuccessTimer = setTimeout(function()
+							{
+								console.log('checking');
+								//One more torrent has been added. We can celebrate!
+								if(window.torrentcount &&
+										window.torrentcount < parseInt($('#status_torrent_count').text()))
+								{
+									clearTimeout(window.openFailTimer);
+									delete window.openFailTimer;
+									clearTimeout(window.openSuccessTimer);
+									delete window.openSuccessTimer;
+									delete window.openSuccessFunc;
+									$('#open_dialogue .decoration').addClass('good').
+										children('h2').text('Torrent Added');
+									$('#open_dialogue .buttonset').hide().
+										filter('#open_dialogue .buttonset.done').show();
+								}
+								//Same old torrent count. Keep it going...
+								else
+								{
+									window.torrentcount = parseInt($('#status_torrent_count').text());
+									window.openSuccessFunc();
+								}
+							}, 1000);
+						}
+
+						window.torrentcount = parseInt($('#status_torrent_count').text());
+						window.openSuccessFunc();
+
+					}
+					else
+					{
+	//					console.log('Error, could not load url: '+ $('#torrent_upload_url').val());
+					}
+				},
+					$('#torrent_upload_start').attr('checked') //To start automatically or not
+			);
+
+		}
+
+		return false;
 
 	},
 
@@ -608,7 +662,14 @@ Torrent.prototype =
 				});
 			});
 		});
-		$('#remove_dialogue').hide();
+		$('#remove_dialogue .decoration').addClass('good');
+		$('#remove_dialogue .window').slideUp(125);
+		$('#remove_dialogue').animate({marginTop:'-'+
+			(($('#remove_dialogue').height() -
+				$('#remove_dialogue .window').outerHeight(true)) / 2)+ 'px'},125);
+		$('#remove_dialogue h2').text('Torrent Removed');
+		$('#remove_dialogue .buttonset').hide().
+			filter('#remove_dialogue .buttonset.done').show();
 	},
 
 	/*
@@ -1521,13 +1582,57 @@ Torrent.prototype =
 	{
 		//Hide all context menus:
 		$('.contextmenu').hide();
-		$('.dialogue').hide().filter('#'+ dialogue_id).show();
+
+		//Set our dialogues margin-top to negative the height of said dialogue
+		// (so it is dead center)
 		$('#'+ dialogue_id).css('margin-top','-'+
 			($('#'+ dialogue_id).height() / 2)+ 'px');
-		$('#'+ dialogue_id+ ' .pfocus').focus();
+
+		//Fade out all other dialogues and show the desired one
+		$('.dialogue').fadeOut(250).filter('#'+ dialogue_id).fadeIn(250);
+
+		//Focus the first ".pfocus" element
+		$('#'+ dialogue_id+ ' .pfocus').first().focus();
+
+		//If we were given a function for something to do on open, then run it.
 		if(openFunction) { $('#'+ dialogue_id+ ' .initiate').click(openFunction); }
-		$('#'+ dialogue_id+ ' .close').click(
-			function() { $('#'+ dialogue_id).hide(); });
+
+		//We'll also set the "close" buttons to hide & reset the dialogue
+		$('#'+ dialogue_id+ ' .close').click(function()
+		{
+			$('#'+ dialogue_id+ ' .decoration').removeClass('good bad');
+			$('#'+ dialogue_id).fadeOut(125,function(){
+				$('#'+ dialogue_id+ ' .window').show();
+				$('#'+ dialogue_id+ ' .buttonset').hide().
+					filter($('#'+ dialogue_id+ ' .buttonset:first')).show();
+				$('#'+ dialogue_id+ ' .decoration h2').
+					text($('#'+ dialogue_id+ ' .decoration h2').attr('title'));
+			});
+		});
+
+		//And any redo buttons to reset the dialogue
+		$('#'+ dialogue_id+ ' .reset').click(function()
+		{
+			$('#'+ dialogue_id+ ' .decoration').removeClass('good bad');
+			$('#'+ dialogue_id).animate({marginTop:'-'+
+				(($('#'+ dialogue_id).height()+
+						$('#'+ dialogue_id+ ' .window').outerHeight(true)) / 2)+ 'px'},125);
+			$('#'+ dialogue_id+ ' .window').slideDown(125);
+			$('#'+ dialogue_id+ ' .buttonset').hide().
+					filter($('#'+ dialogue_id+ ' .buttonset:first')).show();
+			$('#'+ dialogue_id+ ' .decoration h2').
+					text($('#'+ dialogue_id+ ' .decoration h2').attr('title'));
+		});
+	},
+
+	switchTab: function(e)
+	{
+		id = e.currentTarget.hash.split('/')[1];
+		dlgwindow = $(e.currentTarget).parents('.window');
+		dlgwindow.children('.tabwindow').hide().filter('#'+ id).show().
+			children('input').first().focus();
+		dlgwindow.children('.tab').removeClass('a').filter(e.currentTarget).addClass('a');
+
 	},
 
 	/*
