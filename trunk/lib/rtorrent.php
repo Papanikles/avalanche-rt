@@ -186,6 +186,8 @@ class Rtorrent
 
 		$response = $this->SendAndRecieve($message);
 
+		$this->server->setDebug(2);
+
 		$return = array();
 
 		$return['openurl']=$response==0?true:false;

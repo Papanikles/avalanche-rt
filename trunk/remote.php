@@ -30,9 +30,6 @@
 		*
 	 */
 
-//We're going to send a header off to say we're JSON
-//header('Content-type: application/json');
-
 //Add our includes
 require_once('lib/rtorrent.php');
 require_once('settings.php');

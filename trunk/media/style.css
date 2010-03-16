@@ -118,7 +118,7 @@ a{outline:none}
 #torrent_list span{display:block;margin:0;padding:0}
 #torrent_list li.even{background:#F5F8FD}
 #torrent_list li:hover{background:#EDF3FE}
-#torrent_list li.selected{background:url('gradients.png') repeat-x 0 -228px;
+#torrent_list li.selected{background:url('gradients.png') repeat-x 0 -251px;
 	color:#FFF}
 #torrent_list li a{display:block;float:right;width:17px;height:17px;padding:0;
 	margin:0 -23px 0 0;background:url('icons.png') -1px -61px}
@@ -132,22 +132,22 @@ a{outline:none}
 #torrent_list .peer_details{font-size: 1.1em}
 .progress_bar_container{height:10px;margin:3px 0 3px 0;
 	float:left;line-height:1px;font-size:1px;width:100%;border:1px solid #939393;
-	background:url('gradients.png') repeat-x 0 -198px}
+	background:url('gradients.png') repeat-x 0 -221px}
 .loading .progress_bar_container{background:url('progress.gif') repeat-x}
 .seeding .progress_bar_container{border:1px solid #29AD35;
-	background-position:0 -168px}
+	background-position:0 -191px}
 .completed .progress_bar_container{border:1px solid #939393;
-	background-position:0 -178px}
+	background-position:0 -201px}
 .downloading .progress_bar_container{border:1px solid #3F79EE;
-	background-position:0 -198px}
+	background-position:0 -221px}
 .hashing .progress_bar_container{border:1px solid #E19200;
-	background-position:0 -198px}
-.progress_bar{background:url('gradients.png') repeat-x 0 -208px;
+	background-position:0 -221px}
+.progress_bar{background:url('gradients.png') repeat-x 0 -231px;
 	height:10px;float:left}
-.seeding .progress_bar{background-position:0 -168px}
-.completed .progress_bar{background-position:0 -178px}
-.downloading .progress_bar{background-position:0 -188px;border-right:1px solid #ccc}
-.file.progress_bar, .hashing .progress_bar{background-position:0 -218px;border-right:1px solid #ccc}
+.seeding .progress_bar{background-position:0 -191px}
+.completed .progress_bar{background-position:0 -201px}
+.downloading .progress_bar{background-position:0 -211px;border-right:1px solid #ccc}
+.file.progress_bar, .hashing .progress_bar{background-position:0 -241px;border-right:1px solid #ccc}
 
 /* Details Container */
 #details_container{position:fixed;top:44px;right:0px;bottom:22px;width:340px;
@@ -160,18 +160,16 @@ a{outline:none}
 	font-weight:bold;display:none}
 #details_header span{font-size:1.2em;margin:0;display:block}
 #details_priority_button{float:right;border:1px solid #7a7a7a;padding:3px 6px;
-	background:url('gradients.png') 0 -122px;margin:-22px 0 0 0;color:#323232;
-	text-decoration:none;display:none;border-radius:4px;box-shadow:0 1px 1px #b6b6b5;
-	-webkit-box-shadow:0 1px 0 #b6b6b5;-moz-box-shadow:0 1px 1px #b6b6b5}
+	background:url('gradients.png') 0 -145px;margin:-22px 0 0 0;color:#323232;
+	text-decoration:none;display:none}
+#details_priority_button:active{background-position:0 -122px}
 #details_container .tabs{padding:0;margin:0 0 0 50px;text-shadow:1px 1px #e8e8e8}
-#details_container .tabs li.f a{border-radius:2px 0 0 2px}
-#details_container .tabs li.l a{border-radius:0 2px 2px 0}
 #details_container .tabs li{float:left;list-style-type:none}
 #details_container .tabs li a{display:block;margin:10px -1px 0 0;padding:4px;
-	background:url('gradients.png') repeat-x 0 -122px;border:1px solid #787878;
+	background:url('gradients.png') repeat-x 0 -145px;border:1px solid #787878;
 	width:50px;text-align:center;font-weight:bold;text-decoration:none;color:#323232;
 	height:15px}
-#details_container .tabs li a.selected{background-position:0 -145px;
+#details_container .tabs li a.selected{background-position:0 -168px;
 	text-shadow:1px 1px #c5d0e4}
 #details_container .tabs span{display:block;text-indent:-9000px;height:16px;
 	width:18px;margin-left:15px}
@@ -182,7 +180,7 @@ a{outline:none}
 #details_general_disk_space{width:300px;padding:0}
 h3{margin:0 0 10px 0;padding:0}
 .labellist{list-style:none;margin:0;padding:0;border:1px solid #bbb;
-	background:url('gradients.png') repeat-x 0 -349px #ddd;border-radius:5px}
+	background:url('gradients.png') repeat-x 0 -523px #ddd}
 .labellist li{margin:0;padding:4px 8px;
 	border-top:1px solid #f5f5f5;border-bottom:1px solid #c4c4c4}
 .labellist li:first-child{border-top:0}
@@ -210,8 +208,8 @@ h3{margin:0 0 10px 0;padding:0}
 #details_files_contain .labellist h4{margin-right:15px;overflow:hidden;white-space:nowrap}
 #details_files_contain .labellist li a{padding-left:12px;font-weight:bold;color:#323232;
 	text-decoration:none;display:block}
-#details_files_contain .labellist .folder a.drop{background:url('icons.png') no-repeat -5px -282px}
-#details_files_contain .labellist .folder.d a.drop{background-position:-5px -302px}
+#details_files_contain .labellist .folder>a.drop{background:url('icons.png') no-repeat -5px -282px}
+#details_files_contain .labellist .folder.d>a.drop{background-position:-5px -302px}
 #details_files_contain .labellist ul{margin-left:4px;list-style:none;padding-left:0;width:100%;
 	border-left:1px dashed #a0a0a0}
 #details_files_contain .labellist .folder>span{margin-left:4px;padding-left:6px}
@@ -252,7 +250,7 @@ h3{margin:0 0 10px 0;padding:0}
 #status_download_max,#status_upload_max,#status_order{padding:2px 6px}
 #status_download_max:hover,#status_upload_max:hover,#status_order:hover{
 	padding:2px 5px;border-right:1px solid #979797;border-left:1px solid #979797;
-	background:url('gradients.png') repeat-x 0 -328px;text-shadow:1px 1px #d1d2d5}
+	background:url('gradients.png') repeat-x 0 -351px;text-shadow:1px 1px #d1d2d5}
 
 /* Menus */
 .contextmenu{position:absolute;z-index:99;border:1px solid #979797;padding:2px 0;
@@ -262,7 +260,7 @@ h3{margin:0 0 10px 0;padding:0}
 	-webkit-box-shadow:2px 2px 4px rgba(0,0,0,0.5);-moz-box-shadow:2px 2px 4px rgba(0,0,0,0.5)}
 .contextmenu li{font-size:1.2em;font-weight:bold;color:#555;margin:1px;padding:0 3px}
 .contextmenu li:hover{color:#fff;cursor:pointer;
-	background:url('gradients.png') repeat-x 0 -228px}
+	background:url('gradients.png') repeat-x 0 -251px}
 .contextmenu li:hover a{color:#fff}
 .contextmenu li.separator{padding:0;border-top:1px solid #e0e0e0;
 	border-bottom:1px solid #fff;border-left:0;border-right:0;margin:2px 4px}
@@ -288,18 +286,55 @@ h3{margin:0 0 10px 0;padding:0}
 #torrent_context_menu li.label a{background-position:-2px -459px}
 
 /* Dialoues */
-.dialogue{border:1px solid #AAA;background:#E4E3E2;padding:0;position:absolute;
-	top:50%;left:50%;margin-left:-150px;-webkit-box-shadow:0 0 60px rgba(0,0,0,0.5);
-	-moz-box-shadow:0 0 60px rgba(0,0,0,0.5);width:300px}
-.dialogue .decoration{width:100%;height:22px;border-bottom:1px solid #AAA;
-	background:url('gradients.png') repeat-x 0 -122px;margin:0}
-.dialogue .decoration .close{height:16px;width:17px;float:right;margin:2px;
+.dialogue{border:1px solid #5b5e60;background:#E4E4E4;padding:0;position:absolute;
+	top:50%;left:50%;margin-left:-150px;width:300px}
+.dialogue .decoration{width:100%;height:35px;border-bottom:1px solid #567fae;
+	background:url('gradients.png') repeat-x 0 -442px;margin:0}
+.dialogue .decoration.bad,#error_popup .decoration{background-position:0 -372px;
+	border-bottom:1px solid #bf5b5b}
+.dialogue .decoration.good{background-position:0 -407px;
+	border-bottom:1px solid #5e8e4c}
+.dialogue .decoration h2.good,.dialogue .decoration h2.bad{display:none}
+.dialogue .decoration .close{height:16px;width:17px;float:right;margin:9px 9px 0 0;
 	background:url('icons.png') no-repeat -2px -101px}
-.dialogue .decoration .close:hover{cursor:pointer;
-	background:url('icons.png') no-repeat -2px -81px;}
-.dialogue .decoration h2{margin:0;padding:3px 5px;float:left;font-size:1.3em}
-.dialogue .window{padding:10px;margin:0}
+.dialogue .decoration .close:hover{cursor:pointer;background-position:-2px -81px}
+.dialogue .decoration h2{margin:9px 0 0 10px;padding:0;float:left;font-size:1.4em;
+	text-shadow:1px 1px 0 rgba(255,255,255,0.5)}
+.dialogue .tab{float:left;margin:5px 0;border:1px solid #7a7a7a;color:#323232;
+	padding:3px 6px;background:url('gradients.png') repeat-x 0px -145px;
+	text-decoration:none}
+.dialogue .tab.l{border-left:0}
+.dialogue .tab.a{background-position:0 -122px}
+.dialogue .window{padding:10px;margin:0;border-top:1px solid #f1f1f1}
+.dialogue .buttonset{background:url('gradients.png') repeat-x 0 -477px;
+	height:20px;padding:5px 0 16px 0;border-top:1px solid #aaa}
 .dialogue p{margin:0 0 10px 0;padding:0}
-.dialogue label{float:left;clear:left;margin:5px}
-.dialogue input{clear:both}
-.dialogue button{width:125px}
+.dialogue hr{border:0;border-top:1px dotted #aaa}
+.dialogue label{float:left;clear:left;margin:5px 0}
+.dialogue input{clear:both;border:1px solid #aaa;background:white}
+.dialogue button{width:125px;padding:2px 0}
+
+#open_dialogue .progress_bar_container{width:250px;margin:8px 0 0 22px}
+#open_iframe{width:275px}
+
+
+/*CSS 3 Selectors*/
+#details_priority_button{border-radius:4px;-moz-border-radius:4px;
+	-webkit-border-radius:4px;box-shadow:0 1px 1px #b6b6b5;box-shadow:0 1px 1px #b6b6b5;
+	-webkit-box-shadow:0 1px 0 #b6b6b5;-moz-box-shadow:0 1px 1px #b6b6b5}
+#details_container .tabs li.f a{border-radius:2px 0 0 2px;-moz-border-radius:2px 0 0 2px;
+	-webkit-border-top-left-radius:2px;-webkit-border-bottom-left-radius:2px}
+#details_container .tabs li.l a{border-radius:0 2px 2px 0;-moz-border-radius:0 2px 2px 0;
+	-webkit-border-top-right-radius:2px;-webkit-border-bottom-right-radius:2px}
+.labellist{border-radius:5px;-webkit-border-radius:5px;-moz-border-radius:5px}
+.dialogue{border-radius:10px;-webkit-border-radius:10px;-moz-border-radius:10px;
+	box-shadow:0 0 30px rgba(0,0,0,0.8);-webkit-box-shadow:0 0 30px rgba(0,0,0,0.8);
+	-moz-box-shadow:0 0 30px rgba(0,0,0,0.8)}
+.dialogue .decoration{border-radius:10px 10px 0 0;-moz-border-radius:10px 10px 0 0;
+	-webkit-border-top-left-radius:10px;-webkit-border-top-right-radius:10px}
+.dialogue .buttonset{border-radius:0 0 10px 10px;-moz-border-radius:0 0 10px 10px;
+	-webkit-border-bottom-left-radius:10px;-webkit-border-bottom-right-radius:10px}
+.dialogue .tab.f{border-radius:2px 0 0 2px;-moz-border-radius:2px 0 0 2px;
+	-webkit-border-top-left-radius:2px;-webkit-border-bottom-left-radius:2px}
+.dialogue .tab.l{border-radius:0 2px 2px 0;-moz-border-radius:0 2px 2px 0;
+	-webkit-border-top-right-radius:2px;-webkit-border-bottom-right-radius:2px}

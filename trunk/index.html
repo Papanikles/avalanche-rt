@@ -390,14 +390,32 @@
 
 		<div class="dialogue" id="open_dialogue" style="display:none">
 			<div class="decoration">
-				<h2>Open Torrent</h2>
+				<h2 title="Open Torrent">Open Torrent</h2>
 				<a href="#" class="close"></a>
 			</div>
 			<div class="window">
-				<p>
-					<label for="torrent_upload_url">Torrent URL:</label>
-					<input type="text" id="torrent_upload_url" class="pfocus" style="width:100%">
-				</p>
+					<a href="#switchTab/torrent_open_url" rel="func" class="tab f a" id="open_url_tab">Open URL</a>
+					<a href="#switchTab/torrent_open_file" rel="func" class="tab l" id="open_file_tab">Open File</a>
+					<a href="#switchTab/torrent_open_magnet" rel="func" class="tab l" id="open_magnet_tab" style="display:none">Open Magnet URI</a>
+					<div id="torrent_open_url" class="tabwindow">
+						<input type="text" id="torrent_upload_url" class="pfocus" style="width:276px">
+					</div>
+					<div id="torrent_open_file" class="tabwindow" style="display:none">
+						<form id="open_file" name="open_file" action="torrenthandler.php"
+							target="open_iframe" method="post" enctype="multipart/form-data">
+								<input type="file" maxfilesize="768" name="torrent_upload_file"
+									id="torrent_upload_file" style="width:276px">
+								<input type="hidden" name="type" value="file">
+						</form>
+					</div>
+					<div id="torrent_open_magnet" class="tabwindow" style="display:none">
+						<form id="open_magnet" name="open_magnet" action="torrenthandler.php"
+							target="open_iframe" method="post" enctype="multipart/form-data">
+								<input type="text" id="torrent_upload_magnet" class="pfocus" style="width:276px">
+								<input type="hidden" name="type" value="magnet">
+						</form>
+					</div>
+					<iframe name="open_iframe" id="open_iframe" style="display:none"></iframe>
 					<hr>
 				<p>
 					<label class="float" for="torrent_upload_start">Resume when opened</label>
@@ -405,31 +423,47 @@
 					<input type="checkbox" id="torrent_upload_start">
 					<input type="text" id="torrent_upload_label">
 				</p>
+			</div>
+			<div class="buttonset">
 				<button class="initiate" id="dialogue_open_torrent">Open Torrent</button>
-				<button class="close">Cancel</button>
+				<button class="close">Cancel</button><br>
+			</div>
+			<div class="buttonset loading" style="display:none">
+				<div class="progress_bar_container"></div>
+			</div>
+			<div class="buttonset done" style="display:none">
+				<button class="reset" id="dialogue_remove_torrent">Open Another</button>
 			</div>
 		</div>
 
 		<div class="dialogue" id="remove_dialogue" style="display:none">
 			<div class="decoration">
-				<h2>Remove Torrent?</h2>
+				<h2 title="Remove Torrent?">Remove Torrent?</h2>
 				<a href="#" class="close"></a>
 			</div>
 			<div class="window">
 				<p>Are you sure you want to delete this torrent?</p>
+			</div>
+			<div class="buttonset">
 				<button class="initiate" id="dialogue_remove_torrent">Remove Torrent</button>
 				<button class="close pfocus">Don't Remove</button>
+			</div>
+			<div class="buttonset done" style="display:none">
+				<button class="close">Done</button>
 			</div>
 		</div>
 
 		<div class="dialogue" id="error_popup" style="display:none">
 			<div class="decoration">
-				<h2>Communication Error</h2>
+				<h2 title="Communication Error">Communication Error</h2>
 				<a href="#" class="close"></a>
 			</div>
 			<div class="window">
 				<p>There was an error communicating with the server...</p>
 				<textarea readonly="readonly" id="error_details" cols="30" rows="7"></textarea>
+			</div>
+			<div class="buttonset">
+				<button class="initiate" id="dialogue_report_error">Report</button>
 				<button class="close pfocus">Close</button>
 			</div>
 		</div>
