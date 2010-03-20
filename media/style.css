@@ -219,8 +219,8 @@ h3{margin:0 0 10px 0;padding:0}
 	background:url('icns.png') no-repeat -3px -523px;margin:-6px -6px 0 0;border:0}
 #details_files_contain .labellist li .enablecheck.on{background-position:-3px -503px !important}
 #details_files_contain .labellist li .enablecheck.off{background-position:-3px -483px !important}
-#details_files_contain .labellist li .turbocheck.on{background-position:-3px -523px !important}
-#details_files_contain .labellist li .turbocheck.off{background-position:-3px -543px !important}
+#details_files_contain .labellist li .turbocheck.on{background-position:-3px -543px !important}
+#details_files_contain .labellist li .turbocheck.off{background-position:-3px -523px !important}
 #details_files_contain .labellist li .turbocheck.q,
 #details_files_contain .labellist li .enablecheck.q{background-position:-3px -563px}
 #details_files_contain .labellist li.disabled{color:#777}
