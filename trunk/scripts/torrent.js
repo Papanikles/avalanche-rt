@@ -12,7 +12,7 @@
 		*
 		* @author Keith Cirkel ('keithamus') <avalanche@keithcirkel.co.uk>
 		* @license http://opensource.org/licenses/gpl-3.0.html
-		* @copyright Copyright � 2010, Keith Cirkel
+		* @copyright Copyright © 2010, Keith Cirkel
 		*
 		* This program is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -90,14 +90,16 @@ Torrent.prototype =
 		$('input[name]').keyup(function(e){ torrent[e.currentTarget.name](e); });
 
 		// SECTION: Input boxes with wrappers need their parent's parents class changed:
-		$('.wrapper input').focus(
-			function(e) { e.currentTarget.parentNode.parentNode.className ='active'; });
-		$('.wrapper input').blur(
-			function(e) { e.currentTarget.parentNode.parentNode.className = ''; });
+		$('#filter_search input, #header_web_search input').focus(function(e) {
+				$(this).parent().addClass('active');
+			}).blur(function(e) {
+				$(this).parent().removeClass('active');
+			});
 
 		// SECTION: Web search bar needs to do a few things:
-		$('#web_search_delete_text').click(
-			function() { $('#web_search').attr('value',''); $(this).hide(); });
+		$('#web_search_delete_text').click(function() {
+			$('#web_search').removeClass('text').attr('value',''); $(this).hide();
+		});
 		//Set a default search string:
 		$('#web_search').attr('search_string',settings.web_searches[0].url);
 
@@ -179,6 +181,10 @@ Torrent.prototype =
 			$('#status_download').text(Math.formatBytes(total_down)+ '/s');
 			//We're going to change "0 B/s" at the top to "X B/s"
 			$('#status_upload').text(Math.formatBytes(total_up)+ '/s');
+			//We'll also change the document's title to reflect the total & speeds:
+			document.title = $('#torrent_list .torrent').length+ ' '+ '↑'+
+				Math.formatBytes(total_up)+ '/s ↓'+ Math.formatBytes(total_down)+ '/s'+
+				' - Avalanche';
 
 			torrent.updateFilterNumbers('');
 
@@ -1051,17 +1057,71 @@ Torrent.prototype =
 						_i = i;
 						//Create the file LI
 						_element = $('<li/>').addClass(info.priority==0?'disabled':'').attr('id',_id).
-							append($('<a/>').addClass('enablecheck').attr(
-								'href','#setPriority/'+ $('#details_container').attr('torrent_id')+
-								'/'+ i+ '/0').click(torrent.setFilePriority).attr('title','Enable this file for download')).
+							append($('<a/>').addClass('enablecheck').addClass(info.priority==0?'off':'on').
+								attr('href','#setPriority/'+ $('#details_container').attr('torrent_id')+
+								'/'+ i+ '/0').mousedown(function(event)
+								{
+									//This is to see if when a user "click drags" they are wanting to
+									//enable or disable the checkboxes
+									$('#details_files_contain').attr('data-dragmode',
+										$(this).hasClass('on')?'off':'on');
+
+									$('#details_files_contain .labellist li').mouseover(function()
+									{
+										$(this).children('a.enablecheck').click();
+									});
+
+									$(this).mouseleave(function(){ $(this).click(); });
+
+									$(this).parent('li').unbind('mouseover');
+
+									$('body').mouseup(function()
+									{
+										$('#details_files_contain .labellist li').unbind('mouseover');
+										$('#details_files_contain').removeAttr('data-dragmode');
+									});
+
+								//These are to stop the browser selecting text during this process
+								if($.browser.mozilla) $(this).css('MozUserSelect','none');
+								else if($.browser.msie) $(this).bind('selectstart',function(){return false});
+								return false;
+
+								}).click(torrent.setFilePriority).attr('title','Enable this file for download')).
 							append($('<h4/>').text(file).attr('title',file)).
 							append($('<span/>').text(
 								(((100/ info.chunks)* info.chunks_complete).toFixed(2))+
 								'% of '+ Math.formatBytes(info.size_bytes))).
 							append($('<a/>').addClass('turbocheck').
-								addClass(info.priority==2?'on':'').attr('title','Give the file a high priority').
+							addClass(info.priority==2?'on':'off').attr('title','Give the file a high priority').
 								attr('href','#setPriority/'+ $('#details_container').attr('torrent_id')+
-								'/'+ i+ '/2').click(torrent.setFilePriority));
+								'/'+ i+ '/2').mousedown(function(event)
+								{
+									//This is to see if when a user "click drags" they are wanting to
+									//enable or disable the checkboxes
+									$('#details_files_contain').attr('data-dragmode',
+										$(this).hasClass('on')?'off':'on');
+
+									$('#details_files_contain .labellist li').mouseover(function()
+									{
+										$(this).children('a.turbocheck').click();
+									});
+
+									$(this).mouseleave(function(){ $(this).click(); });
+
+									$(this).parent('li').unbind('mouseover');
+
+									$('body').mouseup(function()
+									{
+										$('#details_files_contain .labellist li').unbind('mouseover');
+										$('#details_files_contain').removeAttr('data-dragmode');
+									});
+
+								//These are to stop the browser selecting text during this process
+								if($.browser.mozilla) $(this).css('MozUserSelect','none');
+								else if($.browser.msie) $(this).bind('selectstart',function(){return false});
+								return false;
+
+								}).click(torrent.setFilePriority));
 
 
 						//Do we have folders above us?
@@ -1117,7 +1177,7 @@ Torrent.prototype =
 									//If all the files in the folder are disabled, check the box to on
 									else if(fldr.filesEnabled == fldr.files)
 									{
-										parent_li.removeClass('disabled');
+										parent_li.removeClass('disabled').children('a.enablecheck').addClass('off');
 									}
 									//If some are, and some arent, make the box a ?
 									else
@@ -1134,7 +1194,7 @@ Torrent.prototype =
 									else
 									{
 										parent_li.children('a.turbocheck').first().
-											removeClass('on').addClass(fldr.filesHigh>0?'q':'');
+											removeClass('on').addClass(fldr.filesHigh>0?'q':'off');
 									}
 
 									//Change our anchors to reflect all the IDs we have under the folder:
@@ -1152,7 +1212,34 @@ Torrent.prototype =
 									$('#'+ previous_id).append($('<li/>').addClass('folder').
 									append($('<a/>').addClass('enablecheck').attr(
 								'href','#setPriority/'+ $('#details_container').attr('torrent_id')+
-								'/'+ i+ '/0').click(torrent.setFilePriority).attr('title','Enable this file for download')).
+								'/'+ i+ '/0').mousedown(function(event)
+								{
+									//This is to see if when a user "click drags" they are wanting to
+									//enable or disable the checkboxes
+									$('#details_files_contain').attr('data-dragmode',
+										$(this).hasClass('on')?'off':'on');
+
+									$('#details_files_contain .labellist li').mouseover(function()
+									{
+										$(this).children('a.enablecheck').click();
+									});
+
+									$(this).mouseleave(function(){ $(this).click(); });
+
+									$(this).parent('li').unbind('mouseover');
+
+									$('body').mouseup(function()
+									{
+										$('#details_files_contain .labellist li').unbind('mouseover');
+										$('#details_files_contain').removeAttr('data-dragmode');
+									});
+
+								//These are to stop the browser selecting text during this process
+								if($.browser.mozilla) $(this).css('MozUserSelect','none');
+								else if($.browser.msie) $(this).bind('selectstart',function(){return false});
+								return false;
+
+								}).click(torrent.setFilePriority).attr('title','Enable this file for download')).
 									append($('<a/>').text(folder).addClass('drop').
 										attr('href','#'+ _id).
 										click(function(event){
@@ -1162,7 +1249,34 @@ Torrent.prototype =
 									append($('<span/>')).append($('<a/>').addClass('turbocheck').
 										attr('title','Give the file a high priority').
 										attr('href','#setPriority/'+ $('#details_container').attr('torrent_id')+
-											'/'+ i+ '/2').click(torrent.setFilePriority)).
+											'/'+ i+ '/2').mousedown(function(event)
+								{
+									//This is to see if when a user "click drags" they are wanting to
+									//enable or disable the checkboxes
+									$('#details_files_contain').attr('data-dragmode',
+										$(this).hasClass('on')?'off':'on');
+
+									$('#details_files_contain .labellist li').mouseover(function()
+									{
+										$(this).children('a.turbocheck').click();
+									});
+
+									$(this).mouseleave(function(){ $(this).click(); });
+
+									$(this).parent('li').unbind('mouseover');
+
+									$('body').mouseup(function()
+									{
+										$('#details_files_contain .labellist li').unbind('mouseover');
+										$('#details_files_contain').removeAttr('data-dragmode');
+									});
+
+								//These are to stop the browser selecting text during this process
+								if($.browser.mozilla) $(this).css('MozUserSelect','none');
+								else if($.browser.msie) $(this).bind('selectstart',function(){return false});
+								return false;
+
+								}).click(torrent.setFilePriority)).
 									append($('<ul/>').attr('id',_id).hide()));
 								}
 								previous_id = _id;
@@ -1275,25 +1389,58 @@ Torrent.prototype =
 						append($('<a/>').
 							attr('id',$('#details_container').attr('torrent_id')+ '_t_'+ info.id).
 							addClass(info.enabled?'on':'off').attr('title','Toggle Tracker').
-							attr('rel',info.id).click(function(event)
+							attr('rel',info.id).mousedown(function(event)
 								{
-									//event.currentTarget.
-									//(id, tracker_id, enabled, func)
-									enable = event.currentTarget.className=='on'?0:1;
+									//This is to see if when a user "click drags" they are wanting to
+									//enable or disable the checkboxes
+									$('#details_trackers_contain').attr('data-dragmode',
+										$(this).hasClass('on')?'off':'on');
+
+									$('#details_trackers_contain .labellist li').mouseover(function()
+									{
+										$(this).children('a').click();
+									});
+
+									$(this).mouseleave(function(){ $(this).click(); });
+
+									$(this).parent('li').unbind('mouseover');
+
+									$('body').mouseup(function()
+									{
+										$('#details_trackers_contain .labellist li').unbind('mouseover');
+										$('#details_trackers_contain').removeAttr('data-dragmode');
+									});
+
+								//These are to stop the browser selecting text during this process
+								if($.browser.mozilla) $(this).css('MozUserSelect','none');
+								else if($.browser.msie) $(this).bind('selectstart',function(){return false});
+								return false;
+
+								}).click(function(event){
+									//We should see if the drag mode is the same as us, and return if so
+									if($('#details_trackers_contain').attr('data-dragmode') &&
+												$(this).hasClass($('#details_trackers_contain').attr('data-dragmode')))
+									{
+										return false;
+									}
+									$(this).unbind('mouseleave').parent('li').unbind('mouseover');
+									enable = $(this).hasClass('on')?0:1;
+									$(this).addClass('q');
+									_this = $(this);
 									remote.setTracker(
 										$('#details_container').attr('torrent_id'),
-										event.currentTarget.rel,
+										$(this).attr('rel'),
 										enable,
 										function(data){
-											if(data.settracker && event.currentTarget.className=='on')
+											if(data.settracker && enable==0)
 											{
-												$('#'+ event.currentTarget.id).removeClass('on').addClass('off');
+												_this.removeClass('on q').addClass('off');
 											}
 											else if(data.settracker)
 											{
-												$('#'+ event.currentTarget.id).removeClass('off').addClass('on');
+												_this.removeClass('off q').addClass('on');
 											}
-										});
+										})
 								})).
 						append($('<h4/>').text(url)).
 						append($('<span/>').text(url=='dht://'?
@@ -1361,13 +1508,19 @@ Torrent.prototype =
  */
 	setFilePriority: function(e)
 	{
-		selector = $('a[href="'+e.currentTarget.hash+'"]');
+		if($('#details_files_contain').attr('data-dragmode') &&
+			$(this).hasClass($('#details_files_contain').attr('data-dragmode')))
+		{
+			return false;
+		}
+		$(this).addClass('q').unbind('mouseleave').parent('li').unbind('mouseover');
+		selector = $(this);
 		args = e.currentTarget.hash.split('/');
 		//We're trying to toggle a "high" status
 		if(args[3]==2)
 		{
 			//Our priority is either 1 or 2, depending on if it was 2 or 1 before
-			priority = $(e.currentTarget).hasClass('on')?1:2;
+			priority = $(this).hasClass('on')?1:2;
 		}
 		//We're trying to toggle a "disabled" status
 		else
@@ -1383,24 +1536,26 @@ Torrent.prototype =
 				//If we wanted to toggle the "high" status, and we set it to high
 				if(args[3]==2 && priority == 2)
 				{
-					selector.removeClass('q').addClass('on').parent('li').removeClass('disabled');
+					selector.removeClass('q off').addClass('on').parent('li').removeClass('disabled').
+						children('.enablecheck').removeClass('q off').addClass('on');
 				}
 				//If we wanted to toggle the "high" status and we set it to normal
 				else if(args[3]==2 && priority == 1)
 				{
-					selector.removeClass('q on').parent('li').removeClass('disabled').
-						children('.enablecheck').removeClass('q');
+					selector.removeClass('q on').addClass('off').parent('li').removeClass('disabled').
+						children('.enablecheck').removeClass('q off').addClass('on');
 				}
 				//We wanted to toggle disable status, and we enabled
 				else if(args[3]==0 && priority == 1)
 				{
-					selector.removeClass('q on').parent('li').removeClass('disabled').
-						children('.enablecheck').removeClass('q')
+					selector.removeClass('q off').addClass('on').
+						parent('li').removeClass('disabled');
 				}
 				//We wanted to toggle disable, and we disabled.
 				else
 				{
-					selector.removeClass('q on').parent('li').addClass('disabled');
+					selector.removeClass('q on').addClass('off').
+						parent('li').addClass('disabled');
 				}
 			}
 		});
@@ -1464,14 +1619,14 @@ Torrent.prototype =
  * @argument event {object} The click event
  *
  */
-	filterTorrentTitles: function(event)
+	filterTorrentTitles: function(e)
 	{
 		//Was the escape key pressed?...
-		if(event.keyCode == 27) {
+		if(e.keyCode == 27) {
 			//Clear the filter bar
 			$('#torrent_search').val('');
 			//Reset the filter window
-			$('#filter_bar li.active').click();
+			$('#filter_bar li.active a').click();
 			//Reset the filter numbers
 			torrent.updateFilterNumbers('');
 			//Blur the search bar
@@ -1480,10 +1635,11 @@ Torrent.prototype =
 
 		if($('#torrent_search').val()!='')
 		{
+			$('#torrent_search').addClass('text');
 			$('#filter_search_delete_text').show();
 
 			//If the user pressed backspace, we should show all the torrents to refilter them
-			if(event.keyCode == 8) {
+			if(e.keyCode == 8) {
 				$('#filter_bar li.active a').click();
 			}
 
@@ -1497,6 +1653,7 @@ Torrent.prototype =
 		}
 		else
 		{
+			$('#torrent_search').removeClass('text');
 			$('#filter_search_delete_text').hide();
 		}
 	},
@@ -1512,6 +1669,7 @@ Torrent.prototype =
 	clearFilterTorrent: function(event)
 	{
 		$('#torrent_search').val('');
+		$('#torrent_search').removeClass('text');
 		$('#filter_search_delete_text').hide();
 		$('#filter_bar li.active a').click();
 		//Reset the filter button numbers
@@ -1742,13 +1900,13 @@ Torrent.prototype =
 		//Was the escape key pressed?
 		if(e.keyCode == 27)
 		{
-			$('#web_search').val('');
-			$('#web_search').blur();
+			$('#web_search').val('').blur();
 		}
 
 		//If the search input has text, then we should show the clear button
 		if($('#web_search').val()!='')
 		{
+				$('#web_search').addClass('text');
 				$('#web_search_delete_text').show();
 			//Was the enter key pressed?
 			if(e.keyCode == 13)
@@ -1760,6 +1918,7 @@ Torrent.prototype =
 		//Otherwise it could be hidden
 		else
 		{
+			$('#web_search').removeClass('text');
 			$('#web_search_delete_text').hide();
 		}
 	},
@@ -1812,6 +1971,8 @@ Torrent.prototype =
 			if(key == 37) { $('.dialogue button:focus').prev().focus(); }
 			//If right key was pushed, go to the previous button:
 			if(key == 39) { $('.dialogue button:focus').next().focus(); }
+			//Let enter keys get by:
+			if(key == 13) { return true; }
 		}
 
 		//Specify some shortcut keys for the main window:
@@ -1819,8 +1980,6 @@ Torrent.prototype =
 		{
 
 			//SECTION: Keys 1 - 9 - Moving between filters (for rtorrent consistency)
-			if(key >= 49 && key <= 57)
-			{
 				//1 was pressed
 				if(key == 49) { $('#filter_torrent a').click(); }
 				//2 was pressed
@@ -1839,25 +1998,24 @@ Torrent.prototype =
 				if(key == 56) { $('#filter_seeding a').click(); }
 				//9 was pressed
 				if(key == 57) { $('#filter_seeding a').click(); }
-			}
 
 			//SECTION: P, R, Del and O keys, Pausing, Resuming Deleting and Opening torrents
 			//P (for pause)
-			else if(key == 80) { $('#header_pause a').click(); }
+			if(key == 80) { $('#header_pause a').click(); }
 			//R (for resume)
-			else if(key == 82) { $('#header_resume a').click(); }
+			if(key == 82) { $('#header_resume a').click(); }
 			//Del (for deleting)
-			else if(key == 46) { $('#header_remove a').click(); }
+			if(key == 46) { $('#header_remove a').click(); }
 			//O (for opening),
-			else if(key == 8) { $('#header_open a').click(); }
+			if(key == 8) { $('#header_open a').click(); }
 			//Backspace (for opening) and tick the "resume" button for rtorrent die hards
-			else if(key == 79) { $('#header_open a').click();
+			if(key == 79) { $('#header_open a').click();
 				$('#torrent_upload_start').attr('checked', true); }
 			//Return (for opening) and untick the "resume" button for rtorrent die hards
-			else if(key == 13) { $('#header_open a').click();
+			if(key == 13) { $('#header_open a').click();
 				$('#torrent_upload_start').attr('checked', false); }
 			//Space for toggling of torrents
-			else if(key == 32 && $('#torrent_list li input').isHidden()) {
+			if(key == 32 && $('#torrent_list li input').isHidden()) {
 				//Get all selected torrents
 				selected_list = $('#torrent_list li.selected');
 				$.each(selected_list, function(i, _torrent)
@@ -1867,8 +2025,24 @@ Torrent.prototype =
 				selected_list.removeClass('selected').addClass('selected');
 			}
 
+			//SECTION: T, Changing the detail tabs:
+			if(key == 84)
+			{
+				next = $('#details_container .tabs .selected').parent().next().children('a');
+				if(next.length)
+				{
+					next.click();
+				}
+				else
+				{
+					$('#details_container .tabs li a').first().click();
+				}
+				return false;
+			}
+
 			//SECION: +, -. Changing priorities up and down:
-			else if(key == 187 || key == 189) {
+			if(key == 187 || key == 189)
+			{
 				//Get all the selected torrents
 				selected_list = $('#torrent_list li.selected');
 				//Cycle through each
@@ -1892,18 +2066,18 @@ Torrent.prototype =
 
 			//SECTION: D, U for upload/download rate settings:
 			//D for download menu
-			else if(key == 68) { $('#status_download_max').click(); }
+			if(key == 68) { $('#status_download_max').click(); }
 			//U for upload menu
-			else if(key == 85) { $('#status_upload_max').click(); }
+			if(key == 85) { $('#status_upload_max').click(); }
 
 			//SECTION: F, W - for the search boxes (to focus them)
 			//F (filter search)
-			else if(key == 70) { $('#torrent_search').focus().select(); }
+			if(key == 70) { $('#torrent_search').focus().select(); }
 			//W (web search)
-			else if(key == 87) { $('#web_search').focus().select(); }
+			if(key == 87) { $('#web_search').focus().select(); }
 
 			//SECTION: F2, rename torrent
-			else if(key == 113 && $('#torrent_list li.selected').length>=0)
+			if(key == 113 && $('#torrent_list li.selected').length>=0)
 			{ torrent.renameTorrent(); }
 
 		}
@@ -1913,8 +2087,8 @@ Torrent.prototype =
 	keydownBody: function(e)
 	{
 		//Dont do anything if we cant find the keycode, or we are in a text box
-		if($('input:focus')[0]) return true;
-		if($('.dialogue:not(:hidden)')[0]) return true;
+		if($('input:focus').length>0) return true;
+		if($('.dialogue:not(:hidden)').length>0) return true;
 		if(!e.keyCode) return true;
 
 		key = e.keyCode;
@@ -1930,7 +2104,7 @@ Torrent.prototype =
 		else if(key == 38)
 		{
 			//If a torrent is already selected, then move to the next one
-			if($('#torrent_list li.selected')[0] &&
+			if($('#torrent_list li.selected').length>0 &&
 				$('#torrent_list li.selected').prevAll(':not(:hidden)')[0])
 			{
 				element = $('#torrent_list li.selected').prevAll(':not(:hidden)').first();
@@ -1950,7 +2124,7 @@ Torrent.prototype =
 		//Down arrow
 		else if(key == 40)
 		{
-			if($('#torrent_list li.selected')[0] &&
+			if($('#torrent_list li.selected').length>0 &&
 				$('#torrent_list li.selected').nextAll(':not(:hidden)')[0])
 			{
 				element = $('#torrent_list li.selected').nextAll(':not(:hidden)').first();
