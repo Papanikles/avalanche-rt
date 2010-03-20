@@ -12,7 +12,7 @@
 		*
 		* @author Keith Cirkel ('keithamus') <avalanche@keithcirkel.co.uk>
 		* @license http://opensource.org/licenses/gpl-3.0.html
-		* @copyright Copyright © 2010, Keith Cirkel
+		* @copyright Copyright Â© 2010, Keith Cirkel
 		*
 		* This program is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
@@ -37,15 +37,14 @@ a{outline:none}
 
 /* Top Menu */
 #header_menu{width:100%;height:43px;margin:0;position:fixed;
-	background:url('gradients.png') repeat-x;border-bottom:1px solid #979797}
-#header_menu ul{height:50px;list-style:none;margin:0;padding:0;
-	float:left}
+	background:url('vg.png') repeat-x #e8e8e8;border-bottom:1px solid #979797}
+#header_menu ul{height:50px;list-style:none;margin:0;padding:0;float:left}
 #header_menu ul li{height:40px;float:left;margin:0}
 #header_menu ul li a{width:55px;height:12px;padding:25px 3px 0 3px;color:#050505;
 	text-decoration:none;display:block;margin:3px 0;
-	background-image:url('header_menu.png');background-repeat:no-repeat}
-#header_menu ul li.divider{width:2px;background:url('menu_divider.png') no-repeat;
-	margin-top:4px;padding:0 3px}
+	background-image:url('hdr.png');background-repeat:no-repeat}
+#header_menu ul li.divider{border-left:1px dashed #bbb;margin:4px;cursor:default;
+	height:35px}
 #header_open a{background-position:17px 0}
 #header_remove a{background-position:-38px 0}
 #header_resume a{background-position:-91px 0}
@@ -67,44 +66,40 @@ a{outline:none}
 #header_resume_all a.disabled{background-position:-202px -70px}
 #header_pause_all a.disabled{background-position:-258px -70px}
 #header_details a.disabled{background-position:-312px -70px}
-#header_web_search{float:right;height:23px;margin:10px;
-	background:url('bars.png') no-repeat 0 -37px}
-#header_web_search .wrapper{height:23px;width:217px;
-	background:url('bars.png') no-repeat right -37px}
-#header_web_search.active{background-position:0 -60px}
-#header_web_search.active .wrapper{background-position:right -60px}
-#web_search_dropdown{height:21px;float:left;width:30px;
-	background:url('http://www.google.com/s2/favicons?domain=') no-repeat 9px 4px}
+#header_web_search{float:right;height:23px;margin:10px;border:1px solid #7a7a7a;
+	background:url('vg.png') repeat-x 0 -560px #fff}
+#header_web_search.active{border:2px solid #019be8;margin:9px}
+#web_search_dropdown{height:21px;float:left;width:20px;
+	background:url('http://www.google.com/s2/favicons?domain=') no-repeat 4px 4px}
 #header_web_search input{background:transparent;height:20px;width:161px;
-	float:left;border:0;display:inline;outline:none;padding:2px}
-#web_search_delete_text{border:0;width:20px;height:20px;float:left;
-	background:url('icons.png') 0 -258px}
+	float:left;border:0;display:inline;outline:none;padding:2px;margin-right:20px}
+#header_web_search input.text{margin-right:0}
+#web_search_delete_text{border:0;width:20px;height:20px;float:right;
+	background:url('icns.png') 0 -258px}
 
 /* Filter Bar */
 #filter_bar{margin:0 350px 0 0;height:24px;right:0;border-bottom:1px solid #979797;
-	position:fixed;background:url('gradients.png') repeat-x 0 -81px;left:0;top:44px}
+	position:fixed;background:url('vg.png') repeat-x 0 -81px #e8f0fa;left:0;top:44px;
+	overflow:hidden}
 #filter_bar_options,#filter_bar_type{width:50%}
 #filter_bar ul{height:18px;list-style:none;margin:0;padding:0;float:left}
-#filter_bar ul li{height:18px;float:left;margin:4px 2px 0 2px}
-#filter_bar ul li a{font-size:1.2em;color:#4E4E4F;text-decoration:none;
-	font-weight:bold;padding:1px 7px 0 7px;margin:0;height:17px;display: block;
-	vertical-align:bottom}
-#filter_bar ul li:hover{background:url('bars.png') no-repeat left -19px}
-#filter_bar ul li:hover a{background:url('bars.png') no-repeat right -19px;
-	color: #fff !important}
-#filter_bar ul li.active{background:url('bars.png') no-repeat left 0}
-#filter_bar ul li.active a{background:url('bars.png') no-repeat right 0;
-	color: #fff !important}
-#filter_search{float:right;height:18px;margin:3px 5px 3px 0;
-	background:url('bars.png') no-repeat 0 -83px}
-#filter_search .wrapper{height:18px;width:107px;
-	background:url('bars.png') no-repeat right -83px;padding:0 5px}
-#filter_search.active{background-position:0 -101px}
-#filter_search.active .wrapper{background-position:right -101px}
+#filter_bar ul li{height:18px;float:left;margin:3px 2px 10px 2px;padding:0}
+#filter_bar ul li a{font-size:1.2em;color:#4E4E4F;text-decoration:none;margin:0;
+	font-weight:bold;padding:1px 7px 0 7px;display:block;vertical-align:bottom}
+#filter_bar ul li:hover{border:1px solid #b6c9f3;margin:2px 3px 0 3px;
+	background:url('vg.png') 0 -542px #cbcbcb}
+#filter_bar ul li:hover a,#filter_bar ul li.active a{padding:1px 5px;color:#fff}
+#filter_bar ul li.active{border:1px solid #aaa;color:#fff;
+	margin:2px 3px 10px 3px;background:url('vg.png') 0 -524px #bdbdbd}
+#filter_search{float:right;height:18px;margin:2px 4px 4px 0;padding:0 5px;
+	border:1px solid #7a7a7a;background:url('vg.png') repeat-x 0 -560px #fff}
+#filter_search.active{border:2px solid #019be8;margin:1px 3px 3px 0}
 #filter_search input{background:transparent;height:18px;width:85px;
-	float:left;border:0;display:inline;outline:none;padding:1px 2px;font-size:0.9em}
+	float:left;border:0;display:inline;outline:none;padding:1px 2px;font-size:0.9em;
+	margin-right:18px}
+#filter_search input.text{margin-right:0}
 #filter_search_delete_text{border:0;width:18px;height:18px;float:left;
-	background:url('icons.png') 0 -258px;margin-top:-3px}
+	background:url('icns.png') 0 -258px;margin-top:-3px}
 
 /* Torrent Container */
 #torrent_container{position:fixed;top:69px;bottom:22px;right:0px;left:0px;
@@ -118,10 +113,10 @@ a{outline:none}
 #torrent_list span{display:block;margin:0;padding:0}
 #torrent_list li.even{background:#F5F8FD}
 #torrent_list li:hover{background:#EDF3FE}
-#torrent_list li.selected{background:url('gradients.png') repeat-x 0 -251px;
+#torrent_list li.selected{background:url('vg.png') repeat-x 0 -251px #477dbc;
 	color:#FFF}
 #torrent_list li a{display:block;float:right;width:17px;height:17px;padding:0;
-	margin:0 -23px 0 0;background:url('icons.png') -1px -61px}
+	margin:0 -23px 0 0;background:url('icns.png') -1px -61px}
 #torrent_list li a:hover{background-position:-1px -41px;cursor:pointer}
 #torrent_list li.paused a,#torrent_list li.completed a{
 	background-position:-1px -21px}
@@ -132,7 +127,7 @@ a{outline:none}
 #torrent_list .peer_details{font-size: 1.1em}
 .progress_bar_container{height:10px;margin:3px 0 3px 0;
 	float:left;line-height:1px;font-size:1px;width:100%;border:1px solid #939393;
-	background:url('gradients.png') repeat-x 0 -221px}
+	background:url('vg.png') repeat-x 0 -221px #e5e5e5}
 .loading .progress_bar_container{background:url('progress.gif') repeat-x}
 .seeding .progress_bar_container{border:1px solid #29AD35;
 	background-position:0 -191px}
@@ -142,12 +137,14 @@ a{outline:none}
 	background-position:0 -221px}
 .hashing .progress_bar_container{border:1px solid #E19200;
 	background-position:0 -221px}
-.progress_bar{background:url('gradients.png') repeat-x 0 -231px;
+.progress_bar{background:url('vg.png') repeat-x 0 -231px #90b6dd;
 	height:10px;float:left}
-.seeding .progress_bar{background-position:0 -191px}
-.completed .progress_bar{background-position:0 -201px}
-.downloading .progress_bar{background-position:0 -211px;border-right:1px solid #ccc}
-.file.progress_bar, .hashing .progress_bar{background-position:0 -241px;border-right:1px solid #ccc}
+.seeding .progress_bar{background-position:0 -191px;background-color:#90ef4d}
+.completed .progress_bar{background-position:0 -201px;background-color:#b0dd90}
+.downloading .progress_bar{background-position:0 -211px;
+	border-right:1px solid #ccc;background-color:#4d9eef}
+.file.progress_bar, .hashing .progress_bar{background-position:0 -241px;
+	background-color:#efb34d;border-right:1px solid #ccc}
 
 /* Details Container */
 #details_container{position:fixed;top:44px;right:0px;bottom:22px;width:340px;
@@ -160,27 +157,27 @@ a{outline:none}
 	font-weight:bold;display:none}
 #details_header span{font-size:1.2em;margin:0;display:block}
 #details_priority_button{float:right;border:1px solid #7a7a7a;padding:3px 6px;
-	background:url('gradients.png') 0 -145px;margin:-22px 0 0 0;color:#323232;
+	background:url('vg.png') 0 -145px;margin:-22px 0 0 0;color:#323232;
 	text-decoration:none;display:none}
 #details_priority_button:active{background-position:0 -122px}
 #details_container .tabs{padding:0;margin:0 0 0 50px;text-shadow:1px 1px #e8e8e8}
 #details_container .tabs li{float:left;list-style-type:none}
 #details_container .tabs li a{display:block;margin:10px -1px 0 0;padding:4px;
-	background:url('gradients.png') repeat-x 0 -145px;border:1px solid #787878;
+	background:url('vg.png') repeat-x 0 -145px;border:1px solid #787878;
 	width:50px;text-align:center;font-weight:bold;text-decoration:none;color:#323232;
 	height:15px}
 #details_container .tabs li a.selected{background-position:0 -168px;
-	text-shadow:1px 1px #c5d0e4}
+	text-shadow:1px 1px #c5d0e4;background-color:#059ceb}
 #details_container .tabs span{display:block;text-indent:-9000px;height:16px;
 	width:18px;margin-left:15px}
-#details_general span{background:url('icons.png') no-repeat 0 -142px}
-#details_files span{background:url('icons.png') no-repeat 0 -162px}
-#details_peers span{background:url('icons.png') no-repeat 0 -182px}
-#details_trackers span{background:url('icons.png') no-repeat 0 -202px}
+#details_general span{background:url('icns.png') no-repeat 0 -142px}
+#details_files span{background:url('icns.png') no-repeat 0 -162px}
+#details_peers span{background:url('icns.png') no-repeat 0 -182px}
+#details_trackers span{background:url('icns.png') no-repeat 0 -202px}
 #details_general_disk_space{width:300px;padding:0}
 h3{margin:0 0 10px 0;padding:0}
 .labellist{list-style:none;margin:0;padding:0;border:1px solid #bbb;
-	background:url('gradients.png') repeat-x 0 -523px #ddd}
+	background:url('vg.png') repeat-x 0 -561px #ddd}
 .labellist li{margin:0;padding:4px 8px;
 	border-top:1px solid #f5f5f5;border-bottom:1px solid #c4c4c4}
 .labellist li:first-child{border-top:0}
@@ -199,8 +196,9 @@ h3{margin:0 0 10px 0;padding:0}
 
 #details_trackers_contain li{padding-right:80px}
 #details_trackers_contain li a{padding:8px;float:left;
-	background:url('icons.png') no-repeat -3px -503px;margin:6px 2px 0 -4px;border:0}
-#details_trackers_contain li a.off{background-position:-3px -483px}
+	background:url('icns.png') no-repeat -3px -483px;margin:6px 2px 0 -4px;border:0}
+#details_trackers_contain li a.on{background-position:-3px -503px !important}
+#details_trackers_contain li a.q{background-position:-3px -563px}
 
 #details_files_contain .labellist .folder .drop{margin-left:13px}
 #details_files_contain .labellist .folder ul{margin-top:4px;margin-left:18px}
@@ -208,26 +206,28 @@ h3{margin:0 0 10px 0;padding:0}
 #details_files_contain .labellist h4{margin-right:15px;overflow:hidden;white-space:nowrap}
 #details_files_contain .labellist li a{padding-left:12px;font-weight:bold;color:#323232;
 	text-decoration:none;display:block}
-#details_files_contain .labellist .folder>a.drop{background:url('icons.png') no-repeat -5px -282px}
+#details_files_contain .labellist .folder>a.drop{background:url('icns.png') no-repeat -5px -282px}
 #details_files_contain .labellist .folder.d>a.drop{background-position:-5px -302px}
 #details_files_contain .labellist ul{margin-left:4px;list-style:none;padding-left:0;width:100%;
 	border-left:1px dashed #a0a0a0}
 #details_files_contain .labellist .folder>span{margin-left:4px;padding-left:6px}
 #details_files_contain .labellist .folder.d>span{border-left:1px dashed #a0a0a0}
-#details_files_contain .labellist li{overflow:hidden;text-overflow:ellipsis}
+#details_files_contain .labellist li{overflow:hidden;text-overflow:ellipsis;color:#323232}
 #details_files_contain .labellist li .enablecheck{padding:8px;float:left;
-	background:url('icons.png') no-repeat -3px -503px;margin:6px 2px 0 -4px;border:0}
+	background:url('icns.png') no-repeat -3px -503px;margin:6px 2px 0 -4px;border:0}
 #details_files_contain .labellist li .turbocheck{padding:8px;float:right;
-	background:url('icons.png') no-repeat -3px -523px;margin:-6px -6px 0 0;border:0}
-#details_files_contain .labellist li.disabled .enablecheck{background-position:-3px -483px}
-#details_files_contain .labellist li .turbocheck.on{background-position:-3px -543px}
+	background:url('icns.png') no-repeat -3px -523px;margin:-6px -6px 0 0;border:0}
+#details_files_contain .labellist li .enablecheck.on{background-position:-3px -503px !important}
+#details_files_contain .labellist li .enablecheck.off{background-position:-3px -483px !important}
+#details_files_contain .labellist li .turbocheck.on{background-position:-3px -523px !important}
+#details_files_contain .labellist li .turbocheck.off{background-position:-3px -543px !important}
 #details_files_contain .labellist li .turbocheck.q,
 #details_files_contain .labellist li .enablecheck.q{background-position:-3px -563px}
 #details_files_contain .labellist li.disabled{color:#777}
 
 #details_peers_contain .labellist h4 span{float:right}
 #details_peers_contain .labellist div b{float:right;height:16px;padding:0 8px;
-	background:url('icons.png') no-repeat 0 -320px}
+	background:url('icns.png') no-repeat 0 -320px}
 #details_peers_contain .labellist div b.s{background-position:0 -340px}
 #details_peers_contain .labellist div b.o{background-position:0 -360px}
 
@@ -236,21 +236,21 @@ h3{margin:0 0 10px 0;padding:0}
 
 /* Status Bar */
 #status_bar{width:100%;height:21px;margin:0;position:fixed;color:#555;bottom:0;
-	background:url('gradients.png') repeat-x 0 -60px;font-size: 1.3em;padding:0;
+	background:url('vg.png') repeat-x 0 -60px #e8e8e8;font-size: 1.3em;
 	font-weight:normal;border-top:1px solid #979797;text-shadow:1px 1px #f1f2f5;
-	font-weight:bold}
+	font-weight:bold;padding:0}
 #status_bar a{color:#555;text-decoration:none}
 #status_torrents,#status_speeds{margin:2px 10px}
 #status_bar .up_arrow{height:16px;padding:0 5px;margin:0;display:inline;
-	background:url('icons.png') 0 -222px}
+	background:url('icns.png') 0 -222px}
 #status_bar .down_arrow{height:16px;padding:0 5px;margin:0;display:inline;
-	background:url('icons.png') 0 -242px}
+	background:url('icns.png') 0 -242px}
 #status_torrents{float:left}
 #status_speeds{float:right}
 #status_download_max,#status_upload_max,#status_order{padding:2px 6px}
 #status_download_max:hover,#status_upload_max:hover,#status_order:hover{
 	padding:2px 5px;border-right:1px solid #979797;border-left:1px solid #979797;
-	background:url('gradients.png') repeat-x 0 -351px;text-shadow:1px 1px #d1d2d5}
+	background:url('vg.png') repeat-x 0 -351px;text-shadow:1px 1px #d1d2d5}
 
 /* Menus */
 .contextmenu{position:absolute;z-index:99;border:1px solid #979797;padding:2px 0;
@@ -260,7 +260,7 @@ h3{margin:0 0 10px 0;padding:0}
 	-webkit-box-shadow:2px 2px 4px rgba(0,0,0,0.5);-moz-box-shadow:2px 2px 4px rgba(0,0,0,0.5)}
 .contextmenu li{font-size:1.2em;font-weight:bold;color:#555;margin:1px;padding:0 3px}
 .contextmenu li:hover{color:#fff;cursor:pointer;
-	background:url('gradients.png') repeat-x 0 -251px}
+	background:url('vg.png') repeat-x 0 -251px #477dbc}
 .contextmenu li:hover a{color:#fff}
 .contextmenu li.separator{padding:0;border-top:1px solid #e0e0e0;
 	border-bottom:1px solid #fff;border-left:0;border-right:0;margin:2px 4px}
@@ -268,8 +268,8 @@ h3{margin:0 0 10px 0;padding:0}
 .contextmenu li a{padding:2px 5px;color:#555;text-decoration:none;display:block}
 .contextmenu input{width:30px}
 #order_menu li a{padding-left:18px;text-align:left}
-#order_menu li a.desc{background:url('icons.png') no-repeat -2px -241px}
-#order_menu li a.asc{background:url('icons.png') no-repeat -2px -221px}
+#order_menu li a.desc{background:url('icns.png') no-repeat -2px -241px}
+#order_menu li a.asc{background:url('icns.png') no-repeat -2px -221px}
 #priority_menu{left:0;top:124px}
 #order_menu{left:0;bottom:21px}
 #upload_rate_menu{left:0;bottom:21px}
@@ -279,7 +279,7 @@ h3{margin:0 0 10px 0;padding:0}
 #torrent_context_menu li.disabled a,#torrent_context_menu li.disabled a:hover{
 	color:#a1a1a1}
 #torrent_context_menu li.disabled:hover{background:none}
-#torrent_context_menu li a{background:url('icons.png') no-repeat -2px -378px}
+#torrent_context_menu li a{background:url('icns.png') no-repeat -2px -378px}
 #torrent_context_menu li.resume a{background-position:-2px -398px}
 #torrent_context_menu li.remove a{background-position:-2px -419px}
 #torrent_context_menu li.rename a{background-position:-2px -439px}
@@ -289,24 +289,24 @@ h3{margin:0 0 10px 0;padding:0}
 .dialogue{border:1px solid #5b5e60;background:#E4E4E4;padding:0;position:absolute;
 	top:50%;left:50%;margin-left:-150px;width:300px}
 .dialogue .decoration{width:100%;height:35px;border-bottom:1px solid #567fae;
-	background:url('gradients.png') repeat-x 0 -442px;margin:0}
+	background:url('vg.png') repeat-x 0 -442px #78ade8;margin:0}
 .dialogue .decoration.bad,#error_popup .decoration{background-position:0 -372px;
-	border-bottom:1px solid #bf5b5b}
-.dialogue .decoration.good{background-position:0 -407px;
+	border-bottom:1px solid #bf5b5b;background-color:#e78282}
+.dialogue .decoration.good{background-position:0 -407px;background-color:#7fc167;
 	border-bottom:1px solid #5e8e4c}
 .dialogue .decoration h2.good,.dialogue .decoration h2.bad{display:none}
 .dialogue .decoration .close{height:16px;width:17px;float:right;margin:9px 9px 0 0;
-	background:url('icons.png') no-repeat -2px -101px}
+	background:url('icns.png') no-repeat -2px -101px}
 .dialogue .decoration .close:hover{cursor:pointer;background-position:-2px -81px}
 .dialogue .decoration h2{margin:9px 0 0 10px;padding:0;float:left;font-size:1.4em;
 	text-shadow:1px 1px 0 rgba(255,255,255,0.5)}
 .dialogue .tab{float:left;margin:5px 0;border:1px solid #7a7a7a;color:#323232;
-	padding:3px 6px;background:url('gradients.png') repeat-x 0px -145px;
+	padding:3px 6px;background:url('vg.png') repeat-x 0px -145px;
 	text-decoration:none}
 .dialogue .tab.l{border-left:0}
 .dialogue .tab.a{background-position:0 -122px}
 .dialogue .window{padding:10px;margin:0;border-top:1px solid #f1f1f1}
-.dialogue .buttonset{background:url('gradients.png') repeat-x 0 -477px;
+.dialogue .buttonset{background:url('vg.png') repeat-x 0 -477px;
 	height:20px;padding:5px 0 16px 0;border-top:1px solid #aaa}
 .dialogue p{margin:0 0 10px 0;padding:0}
 .dialogue hr{border:0;border-top:1px dotted #aaa}
@@ -319,6 +319,9 @@ h3{margin:0 0 10px 0;padding:0}
 
 
 /*CSS 3 Selectors*/
+#filter_bar ul li{border-radius:20px;-webkit-border-radius:20px;border-radius:20px}
+#header_web_search{border-radius:10px;-webkit-border-radius:10px;border-radius:10px}
+#filter_search{border-radius:15px;-webkit-border-radius:15px;border-radius:15px}
 #details_priority_button{border-radius:4px;-moz-border-radius:4px;
 	-webkit-border-radius:4px;box-shadow:0 1px 1px #b6b6b5;box-shadow:0 1px 1px #b6b6b5;
 	-webkit-box-shadow:0 1px 0 #b6b6b5;-moz-box-shadow:0 1px 1px #b6b6b5}

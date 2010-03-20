@@ -13,7 +13,7 @@
 		*
 		* @author Keith Cirkel ('keithamus') <avalanche@keithcirkel.co.uk>
 		* @license http://opensource.org/licenses/gpl-3.0.html
-		* @copyright Copyright © 2010, Keith Cirkel
+		* @copyright Copyright Â© 2010, Keith Cirkel
 		*
 		* This program is free software: you can redistribute it and/or modify
   * it under the terms of the GNU General Public License as published by
