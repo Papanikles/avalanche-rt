@@ -16,7 +16,7 @@
 //When DOM is ready...
 $(document).ready( function() {
 
-	$('#version').text('r40 SVN');
+	window.currentVersion = 'r43';
 
 	//Create our settings object, we should set some defaults to stop potential bugs
 	window.settings = {
@@ -45,6 +45,7 @@ $(document).ready( function() {
 			success: function(data)
 			{
 				window.lang = data;
+				$('#version').text(window.currentVersion+ ' '+ window.settings.release_channel);
 				//Change the toolbar texts to match that of the language file:
 				$('#header_open a').text(window.lang.toolbar_open);
 				$('#header_remove a').text(window.lang.toolbar_remove);

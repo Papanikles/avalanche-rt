@@ -741,19 +741,33 @@ Torrent.prototype =
 	{
 		$('#upgrade_icon').addClass('checking');
 		$('#upgrade_text').text(window.lang.about_versioncheck);
-		$.ajax(
-			{
-				url:'http://avalanche-rt.googlecode.com/files/update.json', dataType: 'json',
+		$.ajax({url: 'remote.php', dataType: 'json', data: {'action':'updatequery'},
 				success: function(data)
 				{
+					data = $.parseJSON(data);
+					if(!window.settings.release_channel) {
+						window.remote.setSetting('release_channel', 'stable');
+					}
+					if(typeof data!= 'object' || !data.stable)
+					{
+						$('#upgrade_icon').addClass('checking');
+						$('#upgrade_text').text(window.lang.about_checkfailed);
+					}
 					//Updates!
-					$('#upgrade_icon').addClass('upgrade').removeClass('checking');
-					$('#upgrade_text').text(window.lang.about_upgrade);
-					$('#about_action').text(window.lang.about_updatebutton);
-					//No updates
-					$('#upgrade_icon').removeClass('checking upgrade');
-					$('#upgrade_text').text(window.lang.about_uptodate);
-					$('#about_action').text(window.lang.about_donatebutton);
+					else if(data[window.settings.release_channel]!=window.currentVersion)
+					{
+						$('#upgrade_icon').addClass('upgrade').removeClass('checking');
+						$('#upgrade_text').text(window.lang.about_upgrade.
+							replace('%s',data[window.settings.release_channel]));
+						$('#about_action').text(window.lang.about_updatebutton);
+					}
+					else
+					{
+						//No updates
+						$('#upgrade_icon').removeClass('checking upgrade');
+						$('#upgrade_text').text(window.lang.about_uptodate);
+						$('#about_action').text(window.lang.about_donatebutton);
+					}
 				},
 				error: function(data)
 				{

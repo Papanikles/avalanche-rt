@@ -122,6 +122,9 @@ switch($_GET['action'])
 	case 'listcommands':
 		$contents=$server->GetListOfCommands();
 		break;
+	case 'updatequery':
+		$contents=@file_get_contents('http://avalanche-rt.googlecode.com/files/update.json');
+		break;
 	default:
 		$contents=$server->Retrieve();
 		break;
