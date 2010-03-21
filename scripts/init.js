@@ -16,7 +16,7 @@
 //When DOM is ready...
 $(document).ready( function() {
 
-	window.currentVersion = 'r43';
+	window.currentVersion = 'r45';
 
 	//Create our settings object, we should set some defaults to stop potential bugs
 	window.settings = {
