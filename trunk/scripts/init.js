@@ -26,6 +26,7 @@ $(document).ready( function() {
 		detail_pane_open: true,
 		detail_pane_width: 332,
 		default_language: 'en-gb',
+		release_channel: 'stable',
 		web_searches: [{
 			name: 'Google',
 			url: 'http://www.google.com/search?hl=en&q=%s+filetype:torrent&btnG=Search'
@@ -170,6 +171,9 @@ $(document).ready( function() {
 			$('#torrent_container,#filter_bar').css(
 				'margin-right',data.detail_pane_width+18+ 'px');
 		}
+
+		if(data.default_zoom==2) { torrent.zoomTorrents(null,'out'); }
+		else if(data.default_zoom==1) { torrent.zoomTorrents(null,'out',2); }
 
 		//If the default_filter_by setting is active, then filter to that group:
 		if(data.default_filter_by) {
