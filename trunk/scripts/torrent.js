@@ -80,7 +80,7 @@ Torrent.prototype =
 		$('a[rel="openDialogue"]').click(function(e)
 		{
 			_args = e.currentTarget.hash.substr(1).split('/');
-			torrent.openDialogue(_args[0],torrent[_args[1]]);
+			torrent.openDialogue(_args[0],(torrent[_args[1]] || null), (torrent[_args[2]] || null));
 		});
 
 		// SECTION: Anchor tags with the rel of "openMenu":
@@ -128,6 +128,35 @@ Torrent.prototype =
 			file = window.location.hash.substr(15);
 			$('#torrent_upload_url').attr('value',file?file:'');
 		}
+
+		//Also make the details pane resizable:
+		$('#toggleDetailPane').mousedown(function(e){
+			$('body').mousemove(function(e){
+				$('#toggleDetailPane').unbind('click');
+				new_width = ($(window).width() - e.pageX) - 14
+				if(new_width>303)
+				{
+					$('#details_container').width(new_width);
+					$('#toggleDetailPane').css('right',new_width+8);
+					$('#details_container .tabs').css('padding-left', (new_width / 2) -
+						($('#details_container .tabs li').first().outerWidth() * 2) - 14);
+
+					$('#torrent_container,#filter_bar').css(
+						'margin-right',new_width+18+ 'px');
+				}
+
+				//These are to stop the browser selecting text during this process
+				if($.browser.mozilla) $(this).css('MozUserSelect','none');
+				else if($.browser.msie) $(this).bind('selectstart',function(){return false});
+				return false;
+			});
+			$('body').mouseup(function(){
+				setTimeout(function(){
+					$('#toggleDetailPane').click(function(e){torrent.toggleDetailPane(e);});},10);
+				window.remote.setSetting('detail_pane_width',$('#details_container').width());
+				$('body').unbind('mousemove').unbind('mouseup');
+			})
+		});
 
 		window.firstrun = true;
 		//Use updateUserInterface to generate a list of torrents.
@@ -277,6 +306,11 @@ Torrent.prototype =
 		{
 			$('#'+ data.hash).addClass('paused');
 		}
+		//If the speeds are anything over 0b/s then the torrent is considered active:
+		if(data.down_rate > 0 || data.up_rate > 0)
+		{
+			$('#'+ data.hash).addClass('active');
+		}
 
 		// Put the torrents name in the H2.
 		$('#'+ data.hash+ ' h2').text(data.new_name);
@@ -285,25 +319,29 @@ Torrent.prototype =
 		//"X MB of X GB checked"
 		if(data.is_hashing)
 		{
-			$('#'+ data.hash+ ' .progress_details').text(
-				Math.formatBytes(data.downloaded)+ ' of '+ Math.formatBytes(data.size)+
-			', checked');
+			$('#'+ data.hash+ ' .progress_details').text(window.lang.torrents_hashinginfo.
+				replace('%1',Math.formatBytes(data.downloaded)).
+				replace('%2',Math.formatBytes(data.size)) );
 		}
 		//If the torrent is completed (seeding or not), its going to say
 		//"X GB, uploaded X MB (Ratio X.XXX)"
 		else if(data.is_completed)
 		{
-			$('#'+ data.hash+ ' .progress_details').text(Math.formatBytes(data.size)+
-			', uploaded '+ Math.formatBytes(data.uploaded)+ ' (Ratio '+
-			(data.uploaded / data.size).toFixed(3)+ ')');
+			$('#'+ data.hash+ ' .progress_details').text(window.lang.torrents_seedinfo.
+				replace('%1',Math.formatBytes(data.size)).
+				replace('%2',Math.formatBytes(data.uploaded)).
+				replace('%3',(data.uploaded / data.size).toFixed(3)) );
 		}
 		//If the torrent is active (downloading), then its going to say
 		//"X MB of X GB (X%), uploaded X MB (Ratio X.XXX)"
 		else
 		{
-			$('#'+ data.hash+ ' .progress_details').text(Math.formatBytes(data.downloaded)+
-			' of '+ Math.formatBytes(data.size)+ ' ('+ data.percent_done+ '%), uploaded '+
-			Math.formatBytes(data.uploaded)+ ' (Ratio '+ (data.uploaded / data.size).toFixed(3)+ ')');
+			$('#'+ data.hash+ ' .progress_details').text(window.lang.torrents_downloadinfo.
+				replace('%1',Math.formatBytes(data.downloaded)).
+				replace('%2',Math.formatBytes(data.size)).
+				replace('%3',data.percent_done+ '%').
+				replace('%4',Math.formatBytes(data.uploaded)).
+				replace('%5',(data.uploaded / data.size).toFixed(3)) );
 		}
 
 		//We're going to assign the progress bar a width of the percentage done
@@ -313,37 +351,39 @@ Torrent.prototype =
 		//"Checking consistency, X% done".
 		if(data.is_hashing)
 		{
-			$('#'+ data.hash+ ' .peer_details').text('Checking consistency, '+
-			data.percent_done+ '% done');
+			$('#'+ data.hash+ ' .peer_details').text(window.lang.torrents_hashingstat.
+				replace('%1',data.percent_done+ '%') );
 		}
 		//If the torrent is seeding, we'll get it to say
 		//"Seeding to X of X peers - UL: X.XX KB/s"
 		else if(data.is_completed && data.is_downloading)
 		{
-			$('#'+ data.hash+ ' .peer_details').text('Seeding to '+
-				data.peers_connected+ ' of '+ data.peers_total+ ' peers - '+ 'UL: '+
-				Math.formatBytes(data.up_rate)+ '/s');
+			$('#'+ data.hash+ ' .peer_details').text(window.lang.torrents_seedstat.
+				replace('%1',data.peers_connected).
+				replace('%2',data.peers_total).
+				replace('%3',Math.formatBytes(data.up_rate)+ '/s') );
 		}
 		//If the torrent is downloading, it'll say
 		//"Downloading from X peers and X seeders our of X total - DL: X KB/s UL: X KB/s"
 		else if(data.is_downloading)
 		{
-				$('#'+ data.hash+ ' .peer_details').text('Downloading from '+
-				data.peers_connected+ ' peers and '+ data.seeders_connected+
-				' seeders out of '+ data.peers_total+ ' total - '+ 'DL: '+
-				Math.formatBytes(data.down_rate)+ '/s UL: '+
-				Math.formatBytes(data.up_rate)+ '/s');
+				$('#'+ data.hash+ ' .peer_details').text(window.lang.torrents_downloadstat.
+					replace('%1',data.peers_connected).
+					replace('%2',data.seeders_connected).
+					replace('%3',data.peers_total).
+					replace('%4',Math.formatBytes(data.down_rate)+ '/s').
+					replace('%5',Math.formatBytes(data.up_rate)+ '/s') );
 		}
 		//It the torrent is just completed & not downloading (so, completed+paused)
 		//Then just say "Completed, paused"
 		else if(data.is_completed)
 		{
-			$('#'+ data.hash+ ' .peer_details').text('Completed, Paused');
+			$('#'+ data.hash+ ' .peer_details').text(window.lang.torrents_completestat);
 		}
 		//If the torrent is unfinished and paused, then just say "Paused".
 		else
 		{
-			$('#'+ data.hash+ ' .peer_details').text('Paused');
+			$('#'+ data.hash+ ' .peer_details').text(window.lang.torrents_pausestat);
 		}
 
 		$.each(data, function(key,value){
@@ -508,18 +548,17 @@ Torrent.prototype =
 		{
 			$('#open_iframe').load(function(){
 				result = $.parseJSON($(this).contents().find('body').html());
-				console.log(result);
 				if(result.openfile)
 				{
 						$('#open_dialogue .decoration').addClass('good').
-							children('h2').text('Torrent Added');
+							children('h2').text(window.lang.open_title_success);
 						$('#open_dialogue .buttonset').hide().
 							filter('#open_dialogue .buttonset.done').show();
 				}
 				else
 				{
 						$('#open_dialogue .decoration').addClass('bad').
-							children('h2').text('Error Opening Torrent');
+							children('h2').text(window.lang.open_title_error);
 						$('#open_dialogue .buttonset').hide().
 							filter('#open_dialogue .buttonset.done').show();
 				}
@@ -533,7 +572,7 @@ Torrent.prototype =
 
 			$('#open_dialogue .buttonset').hide().
 				filter('#open_dialogue .buttonset.loading').show();
-			$('#open_dialogue .decoration h2').text('Opening Torrent');
+			$('#open_dialogue .decoration h2').text(window.lang.open_title_opening);
 
 		}
 		//We've been asked to open a URL
@@ -558,13 +597,13 @@ Torrent.prototype =
 
 						$('#open_dialogue .buttonset').hide().
 							filter('#open_dialogue .buttonset.loading').show();
-						$('#open_dialogue .decoration h2').text('Opening Torrent');
+						$('#open_dialogue .decoration h2').text(window.lang.open_title_opening);
 
 						//Set an "opening" timeout so the users knows his torrent hasnt opened.
 						window.openFailTimer = setTimeout(function()
 						{
 							$('#open_dialogue .decoration').addClass('bad').
-								children('h2').text('Error Opening Torrent');
+								children('h2').text(window.lang.open_title_error);
 							$('#open_dialogue .buttonset').hide().
 								filter('#open_dialogue .buttonset.done').show();
 							clearTimeout(window.openFailTimer);
@@ -576,7 +615,6 @@ Torrent.prototype =
 						{
 							window.openSuccessTimer = setTimeout(function()
 							{
-								console.log('checking');
 								//One more torrent has been added. We can celebrate!
 								if(window.torrentcount &&
 										window.torrentcount < parseInt($('#status_torrent_count').text()))
@@ -587,7 +625,7 @@ Torrent.prototype =
 									delete window.openSuccessTimer;
 									delete window.openSuccessFunc;
 									$('#open_dialogue .decoration').addClass('good').
-										children('h2').text('Torrent Added');
+										children('h2').text(window.lang.open_title_success);
 									$('#open_dialogue .buttonset').hide().
 										filter('#open_dialogue .buttonset.done').show();
 								}
@@ -634,13 +672,13 @@ Torrent.prototype =
 					$('#remove_dialogue').attr('rel',rel); }
 			);
 			if($('#torrent_list li.selected').length>1) {
-				$('#remove_dialogue p').text('Are you sure you want to delete these '+
-					$('#torrent_list li.selected').length+ ' torrents?');
+				$('#remove_dialogue p').text(window.lang.remove_areyousuremany.
+					replace('%s',$('#torrent_list li.selected').length) );
 			}
 			else
 			{
-				$('#remove_dialogue p').text('Are you sure you want to delete torrent: "'+
-					$('#torrent_list li.selected h2').text()+ '"?');
+				$('#remove_dialogue p').text(window.lang.remove_areyousureone.
+					replace('%s',$('#torrent_list li.selected h2').text()) );
 			}
 			torrent.openDialogue('remove_dialogue',torrent.removeTorrents);
 	},
@@ -673,9 +711,49 @@ Torrent.prototype =
 		$('#remove_dialogue').animate({marginTop:'-'+
 			(($('#remove_dialogue').height() -
 				$('#remove_dialogue .window').outerHeight(true)) / 2)+ 'px'},125);
-		$('#remove_dialogue h2').text('Torrent Removed');
+		$('#remove_dialogue h2').text(window.lang.remove_title_success);
 		$('#remove_dialogue .buttonset').hide().
 			filter('#remove_dialogue .buttonset.done').show();
+	},
+
+	updateCheck: function()
+	{
+		$('#upgrade_icon').addClass('checking');
+		$('#upgrade_text').text(window.lang.about_versioncheck);
+		$.ajax(
+			{
+				url:'http://avalanche-rt.googlecode.com/files/update.json', dataType: 'json',
+				success: function(data)
+				{
+					//Updates!
+					$('#upgrade_icon').addClass('upgrade').removeClass('checking');
+					$('#upgrade_text').text(window.lang.about_upgrade);
+					$('#about_action').text(window.lang.about_updatebutton);
+					//No updates
+					$('#upgrade_icon').removeClass('checking upgrade');
+					$('#upgrade_text').text(window.lang.about_uptodate);
+					$('#about_action').text(window.lang.about_donatebutton);
+				},
+				error: function(data)
+				{
+					$('#upgrade_icon').addClass('checking');
+					$('#upgrade_text').text(window.lang.about_checkfailed);
+				}
+			}
+		);
+	},
+
+	donateButton: function()
+	{
+		e = $('#about_action');
+		if(e.hasClass('donate'))
+		{
+				//Go to donate page
+		}
+		else if(e.hasClass('update'))
+		{
+				//Go to update page
+		}
 	},
 
 	/*
@@ -968,10 +1046,8 @@ Torrent.prototype =
 
 			//We'll make some fluffy new variables out of the sutff we have in data...
 			//Like a nicely formatted date of creation:
-			var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul',
-				'Aug','Sep','Oct','Nov','Dec']
 			var date = new Date(data.date_added*1000);
-			data.formatted_date = date.getDate()+ ' '+ months[date.getMonth()]+ ' '+
+			data.formatted_date = date.getDate()+ ' '+ window.lang.months[date.getMonth()]+ ' '+
 				date.getFullYear()+ ' '+	date.getHours()+ ':'+ date.getMinutes();
 
 			//Add a nicely formatted "time left" string
@@ -1014,8 +1090,7 @@ Torrent.prototype =
 				});
 
 			//Show the priority button and put the priority in it:
-			priorities = ['Skip', 'Low', 'Normal', 'High'];
-			$('#details_priority_button').show().text(priorities[data.priority]).
+			$('#details_priority_button').show().text(window.lang.priorities[data.priority]).
 				attr('href','#setPriority/torrent/'+ data.hash);
 			//The progress bar also needs to be set:
 			$('#details_general_disk_space .progress_bar.used').css('width',data.disk_used_percent);
@@ -1488,8 +1563,7 @@ Torrent.prototype =
 				{
 					if(data.setpriority)
 					{
-						priorities = ['Skip','Low','Normal','High'];
-						$('#details_priority_button').text(priorities[args[3]]);
+						$('#details_priority_button').text(window.lang.priorities[args[3]]);
 						$('#priority_menu').hide();
 						torrentlist[args[2]].priority = Number(args[3]);
 					}
@@ -1587,26 +1661,21 @@ Torrent.prototype =
  */
 	toggleDetailPane: function()
 	{
-		if($('#details_container').is(':hidden'))
+		if(parseInt($('#details_container').css('right'))<0)
 		{
-			//Set the torrent container css to the stored attr of margin-right
-			$('#torrent_container').css('margin-right',
-				$('#torrent_container').attr('margin-right'));
-			//Set the filter bar to the same
-			$('#filter_bar').css('margin-right',$('#torrent_container').css('margin-right'));
-			$('#details_container').show();
+			width = parseInt(window.settings.detail_pane_width) || 332;
+			$('#torrent_container,#filter_bar').css('margin-right',width+ 18);
+			$('#toggleDetailPane').animate({right:width+9},125).removeClass('out');
+			$('#details_container').animate({right:'0'},125);
 			window.remote.setSetting('detail_pane_open', 'true');
 		}
-		else
+		else if(parseInt($('#details_container').css('right'))==0)
 		{
-			//Set the torrent container attr to the css of margin-right:
-			$('#torrent_container').attr('margin-right',
-				$('#torrent_container').css('margin-right'));
-			//Now set that css to 0
-			$('#torrent_container').css('margin-right','0px');
-			//Set the filter bar to the same
-			$('#filter_bar').css('margin-right',$('#torrent_container').css('margin-right'));
-			$('#details_container').hide();
+			$('#torrent_container,#filter_bar').css('margin-right','10px');
+			$('#details_container').animate({
+				right:'-'+$('#details_container').width()-8
+			},125);
+			$('#toggleDetailPane').animate({right:'0'},125).addClass('out');
 			window.remote.setSetting('detail_pane_open', 'false');
 		}
 	},
@@ -1687,16 +1756,18 @@ Torrent.prototype =
 	updateFilterNumbers: function(selector)
 	{
 		if(selector=='') { selector = '#torrent_list li'; }
-		$('#filter_torrent a').
-			text('All ('+ $(selector).length+ ')');
-		$('#filter_downloading a').
-			text('Downloading ('+ $(selector+ '.downloading').length+ ')');
-		$('#filter_seeding a').
-			text('Seeding ('+ $(selector+ '.seeding').length+ ')');
-		$('#filter_paused a').
-			text('Paused ('+ $(selector+ '.paused').length+ ')');
-		$('#filter_completed a').
-		text('Completed ('+ $(selector+ '.completed').length+ ')');
+		$('#filter_torrent a').text(window.lang.filter_all.
+			replace('%s',$(selector).length) );
+		$('#filter_active a').text(window.lang.filter_active.
+			replace('%s',$(selector+ '.active').length) );
+		$('#filter_downloading a').text(window.lang.filter_downloading.
+			replace('%s',$(selector+ '.downloading').length) );
+		$('#filter_seeding a').text(window.lang.filter_seeding.
+			replace('%s',$(selector+ '.seeding').length) );
+		$('#filter_paused a').text(window.lang.filter_paused.
+			replace('%s',$(selector+ '.paused').length) );
+		$('#filter_completed a').text(window.lang.filter_completed.
+			replace('%s',$(selector+ '.completed').length) );
 	},
 
 	/*
@@ -1736,7 +1807,7 @@ Torrent.prototype =
 			})},100);*/
 	},
 
-	openDialogue: function(dialogue_id, openFunction)
+	openDialogue: function(dialogue_id, openFunction, runFunction)
 	{
 		//Hide all context menus:
 		$('.contextmenu').hide();
@@ -1746,14 +1817,19 @@ Torrent.prototype =
 		$('#'+ dialogue_id).css('margin-top','-'+
 			($('#'+ dialogue_id).height() / 2)+ 'px');
 
+		$('#'+ dialogue_id+ ' .decoration h2').text(
+					window.lang[dialogue_id.split('_')[0]+ '_title']);
+
 		//Fade out all other dialogues and show the desired one
 		$('.dialogue').fadeOut(250).filter('#'+ dialogue_id).fadeIn(250);
 
 		//Focus the first ".pfocus" element
 		$('#'+ dialogue_id+ ' .pfocus').first().focus();
 
-		//If we were given a function for something to do on open, then run it.
+		//If we were given a function for something to do on the button click, then run it.
 		if(openFunction) { $('#'+ dialogue_id+ ' .initiate').click(openFunction); }
+		//If we were given a function for something to do on open, then run it
+		if(runFunction) { runFunction(); }
 
 		//We'll also set the "close" buttons to hide & reset the dialogue
 		$('#'+ dialogue_id+ ' .close').click(function()
@@ -1763,8 +1839,8 @@ Torrent.prototype =
 				$('#'+ dialogue_id+ ' .window').show();
 				$('#'+ dialogue_id+ ' .buttonset').hide().
 					filter($('#'+ dialogue_id+ ' .buttonset:first')).show();
-				$('#'+ dialogue_id+ ' .decoration h2').
-					text($('#'+ dialogue_id+ ' .decoration h2').attr('title'));
+				$('#'+ dialogue_id+ ' .decoration h2').text(
+					window.lang[dialogue_id.split('_')[0]+ '_title']);
 			});
 		});
 
@@ -1778,8 +1854,8 @@ Torrent.prototype =
 			$('#'+ dialogue_id+ ' .window').slideDown(125);
 			$('#'+ dialogue_id+ ' .buttonset').hide().
 					filter($('#'+ dialogue_id+ ' .buttonset:first')).show();
-			$('#'+ dialogue_id+ ' .decoration h2').
-					text($('#'+ dialogue_id+ ' .decoration h2').attr('title'));
+			$('#'+ dialogue_id+ ' .decoration h2').text(
+					window.lang[dialogue_id.split('_')[0]+ '_title']);
 		});
 	},
 
@@ -1813,8 +1889,10 @@ Torrent.prototype =
 		{
 			if(data.setrate)
 			{
-				$('#status_'+ type+ '_max').text(rate=='Unlimited'?rate:rate+ ' KB/s');
-				$('#'+ type+ '_rate_custom').text(rate=='Unlimited'?0:rate);
+				$('#status_'+ type+ '_max').text(
+					rate==window.lang.statusbar_UnlimitedSpeed?rate:rate+ ' KB/s');
+				$('#'+ type+ '_rate_custom').text(
+					rate==statusbar_UnlimitedSpeed?0:rate);
 			}
 		});
 
@@ -1852,7 +1930,8 @@ Torrent.prototype =
 			{
 				if(data.setrate)
 				{
-					$('#status_'+ type+ '_max').text(rate==0?'Unlimited':rate+ ' KB/s');
+					$('#status_'+ type+ '_max').text(
+						rate==0?window.lang.statusbar_UnlimitedSpeed:rate+ ' KB/s');
 					$('#'+ event.currentTarget.id).blur();
 					$('#'+ type+ '_rate_menu').hide();
 				}
