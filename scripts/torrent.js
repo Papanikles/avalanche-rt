@@ -1989,7 +1989,7 @@ Torrent.prototype =
 				$('#status_'+ type+ '_max').text(
 					rate==window.lang.statusbar_UnlimitedSpeed?rate:rate+ ' KB/s');
 				$('#'+ type+ '_rate_custom').text(
-					rate==statusbar_UnlimitedSpeed?0:rate);
+					rate==window.lang.statusbar_UnlimitedSpeed?0:rate);
 			}
 		});
 
