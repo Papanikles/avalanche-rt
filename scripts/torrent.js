@@ -251,22 +251,6 @@ Torrent.prototype =
 	updateTorrentListNode: function(data)
 	{
 
-		//Does the node actually exist? If it doesn't we should create it:
-		if(!$('#'+ data.hash).get(0))
-		{
-			// Lots of chaining here, but its all self explanatory:
-			$('#torrent_list').append($('<li/>').addClass('torrent').attr('id',data.hash).
-				click(torrent.clickTorrent).
-				bind('contextmenu', torrent.rightClickTorrent).
-				append($('<h2/>')).
-				append($('<input/>')).
-				append($('<span/>').addClass('progress_details')).
-				append($('<div/>').addClass('progress_bar_container').
-					append($('<div/>').addClass('progress_bar')).attr('href','#')).
-				append($('<a/>').click(torrent.clickTorrentButton)).
-				append($('<span/>').addClass('peer_details')));
-		}
-
 		//Fill the new name with something if it is empty
 		if(data.new_name=='') { data.new_name=data.name; }
 
@@ -278,6 +262,43 @@ Torrent.prototype =
 
 		//Add a "time remaining" entry:
 		data.time_remaining = (data.size - data.downloaded) / data.down_rate;
+
+		//Does the node actually exist? If it doesn't we should create it:
+		if($('#'+ data.hash).length == 0)
+		{
+			// Lots of chaining here, but its all self explanatory:
+			$('#torrent_list').append($('<li/>').addClass('torrent').attr('id',data.hash).
+				click(torrent.clickTorrent).
+				bind('contextmenu', torrent.rightClickTorrent).
+				append($('<h2/>')).
+				append($('<input/>')).
+				append($('<span/>').addClass('progress_details')).
+				append($('<div/>').addClass('progress_bar_container').
+					append($('<div/>').addClass('progress_bar')).attr('href','#')).
+				append($('<a/>').click(torrent.clickTorrentButton)).
+				append($('<span/>').addClass('peer_details')).
+				append($('<div/>').addClass('tablediv').
+					append($('<div/>').text(Math.formatBytes(data.size)) ).
+					append($('<div/>').text(Math.formatBytes(data.downloaded)) ).
+					append($('<div/>').text(Math.formatBytes(data.uploaded)) ).
+					append($('<div/>').text(Math.formatBytes(data.down_rate)) ).
+					append($('<div/>').text(Math.formatBytes(data.up_rate)) ).
+					append($('<div/>').text(data.share_ratio) ).
+					append($('<div/>').text(data.peers_connected+ '/'+ data.peers_total) )
+				));
+		}
+		//Just update the existing tablediv data
+		else
+		{
+			$('#'+ data.hash+ ' .tablediv').children('div').first().
+				text(Math.formatBytes(data.size)).next().
+				text(Math.formatBytes(data.downloaded)).next().
+				text(Math.formatBytes(data.uploaded)).next().
+				text(Math.formatBytes(data.down_rate)).next().
+				text(Math.formatBytes(data.up_rate)).next().
+				text(data.share_ratio).next().
+				text(data.peers_connected+ '/'+ data.peers_total);
+		}
 
 		//Remove all status classes so we can put the ones we want back in:
 		$('#'+ data.hash).removeClass('hashing seeding downloading completed paused');
@@ -926,6 +947,68 @@ Torrent.prototype =
 			window.settings.default_filter_by = filter;
 			window.remote.setSetting('default_filter_by', filter);
 		}
+	},
+
+	zoomTorrents: function(e,way,amt)
+	{
+		way = way || $(e.currentTarget).attr('href').split('/')[1];
+		currentZoom = parseInt($('#torrent_list').attr('data-zoomlevel')) || 3;
+		amt = amt || 1;
+		//We want to zoom IN, i.e make the list BIGGER
+		if(way=='in')
+		{
+			//If the zoom is at the max, we cant zoom in any more, so finish
+			if(currentZoom == 3) { return false; }
+			//Make the newZoom 1 more than zoom
+			newZoom = currentZoom + amt;
+			//If we're at the biggest then:
+			if(newZoom == 3)
+			{
+				$('#torrent_list li .progress_details,#torrent_list li .peer_details').slideDown(125);
+				$('#torrent_list li h2').animate({paddingTop:6,paddingBottom:6},125);
+				$('#torrent_list li .progress_bar_container').animate({height:10},125);
+				$('#torrent_list').addClass('big').removeClass('tiny medium');
+			}
+			else if(newZoom == 2)
+			{
+				$('#torrent_list li .tablediv').hide();
+				$('#torrent_list li .peer_details').slideDown(125);
+				$('#torrent_list li .progress_bar_container').animate({
+					width:'100%',height:5,marginTop:3});
+				$('#torrent_list').addClass('medium').removeClass('tiny big');
+			}
+		}
+		//We want to zoom OUT, i.e make the list SMALLER
+		else if(way=='out')
+		{
+			//If the zoom is at the min, we cant zoom out any more, so finish
+			if(currentZoom == 1) { return false; }
+			//Make the newZoom 1 less than zoom
+			newZoom = currentZoom - amt;
+			//If we're at "medium" level then just remove the "progress_details" span and
+			//combine it with the lower span.
+			if(newZoom == 2)
+			{
+				$('#torrent_list li .progress_details').slideUp(125);
+				$('#torrent_list li h2').animate({paddingTop:4,paddingBottom:0},125);
+				$('#torrent_list li .progress_bar_container').animate({height:5},125);
+				$('#torrent_list').addClass('medium').removeClass('big tiny');
+			}
+			else if(newZoom == 1)
+			{
+				$('#torrent_list li .progress_details,#torrent_list li .peer_details').slideUp(125);
+				$('#torrent_list li .progress_bar_container').animate({
+					width:'25%',height:8,marginTop:8});
+				$('#torrent_list li .tablediv').show();
+				$('#torrent_list').addClass('tiny').removeClass('big medium');
+			}
+
+		}
+		$('#zoomout,#zoomin').removeClass('disabled');
+		if(newZoom == 3){ $('#zoomin').addClass('disabled'); }
+		else if(newZoom == 1) { $('#zoomout').addClass('disabled'); }
+		$('#torrent_list').attr('data-zoomlevel',newZoom);
+		window.remote.setSetting('default_zoom', newZoom);
 	},
 
 	/*

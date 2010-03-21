@@ -85,7 +85,9 @@ Math.formatBytes = function(bytes)
 
 	}
 
-	size = size>0?size.toFixed(2):0;
+	if(size.toString().lastIndexOf(".") != -1) {
+		size = size>0?size.toFixed(2):0;
+	}
 
 	//Make it say 0 instead of 0.00
 	if (size == 0.00) {
