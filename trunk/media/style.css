@@ -28,7 +28,7 @@
   * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		*
 	 */
-html,body{margin:0;padding:0}
+*{margin:0;padding:0;list-style:none;text-decoration:none}
 body{font:62.5% Helvetica, Verdana, Arial, sans-serif;color:#323232;
 	background:#fff;text-align:center;overflow:hidden}
 
@@ -36,13 +36,12 @@ img{border:0}
 a{outline:none}
 
 /* Top Menu */
-#header_menu{width:100%;height:43px;margin:0;position:fixed;
-	background:url('vg.png') repeat-x #e8e8e8;border-bottom:1px solid #979797}
-#header_menu ul{height:50px;list-style:none;margin:0;padding:0;float:left}
-#header_menu ul li{height:40px;float:left;margin:0}
+#header_menu{width:100%;height:43px;position:fixed;border-bottom:1px solid #979797;
+	background:url('vg.png') repeat-x #e8e8e8}
+#header_menu ul{height:50px;float:left}
+#header_menu ul li{height:40px;float:left}
 #header_menu ul li a{width:55px;height:12px;padding:25px 3px 0 3px;color:#050505;
-	text-decoration:none;display:block;margin:3px 0;
-	background-image:url('hdr.png');background-repeat:no-repeat}
+	display:block;margin:3px 0;background-image:url('hdr.png');background-repeat:no-repeat}
 #header_menu ul li a.disabled{opacity:0.5}
 #header_menu ul li.divider{border-left:1px dashed #bbb;margin:4px;cursor:default;
 	height:35px}
@@ -62,6 +61,9 @@ a{outline:none}
 #header_pause_all a:hover{background-position:-258px -35px}
 #header_prefs a:hover{background-position:-367px -35px}
 #header_about a:hover{background-position:-312px -35px}
+#header_menu ul li span{float:right;padding:8px;margin:-28px 12px 0 0;
+	background:url('icns.png') no-repeat;display:none}
+#header_menu ul li span.warning{background-position:-2px -121px}
 #header_web_search{float:right;height:23px;margin:10px;border:1px solid #7a7a7a;
 	background:url('vg.png') repeat-x 0 -560px #fff}
 #header_web_search.active{border:2px solid #019be8;margin:9px}
@@ -78,10 +80,10 @@ a{outline:none}
 	position:fixed;background:url('vg.png') repeat-x 0 -81px #e8f0fa;left:0;top:44px;
 	overflow:hidden}
 #filter_bar_options,#filter_bar_type{width:50%}
-#filter_bar ul{height:18px;list-style:none;margin:0;padding:0;float:left}
-#filter_bar ul li{height:18px;float:left;margin:3px 2px 10px 2px;padding:0}
-#filter_bar ul li a{font-size:1.2em;color:#4E4E4F;text-decoration:none;margin:0;
-	font-weight:bold;padding:1px 7px 0 7px;display:block;vertical-align:bottom}
+#filter_bar ul{height:18px;list-style:none;float:left}
+#filter_bar ul li{height:18px;float:left;margin:3px 2px 10px 2px}
+#filter_bar ul li a{font-size:1.2em;color:#4E4E4F;font-weight:bold;
+	padding:1px 7px 0 7px;display:block;vertical-align:bottom}
 #filter_bar ul li:hover{border:1px solid #b6c9f3;margin:2px 3px 0 3px;
 	background:url('vg.png') 0 -542px #cbcbcb}
 #filter_bar ul li:hover a,#filter_bar ul li.active a{padding:1px 5px;color:#fff}
@@ -90,9 +92,8 @@ a{outline:none}
 #filter_search{float:right;height:18px;margin:2px 4px 4px 0;padding:0 5px;
 	border:1px solid #7a7a7a;background:url('vg.png') repeat-x 0 -560px #fff}
 #filter_search.active{border:2px solid #019be8;margin:1px 3px 3px 0}
-#filter_search input{background:transparent;height:18px;width:85px;
-	float:left;border:0;display:inline;outline:none;padding:1px 2px;font-size:0.9em;
-	margin-right:18px}
+#filter_search input{background:transparent;height:18px;width:85px;margin-right:18px;
+	float:left;border:0;display:inline;outline:none;padding:1px 2px;font-size:0.9em}
 #filter_search input.text{margin-right:0}
 #filter_search_delete_text{border:0;width:18px;height:18px;float:left;
 	background:url('icns.png') 0 -258px;margin-top:-3px}
@@ -111,17 +112,17 @@ a{outline:none}
 
 /* Torrent Container */
 #torrent_container{position:fixed;top:69px;bottom:22px;right:0px;left:0px;
-	padding:0;margin:0 350px 0 0;overflow:auto}
-#torrent_list{width:100%;margin:0;padding:0;text-align:left}
-#torrent_list li{list-style:none;clear: both;display: block;padding:0;margin:0;
-	vertical-align:middle;border-bottom: 1px solid #ccc;padding:0 30px 4px 8px}
-#torrent_list h2{margin:0;padding:6px 0;overflow:hidden;white-space:nowrap;
+	margin:0 350px 0 0;overflow:auto}
+#torrent_list{width:100%;text-align:left}
+#torrent_list li{list-style:none;clear:both;display:block;vertical-align:middle;
+	border-bottom: 1px solid #ccc;padding:0 30px 4px 8px}
+#torrent_list h2{padding:6px 0;overflow:hidden;white-space:nowrap;
 	text-overflow:ellipsis}
 #torrent_list.medium h2{font-size:1.3em;padding:4px 0 0 0}
 #torrent_list.tiny h2{font-size:1.1em;font-weight:normal;width:25%;float:left}
 #torrent_list input{margin:2px 0;padding:2px 0;font-size:1.5em;font-weight:bold;
 	width:100%;display:none}
-#torrent_list span{display:block;margin:0;padding:0;font-size: 1.1em}
+#torrent_list span{display:block;font-size: 1.1em}
 #torrent_list.medium span{font-size:1em}
 #torrent_list.medium .progress_details{display:none}
 #torrent_list.tiny span{display:none}
@@ -132,7 +133,7 @@ a{outline:none}
 #torrent_list li:hover{background:#EDF3FE}
 #torrent_list li.selected{background:url('vg.png') repeat-x 0 -251px #477dbc;
 	color:#FFF}
-#torrent_list li a{display:block;float:right;width:17px;height:17px;padding:0;
+#torrent_list li a{display:block;float:right;width:17px;height:17px;
 	margin:0 -23px 0 0;background:url('icns.png') -1px -61px}
 #torrent_list li a:hover{background-position:-1px -41px;cursor:pointer}
 #torrent_list li.paused a,#torrent_list li.completed a{
@@ -140,9 +141,8 @@ a{outline:none}
 #torrent_list li.paused a:hover,#torrent_list li.completed a:hover{
 	background-position:-1px -1px}
 #torrent_list .torrent_name{font-size:1.3em;font-weight:bold}
-.progress_bar_container{height:10px;margin:3px 0 3px 0;
-	float:left;line-height:1px;font-size:1px;width:100%;border:1px solid #939393;
-	background:url('vg.png') repeat-x 0 -221px #e5e5e5}
+.progress_bar_container{height:10px;margin:3px 0 3px 0;float:left;line-height:1px;
+	font-size:1px;width:100%;border:1px solid #939393;background:url('vg.png') repeat-x 0 -221px #e5e5e5}
 .loading .progress_bar_container{background:url('progress.gif') repeat-x}
 .seeding .progress_bar_container{border:1px solid #29AD35;
 	background-position:0 -191px}
@@ -168,27 +168,25 @@ a{outline:none}
 	background-color:#e4e3e2;border-left:#aaa 1px solid;text-align:left;
 	overflow:auto;padding:5px 5px 5px 13px}
 #toggleDetailPane{position:fixed;top:44px;bottom:22px;width:8px;margin-left:-13px;
-	background:url('hg.png') repeat-y 0 0;padding:0;cursor:w-resize;
-	border-right:1px solid #aaa}
+	background:url('hg.png') repeat-y 0 0;cursor:w-resize;border-right:1px solid #aaa}
 #toggleDetailPane span{text-indent:-9999px;display:block;overflow:hidden;
 	background:url(icns.png) no-repeat -5px -604px;cursor:w-resize}
 #toggleDetailPane.out span{background-position:-5px -584px}
 #details_header{margin-bottom:10px}
-#details_header h1{font-size:1.4em;margin:0;clear:both;padding:6px 0;
-	text-shadow:1px 1px #eee;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#details_header h1{font-size:1.4em;clear:both;padding:6px 0;white-space:nowrap;
+	text-shadow:1px 1px #eee;overflow:hidden;text-overflow:ellipsis}
 #details_header .rename{font-size:1.4em;margin:2px 0;padding:2px 0;clear:both;
 	font-weight:bold;display:none}
-#details_header span{font-size:1.2em;margin:0;display:block}
+#details_header span{font-size:1.2em;display:block}
 #details_priority_button{float:right;border:1px solid #7a7a7a;padding:3px 6px;
 	background:url('vg.png') 0 -145px;margin:-22px 0 0 0;color:#323232;
-	text-decoration:none;display:none}
+	display:none}
 #details_priority_button:active{background-position:0 -122px}
-#details_container .tabs{padding:0 0 0 45px;margin:0;text-shadow:1px 1px #e8e8e8}
+#details_container .tabs{padding:0 0 0 45px;text-shadow:1px 1px #e8e8e8}
 #details_container .tabs li{float:left;list-style-type:none}
 #details_container .tabs li a{display:block;margin:10px -1px 0 0;padding:4px;
 	background:url('vg.png') repeat-x 0 -145px;border:1px solid #787878;
-	width:50px;text-align:center;font-weight:bold;text-decoration:none;color:#323232;
-	height:15px}
+	width:50px;text-align:center;font-weight:bold;color:#323232;height:15px}
 #details_container .tabs li a.selected{background-position:0 -168px;
 	text-shadow:1px 1px #c5d0e4;background-color:#059ceb}
 #details_container .tabs span{display:block;text-indent:-9000px;height:16px;
@@ -197,16 +195,15 @@ a{outline:none}
 #details_files span{background:url('icns.png') no-repeat 0 -162px}
 #details_peers span{background:url('icns.png') no-repeat 0 -182px}
 #details_trackers span{background:url('icns.png') no-repeat 0 -202px}
-#details_general_disk_space{width:100%;padding:0}
-h3{margin:0 0 10px 0;padding:0}
-.labellist{list-style:none;margin:0;padding:0;border:1px solid #bbb;
+#details_general_disk_space{width:100%}
+h3{margin:0 0 10px 0}
+.labellist{list-style:none;border:1px solid #bbb;
 	background:url('vg.png') repeat-x 0 -561px #ddd}
-.labellist li{margin:0;padding:4px 8px;
-	border-top:1px solid #f5f5f5;border-bottom:1px solid #c4c4c4}
+.labellist li{padding:4px 8px;border-top:1px solid #f5f5f5;border-bottom:1px solid #c4c4c4}
 .labellist li:first-child{border-top:0}
 .labellist li:last-child{border-bottom:0}
-.labellist li h4{padding:0;margin:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.labellist li h3{padding:0;margin:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.labellist li h4{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.labellist li h3{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
 .labellist li .col2{display:inline-block;width:45%}
 .labellist li .col2 b{width:45%}
 .labellist li .col2 span{width:50% !important;text-align:center}
@@ -218,8 +215,8 @@ h3{margin:0 0 10px 0;padding:0}
 	display:inline-block;width:20%}
 
 #details_trackers_contain li{padding-right:80px}
-#details_trackers_contain li a{padding:8px;float:left;
-	background:url('icns.png') no-repeat -3px -483px;margin:6px 2px 0 -4px;border:0}
+#details_trackers_contain li a{padding:8px;float:left;margin:6px 2px 0 -4px;
+	background:url('icns.png') no-repeat -3px -483px;border:0}
 #details_trackers_contain li a.on{background-position:-3px -503px !important}
 #details_trackers_contain li a.q{background-position:-3px -563px}
 
@@ -228,7 +225,7 @@ h3{margin:0 0 10px 0;padding:0}
 #details_files_contain .labellist .folder ul li{margin-right:20px}
 #details_files_contain .labellist h4{margin-right:15px;overflow:hidden;white-space:nowrap}
 #details_files_contain .labellist li a{padding-left:12px;font-weight:bold;color:#323232;
-	text-decoration:none;display:block}
+	display:block}
 #details_files_contain .labellist .folder>a.drop{background:url('icns.png') no-repeat -5px -282px}
 #details_files_contain .labellist .folder.d>a.drop{background-position:-5px -302px}
 #details_files_contain .labellist ul{margin-left:4px;list-style:none;padding-left:0;width:100%;
@@ -255,18 +252,17 @@ h3{margin:0 0 10px 0;padding:0}
 #details_peers_contain .labellist div b.o{background-position:0 -360px}
 
 #torrent_upload_frame{display:block;position:absolute;top:-1000px;left:-1000px;
-	width:0px;height:0px;border:none;padding:0;margin:0}
+	width:0px;height:0px;border:none}
 
 /* Status Bar */
-#status_bar{width:100%;height:21px;margin:0;position:fixed;color:#555;bottom:0;
-	background:url('vg.png') repeat-x 0 -60px #e8e8e8;font-size: 1.3em;
-	font-weight:normal;border-top:1px solid #979797;text-shadow:1px 1px #f1f2f5;
-	font-weight:bold;padding:0}
-#status_bar a{color:#555;text-decoration:none}
+#status_bar{width:100%;height:21px;position:fixed;color:#555;bottom:0;
+	background:url('vg.png') repeat-x 0 -60px #e8e8e8;font-size:1.3em;font-weight:bold;
+	border-top:1px solid #979797;text-shadow:1px 1px #f1f2f5}
+#status_bar a{color:#555}
 #status_torrents,#status_speeds{margin:2px 10px}
-#status_bar .up_arrow{height:16px;padding:0 5px;margin:0;display:inline;
+#status_bar .up_arrow{height:16px;padding:0 5px;display:inline;
 	background:url('icns.png') 0 -222px}
-#status_bar .down_arrow{height:16px;padding:0 5px;margin:0;display:inline;
+#status_bar .down_arrow{height:16px;padding:0 5px;display:inline;
 	background:url('icns.png') 0 -242px}
 #status_torrents{float:left}
 #status_speeds{float:right}
@@ -277,7 +273,7 @@ h3{margin:0 0 10px 0;padding:0}
 
 /* Menus */
 .contextmenu{position:absolute;z-index:99;border:1px solid #979797;padding:2px 0;
-	background:#f0f0f0;margin:0;list-style:none;box-shadow:0 0 10px rgba(0,0,0,0.4);
+	background:#f0f0f0;list-style:none;box-shadow:0 0 10px rgba(0,0,0,0.4);
 	-webkit-box-shadow:0 0 10px rgba(0,0,0,0.4);-moz-box-shadow:0 0px 10px rgba(0,0,0,0.4)}
 .contextmenu.rightclickmenu{box-shadow:2px 2px 4px rgba(0,0,0,0.5);
 	-webkit-box-shadow:2px 2px 4px rgba(0,0,0,0.5);-moz-box-shadow:2px 2px 4px rgba(0,0,0,0.5)}
@@ -285,10 +281,10 @@ h3{margin:0 0 10px 0;padding:0}
 .contextmenu li:hover{color:#fff;cursor:pointer;
 	background:url('vg.png') repeat-x 0 -251px #477dbc}
 .contextmenu li:hover a{color:#fff}
-.contextmenu li.separator{padding:0;border-top:1px solid #e0e0e0;
-	border-bottom:1px solid #fff;border-left:0;border-right:0;margin:2px 4px}
+.contextmenu li.separator{margin:2px 4px;border-top:1px solid #e0e0e0;
+	border-bottom:1px solid #fff;border-left:0;border-right:0}
 .contextmenu li.separator:hover{background:none;cursor:default}
-.contextmenu li a{padding:2px 5px;color:#555;text-decoration:none;display:block}
+.contextmenu li a{padding:2px 5px;color:#555;display:block}
 .contextmenu input{width:30px}
 #order_menu li a{padding-left:18px;text-align:left}
 #order_menu li a.desc{background:url('icns.png') no-repeat -2px -241px}
@@ -309,10 +305,10 @@ h3{margin:0 0 10px 0;padding:0}
 #torrent_context_menu li.label a{background-position:-2px -459px}
 
 /* Dialoues */
-.dialogue{border:1px solid #5b5e60;background:#E4E4E4;padding:0;position:absolute;
+.dialogue{border:1px solid #5b5e60;background:#E4E4E4;position:absolute;
 	top:50%;left:50%;margin-left:-150px;width:300px}
 .dialogue .decoration{width:100%;height:35px;border-bottom:1px solid #567fae;
-	background:url('vg.png') repeat-x 0 -442px #78ade8;margin:0}
+	background:url('vg.png') repeat-x 0 -442px #78ade8}
 .dialogue .decoration.bad,#error_popup .decoration{background-position:0 -372px;
 	border-bottom:1px solid #bf5b5b;background-color:#e78282}
 .dialogue .decoration.good{background-position:0 -407px;background-color:#7fc167;
@@ -321,30 +317,29 @@ h3{margin:0 0 10px 0;padding:0}
 .dialogue .decoration .close{height:16px;width:17px;float:right;margin:9px 9px 0 0;
 	background:url('icns.png') no-repeat -2px -101px}
 .dialogue .decoration .close:hover{cursor:pointer;background-position:-2px -81px}
-.dialogue .decoration h2{margin:9px 0 0 10px;padding:0;float:left;font-size:1.4em;
+.dialogue .decoration h2{margin:9px 0 0 10px;float:left;font-size:1.4em;
 	text-shadow:1px 1px 0 rgba(255,255,255,0.5)}
 .dialogue .tab{float:left;margin:5px 0;border:1px solid #7a7a7a;color:#323232;
-	padding:3px 6px;background:url('vg.png') repeat-x 0px -145px;
-	text-decoration:none}
+	padding:3px 6px;background:url('vg.png') repeat-x 0px -145px}
 .dialogue .tab.l{border-left:0}
 .dialogue .tab.a{background-position:0 -122px}
-.dialogue .white{background:#fff;margin:0;padding:0;border-bottom:1px solid #bfbfbf}
-.dialogue .window{padding:10px;margin:0;border-top:1px solid #f1f1f1}
+.dialogue .white{background:#fff;border-bottom:1px solid #bfbfbf}
+.dialogue .window{padding:10px;border-top:1px solid #f1f1f1}
 .dialogue .buttonset{background:url('vg.png') repeat-x 0 -477px;
 	height:20px;padding:5px 0 16px 0;border-top:1px solid #aaa}
-.dialogue p{margin:0 0 10px 0;padding:0}
-.dialogue hr{border:0;border-top:1px dotted #aaa}
+.dialogue p{margin:0 0 10px 0}
+.dialogue hr{border:0;border-top:1px dotted #aaa;padding:3px 0;display:block;clear:both}
 .dialogue label{float:left;clear:left;margin:5px 0}
-.dialogue input{clear:both;border:1px solid #aaa;background:white}
+.dialogue input{clear:both;border:1px solid #aaa;background:white;margin:3px}
 .dialogue button{width:125px;padding:2px 0}
 
 #open_dialogue .progress_bar_container{width:250px;margin:8px 0 0 22px}
 #open_iframe{width:275px}
 #about_dialogue .window,#about_dialogue .white{text-align:left}
 #about_dialogue .white{background:url('aboutbkg.png') no-repeat top right #fff}
-#about_dialogue h1{margin:0;padding:10px 0 0 10px}
-#about_dialogue h4{margin:0;padding:0 0 0 10px}
-#about_dialogue .white p{margin:0;padding:10px}
+#about_dialogue h1{padding:10px 0 0 10px}
+#about_dialogue h4{padding:0 0 0 10px}
+#about_dialogue .white p{padding:10px}
 #upgrade_icon{padding:8px;float:left;background:url('icns.png') no-repeat -3px -503px}
 #upgrade_icon.checking{background-position:-3px -563px}
 #upgrade_icon.upgrade{background-position:-3px -543px}

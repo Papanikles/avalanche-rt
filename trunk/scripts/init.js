@@ -16,7 +16,7 @@
 //When DOM is ready...
 $(document).ready( function() {
 
-	window.currentVersion = 'r45';
+	window.currentVersion = 'r46';
 
 	//Create our settings object, we should set some defaults to stop potential bugs
 	window.settings = {
@@ -108,6 +108,7 @@ $(document).ready( function() {
 				$('a[href="#setPriority/1"]').text(window.lang.priorities[1]);
 				$('a[href="#setPriority/0"]').text(window.lang.priorities[0]);
 				$('a[href="#setRate/download/Unlimited"]').text(window.lang.statusbar_UnlimitedSpeed);
+				$('a[href="#setRate/upload/Unlimited"]').text(window.lang.statusbar_UnlimitedSpeed);
 
 				$('a[href="#setOrder/new_name"]').text(window.lang.sortmenu_Name);
 				$('a[href="#setOrder/percent_done"]').text(window.lang.sortmenu_Percent);
@@ -171,6 +172,15 @@ $(document).ready( function() {
 
 			$('#torrent_container,#filter_bar').css(
 				'margin-right',data.detail_pane_width+18+ 'px');
+		}
+
+		//We're going to check for updates if that hasn't been done today:
+		day = new Date();
+		if(!data.update_check || data.update_check != day.getDate())
+		{
+			torrent.updateCheck();
+			window.remote.setSetting('update_check', day.getDate());
+			console.log('updated');
 		}
 
 		if(data.default_zoom==2) { torrent.zoomTorrents(null,'out'); }

@@ -95,6 +95,7 @@
 
 					<li id="header_about">
 						<a href="#about_dialogue/donateButton/updateCheck" rel="openDialogue"></a>
+						<span class="warning"></span>
 					</li>
 
 			 </ul>
@@ -361,7 +362,7 @@
 		</ul>
 
 		<ul id="upload_rate_menu" class="contextmenu" style="display:none">
-			<li><a href="#setRate/upload/Unlimited" rel="func">Unlimited</a></li>
+			<li><a href="#setRate/upload/Unlimited" rel="func"></a></li>
 			<li class="separator"></li>
 			<li><a href="#setRate/upload/5" rel="func">5 KB/s</a></li>
 			<li><a href="#setRate/upload/10" rel="func">10 KB/s</a></li>
@@ -402,7 +403,7 @@
 					<a href="#switchTab/torrent_open_file" rel="func" class="tab l" id="open_file_tab"></a>
 					<!--<a href="#switchTab/torrent_open_magnet" rel="func" class="tab l" id="open_magnet_tab"></a>-->
 					<div id="torrent_open_url" class="tabwindow">
-						<input type="text" id="torrent_upload_url" class="pfocus" style="width:276px">
+						<input type="text" id="torrent_upload_url" class="pfocus" style="width:276px" tabindex="1">
 					</div>
 					<div id="torrent_open_file" class="tabwindow" style="display:none">
 						<form id="open_file" name="open_file" action="torrenthandler.php"
@@ -412,31 +413,31 @@
 								<input type="hidden" name="type" value="file">
 						</form>
 					</div>
-					<div id="torrent_open_magnet" class="tabwindow" style="display:none">
+					<!--<div id="torrent_open_magnet" class="tabwindow" style="display:none">
 						<form id="open_magnet" name="open_magnet" action="torrenthandler.php"
 							target="open_iframe" method="post" enctype="multipart/form-data">
 								<input type="text" id="torrent_upload_magnet" class="pfocus" style="width:276px">
 								<input type="hidden" name="type" value="magnet">
 						</form>
-					</div>
+					</div>-->
 					<iframe name="open_iframe" id="open_iframe" style="display:none"></iframe>
 					<hr>
 				<p>
 					<label class="float" for="torrent_upload_start"></label>
 					<label for="torrent_upload_label"></label>
-					<input type="checkbox" id="torrent_upload_start">
-					<input type="text" id="torrent_upload_label">
+					<input type="checkbox" id="torrent_upload_start" tabindex="2">
+					<input type="text" id="torrent_upload_label" tabindex="3">
 				</p>
 			</div>
 			<div class="buttonset">
-				<button class="initiate" id="dialogue_open_torrent"></button>
-				<button class="close"></button><br>
+				<button class="initiate" id="dialogue_open_torrent" tabindex="4"></button>
+				<button class="close" tabindex="4"></button><br>
 			</div>
 			<div class="buttonset loading" style="display:none">
 				<div class="progress_bar_container"></div>
 			</div>
 			<div class="buttonset done" style="display:none">
-				<button class="reset"></button>
+				<button class="reset" tabindex="6"></button>
 			</div>
 		</div>
 
@@ -482,20 +483,20 @@
 				<h1>Avalanche</h1>
 				<h4><span id="about_version_label"></span>&nbsp;<span id="version"></span></h4>
 				<p>&copy; 2010 Keith Cirkel.<br>
-					<a href="http://www.gnu.org/licenses/gpl-3.0.html" id="about_license"></a><br><br>
+					<a href="http://www.gnu.org/licenses/gpl-3.0.html" id="about_license" target="_blank"></a><br><br>
 					<span id="about_testers"></span>
-					<a href="http://jihpun.blogspot.com/">Neil Gordon</a>,
+					<a href="http://jihpun.blogspot.com/" target="_blank">Neil Gordon</a>,
 					<br>
 					<span id="about_translators"></span>
-					<a href="http://jihpun.blogspot.com/">Neil Gordon</a> (ja-jp),
+					<a href="http://jihpun.blogspot.com/" target="_blank">Neil Gordon</a> (ja-jp),
 					<br>
 				</p>
 			</div>
 			<div class="window">
 				<span id="about_oscredit"></span><br>
-				<a href="http://php.net">PHP</a>,
-				<a href="http://jquery.com">jQuery</a>,
-				<a href="http://oxygen-icons.org/">Oxygen Icons</a><br><br>
+				<a href="http://php.net" target="_blank">PHP</a>,
+				<a href="http://jquery.com" target="_blank">jQuery</a>,
+				<a href="http://oxygen-icons.org/" target="_blank">Oxygen Icons</a><br><br>
 				<div id="upgrade_icon"></div>&nbsp;
 				<span id="upgrade_text"></span>
 			</div>
