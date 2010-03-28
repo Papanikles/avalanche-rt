@@ -645,6 +645,7 @@ Torrent.prototype =
 									clearTimeout(window.openSuccessTimer);
 									delete window.openSuccessTimer;
 									delete window.openSuccessFunc;
+									$('#torrent_upload_url').val('');
 									$('#open_dialogue .decoration').addClass('good').
 										children('h2').text(window.lang.open_title_success);
 									$('#open_dialogue .buttonset').hide().
@@ -759,14 +760,16 @@ Torrent.prototype =
 						$('#upgrade_icon').addClass('upgrade').removeClass('checking');
 						$('#upgrade_text').text(window.lang.about_upgrade.
 							replace('%s',data[window.settings.release_channel]));
-						$('#about_action').text(window.lang.about_updatebutton);
+						$('#about_action').text(window.lang.about_updatebutton).removeClass('donate');
+						$('#header_about span').show();
 					}
 					else
 					{
 						//No updates
 						$('#upgrade_icon').removeClass('checking upgrade');
 						$('#upgrade_text').text(window.lang.about_uptodate);
-						$('#about_action').text(window.lang.about_donatebutton);
+						$('#about_action').text(window.lang.about_donatebutton).addClass('donate');
+						$('#header_about span').hide();
 					}
 				},
 				error: function(data)
@@ -784,10 +787,12 @@ Torrent.prototype =
 		if(e.hasClass('donate'))
 		{
 				//Go to donate page
+				window.open('https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=10497475');
 		}
-		else if(e.hasClass('update'))
+		else
 		{
 				//Go to update page
+				window.open('http://code.google.com/p/avalanche-rt');
 		}
 	},
 
@@ -1931,6 +1936,7 @@ Torrent.prototype =
 		//We'll also set the "close" buttons to hide & reset the dialogue
 		$('#'+ dialogue_id+ ' .close').click(function()
 		{
+			$('input:focus').blur();
 			$('#'+ dialogue_id+ ' .decoration').removeClass('good bad');
 			$('#'+ dialogue_id).fadeOut(125,function(){
 				$('#'+ dialogue_id+ ' .window').show();
@@ -2131,24 +2137,29 @@ Torrent.prototype =
 	keyupBody: function(e)
 	{
 		//Dont do anything if we cant find the keycode, or we are in a text box
-		if($('input:focus')[0]) return true;
+		if($('input:focus').length>0 && $('.dialogue:not(:hidden)').length==0) return true;
 		if(!e.keyCode) return true;
 
 		key = e.keyCode;
 
 		//Specify some shortcut keys for the dialogue boxes:
-		if($('.dialogue:not(:hidden)')[0])
+		if($('.dialogue:not(:hidden)').length>0)
 		{
+			dialogue = $('.dialogue:not(:hidden)').first();
 			//Escape was pushed, close the form:
-			if(key == 27) { $('.dialogue:not(:hidden) .close').click(); }
+			if(key == 27) { dialogue.find('.close').first().click(); }
 			//Enter was pushed, accept the window question:
-			if(key == 13) { $('.dialogue:not(:hidden) .initiate').click(); }
+			if(key == 13) { dialogue.find('.initiate').first().click(); }
+			//T was pushed, change tabs (if there are any)
+			if(key == 84 && $('input:focus').length==0 && dialogue.find('.tab').length>0) {
+				dialogue.find('.tab.a').nextAll('.tab').length>0?
+					dialogue.find('.tab.a').next().click():
+					dialogue.find('.tab').first().click();
+			}
 			//If left key was pushed, go to the previous button:
-			if(key == 37) { $('.dialogue button:focus').prev().focus(); }
+			if(key == 37) { dialogue.find('.buttonset:not(:hidden) button').first().focus(); }
 			//If right key was pushed, go to the previous button:
-			if(key == 39) { $('.dialogue button:focus').next().focus(); }
-			//Let enter keys get by:
-			if(key == 13) { return true; }
+			if(key == 39) { dialogue.find('.buttonset:not(:hidden) button').last().focus(); }
 		}
 
 		//Specify some shortcut keys for the main window:
