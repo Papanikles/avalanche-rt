@@ -11,6 +11,9 @@
 	"toolbar_prefs":"設定",
 	"toolbar_about":"このソフトについて",
 
+	"web_search_placeholder":"Search Web...",
+	"filter_bar_placeholder":"Filter...",
+
 	"filter_all": "全部 (%s)",
 	"filter_active": "アクティブ (%s)",
 	"filter_downloading": "受信中 (%s)",

@@ -16,7 +16,7 @@
 //When DOM is ready...
 $(document).ready( function() {
 
-	window.currentVersion = 'r46';
+	window.currentVersion = 'r47';
 
 	//Create our settings object, we should set some defaults to stop potential bugs
 	window.settings = {
@@ -55,6 +55,9 @@ $(document).ready( function() {
 				$('#header_pause_all a').text(window.lang.toolbar_pauseall);
 				$('#header_prefs a').text(window.lang.toolbar_prefs);
 				$('#header_about a').text(window.lang.toolbar_about);
+				$('#web_search').attr('placeholder',window.lang.web_search_placeholder);
+				$('#torrent_search').attr('placeholder',window.lang.filter_bar_placeholder);
+
 				//Right click menu
 				$('#torrent_context_menu .pause a').text(window.lang.toolbar_pause);
 				$('#torrent_context_menu .resume a').text(window.lang.toolbar_resume);

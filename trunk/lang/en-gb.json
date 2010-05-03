@@ -11,6 +11,9 @@
 	"toolbar_prefs":"Preferences",
 	"toolbar_about":"About",
 
+	"web_search_placeholder":"Search Web...",
+	"filter_bar_placeholder":"Filter...",
+
 	"filter_all": "All (%s)",
 	"filter_active": "Active (%s)",
 	"filter_downloading": "Downloading (%s)",
