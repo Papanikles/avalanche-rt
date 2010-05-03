@@ -115,7 +115,7 @@ a{outline:none}
 	margin:0 350px 0 0;overflow:auto}
 #torrent_list{width:100%;text-align:left}
 #torrent_list li{list-style:none;clear:both;display:block;vertical-align:middle;
-	border-bottom: 1px solid #ccc;padding:0 30px 4px 8px}
+	border-bottom: 1px solid #ccc;padding:0 30px 4px 8px;background:#fff}
 #torrent_list h2{padding:6px 0;overflow:hidden;white-space:nowrap;
 	text-overflow:ellipsis}
 #torrent_list.medium h2{font-size:1.3em;padding:4px 0 0 0}

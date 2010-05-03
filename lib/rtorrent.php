@@ -44,7 +44,7 @@ class Rtorrent
 		$params['rtorrent_scgi_folder'],
 		$params['server_ip'],
 		$params['server_port'],
-		$params['https']?'https':'http11'
+		(isset($params['https']) && $params['https']=false)?'https':'http11'
 	);
 
 
@@ -478,7 +478,7 @@ class Rtorrent
 
 		}
 
-		if($return_array['dht://'])
+		if(array_key_exists('dht://', $return_array))
 		{
 			$message = new xmlrpcmsg('dht_statistics', array(new xmlrpcval($id)));
 			$dht = $this->SendAndRecieve($message);

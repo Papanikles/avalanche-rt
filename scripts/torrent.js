@@ -627,6 +627,7 @@ Torrent.prototype =
 								children('h2').text(window.lang.open_title_error);
 							$('#open_dialogue .buttonset').hide().
 								filter('#open_dialogue .buttonset.done').show();
+							$('#open_dialogue .buttonset.done button').focus();
 							clearTimeout(window.openFailTimer);
 							delete window.openFailTimer;
 						}, (settings.refresh_delay * 10)+ 100);
@@ -650,6 +651,7 @@ Torrent.prototype =
 										children('h2').text(window.lang.open_title_success);
 									$('#open_dialogue .buttonset').hide().
 										filter('#open_dialogue .buttonset.done').show();
+									$('#open_dialogue .buttonset.done button').focus();
 								}
 								//Same old torrent count. Keep it going...
 								else
@@ -736,6 +738,7 @@ Torrent.prototype =
 		$('#remove_dialogue h2').text(window.lang.remove_title_success);
 		$('#remove_dialogue .buttonset').hide().
 			filter('#remove_dialogue .buttonset.done').show();
+		$('#remove_dialouge .buttonset.done button').focus();
 	},
 
 	updateCheck: function()
@@ -760,7 +763,8 @@ Torrent.prototype =
 						$('#upgrade_icon').addClass('upgrade').removeClass('checking');
 						$('#upgrade_text').text(window.lang.about_upgrade.
 							replace('%s',data[window.settings.release_channel]));
-						$('#about_action').text(window.lang.about_updatebutton).removeClass('donate');
+						$('#about_action').text(window.lang.about_updatebutton).
+							removeClass('donate').focus();
 						$('#header_about span').show();
 					}
 					else
@@ -768,7 +772,8 @@ Torrent.prototype =
 						//No updates
 						$('#upgrade_icon').removeClass('checking upgrade');
 						$('#upgrade_text').text(window.lang.about_uptodate);
-						$('#about_action').text(window.lang.about_donatebutton).addClass('donate');
+						$('#about_action').text(window.lang.about_donatebutton).
+							addClass('donate').focus();
 						$('#header_about span').hide();
 					}
 				},
