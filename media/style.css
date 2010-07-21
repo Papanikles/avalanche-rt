@@ -110,6 +110,13 @@ a{outline:none}
 #zoomout a{background-position:-1px -642px}
 #zoomout.disabled a,#zoomin.disabled a{opacity:0.5}
 
+/*Table Headers*/
+#table_rows{display:block;height:16px;overflow:hidden;margin:0;padding:0;
+	background:url(vg.png) repeat-x #E8E8E8;border-bottom:1px solid #979797}
+#table_rows li{float:left;width:60px;margin:0;padding:3px 0 0;
+	border-right:1px solid #979797;border-left:1px solid #f0f0f0}
+li#tablerow_name,li#tablerow_progress{width:24%}
+
 /* Torrent Container */
 #torrent_container{position:fixed;top:69px;bottom:22px;right:0px;left:0px;
 	margin:0 350px 0 0;overflow:auto}

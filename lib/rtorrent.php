@@ -36,19 +36,22 @@ class Rtorrent
 {
 
 	private $server;
+	private $params;
 
 	function __construct($params)
 	{
 
-	$this->server = new xmlrpc_client(
-		$params['rtorrent_scgi_folder'],
-		$params['server_ip'],
-		$params['server_port'],
-		(isset($params['https']) && $params['https']=false)?'https':'http11'
-	);
+		$this->params = $params;
+
+		$this->server = new xmlrpc_client(
+			$params['rtorrent_scgi_folder'],
+			$params['server_ip'],
+			$params['server_port'],
+			(isset($params['https']) && $params['https']=false)?'https':'http11'
+		);
 
 
-		if($params['username'] && $params['password'] )
+		if(isset($params['username']) && isset($params['password']) )
 		{
 			$this->server->setCredentials(
 				$params['username'],
@@ -69,13 +72,15 @@ class Rtorrent
 		$curlopts = array(CURLOPT_HTTPHEADER => array('Expect:'));
 
 		//If the user has "trust_cert" set to true, then set curl to do so
-		if($params['trust_cert'])
+		if(isset($this->params['trust_cert']) && $this->params['trust_cert'] === true)
 		{
 			$this->client->setSSLVerifyPeer(FALSE);
 		}
 
 		$this->server->SetCurlOptions($curlopts);
 		$response = $this->server->send($message);
+
+		if(isset($_GET['debugResponse'])) { print_r($response); }
 
 		if($response->faultCode() )
 		{
@@ -144,7 +149,7 @@ class Rtorrent
 
 				$return_array[$torrent[0]] = array(
 
-					'name' => $torrent[1],
+					'name' => htmlentities($torrent[1]),
 					'is_downloading' => $torrent[2],
 					//Old versions of rtorrent use i4 which buffer overflows > 4gb
 					'size' => $torrent[3]<0?$torrent[23]* $torrent[24]:$torrent[3],
@@ -625,7 +630,7 @@ class Rtorrent
 
 		$message = new xmlrpcmsg('d.set_custom4',
 			array(new xmlrpcmsg($id), new xmlrpcmsg($label) ) );
-echo $message;
+
 		$reponse = $this->SendAndRecieve($message);
 
 		$return = array();

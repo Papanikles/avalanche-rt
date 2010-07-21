@@ -5,5 +5,6 @@ $configuration = array(
         "server_port"=>"80",
         "rtorrent_scgi_folder"=>"/RPC2",
         "username"=>"username",
-        "password"=>"password"
+        "password"=>"password",
+								"torrents_folder" => "/home/rtorrent/torrents"
 );

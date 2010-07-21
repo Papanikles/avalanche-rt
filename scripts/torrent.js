@@ -334,7 +334,7 @@ Torrent.prototype =
 		}
 
 		// Put the torrents name in the H2.
-		$('#'+ data.hash+ ' h2').text(data.new_name);
+		$('#'+ data.hash+ ' h2').html(data.new_name);
 
 		//If the torrent is hashing, we're going to make the details say
 		//"X MB of X GB checked"
@@ -991,6 +991,7 @@ Torrent.prototype =
 				$('#torrent_list li .progress_details,#torrent_list li .peer_details').slideDown(125);
 				$('#torrent_list li h2').animate({paddingTop:6,paddingBottom:6},125);
 				$('#torrent_list li .progress_bar_container').animate({height:10},125);
+				$('#table_rows').slideUp(125);
 				$('#torrent_list').addClass('big').removeClass('tiny medium');
 			}
 			else if(newZoom == 2)
@@ -999,6 +1000,7 @@ Torrent.prototype =
 				$('#torrent_list li .peer_details').slideDown(125);
 				$('#torrent_list li .progress_bar_container').animate({
 					width:'100%',height:5,marginTop:3});
+				$('#table_rows').slideUp(125);
 				$('#torrent_list').addClass('medium').removeClass('tiny big');
 			}
 		}
@@ -1024,6 +1026,7 @@ Torrent.prototype =
 				$('#torrent_list li .progress_bar_container').animate({
 					width:'25%',height:8,marginTop:8});
 				$('#torrent_list li .tablediv').show();
+				$('#table_rows').slideDown(125);
 				$('#torrent_list').addClass('tiny').removeClass('big medium');
 			}
 
@@ -1097,7 +1100,7 @@ Torrent.prototype =
 						{
 							if(remote.json.rename)
 							{
-								$('#'+ _id+ ' h2').val($('#'+ _id+ ' input').val());
+								$('#'+ _id+ ' h2').html($('#'+ _id+ ' input').val());
 								$('#details_header h1').val($('#'+ _id+ ' input').val());
 								$('#'+ _id+ ' input').blur();
 								$('#'+ _id+ ' input').hide();
@@ -1145,7 +1148,7 @@ Torrent.prototype =
 		//So first we want to get our data variable:
 		data = torrentlist[$('#details_container').attr('torrent_id')];
 
-		$('#details_header_name').text(data.new_name);
+		$('#details_header_name').html(data.new_name);
 		$('#details_header_size').text(Math.formatBytes(data.size));
 
 		if(hash == 'general')

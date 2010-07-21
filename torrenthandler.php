@@ -30,7 +30,7 @@
 		*
 	 */
 //User wants to upload a file
-if($_POST['type']=='file')
+if(isset($_POST['type']) && $_POST['type']=='file')
 {
 	if(!$_FILES)
 	{
@@ -39,7 +39,17 @@ if($_POST['type']=='file')
 
 	$file = $_FILES['torrent_upload_file'];
 
-	if(move_uploaded_file($file['tmp_name'],'torrents/'.$file['name']))
+	//Get our settings file
+	include('settings.php') or die(json_encode(array('error'=>'Failed to load settings file')));
+
+	$folder = isset($configuration['torrents_folder'])?
+		$configuration['torrents_folder']:
+		'torrents/';
+
+	//Add the missing slash at the end.
+	$folder.=substr($folder,-1)=='/'?'':'/';
+
+	if(move_uploaded_file($file['tmp_name'],$folder.$file['name']))
 	{
 			die(json_encode(array('openfile'=>TRUE)));
 	}
@@ -48,5 +58,3 @@ if($_POST['type']=='file')
 		die(json_encode(array('error'=>'Unable to move uploaded file')));
 	}
 }
-
-die();
