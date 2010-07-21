@@ -123,7 +123,7 @@ $(document).ready( function() {
 		$('#about_dialogue .buttonset .donate').text(window.lang.about_donatebutton);
 	}
 
-	window.currentVersion = 'r47';
+	window.currentVersion = 'r49';
 
 	//Create our settings object, we should set some defaults to stop potential bugs
 	window.settings = {
