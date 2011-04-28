@@ -1,0 +1,20 @@
+#summary Has avalanche stopped development? No.
+#labels Featured,Phase-Requirements
+
+I just wanted to let everyone know my plans for what is happening to Avalanche, and why the Google Code project has not seen an update in a few months, this is not because the project has been abandoned; far from it...
+
+= What is happening to Avalanche =
+
+  * Avalanche is being completely re-written. 1.0.0 will be out end of June
+  * Alpha/Beta releases of 1.0.0 will be released around May/June.
+  * Avalanche will no longer use PHP (huge thanks to [http://github.com/kghost KGhost] and [http://github.com/azuwis Azuwis] (see [http://code.google.com/p/avalanche-rt/issues/detail?id=10 Issue #10])
+  * Avalanche will be less dependant on rTorrent, (more on that when 1.0.0 is released); Avalanche 1.1.0 will support many servers.
+  * Because of the above, Avalanche will be released as a Google Chrome app alongside a server app.
+  * Avalanche will be moving to GitHub, as a way of encouraging more developers to get on board (like Kghost and Azuwis did!)
+  * Avalanche 1.0.0 will support Chrome, Firefox 4 and IE10, and Avalanche 1.1.0 will have support for iPhone and Android phones.
+  * Avalanche will properly support translations, thanks to the efforts of all translators!
+  * Avalanche 1.1.0 will be released as a debian-package, meaning a "sudo apt-get install avalanche" will be all that is needed.
+
+As always donations are welcome and hugely help future development of the app. Thank's loads to everyone who has given monetary support so far, and a special thanks to all those that have contributed code/translations!
+
+If you want to get involved in the redevelopment of Avalanche then just email:      avalanche ^at^ keithcirkel ^dot^ co ^dot^ uk
