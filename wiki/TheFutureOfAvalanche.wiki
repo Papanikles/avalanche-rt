@@ -18,3 +18,5 @@ I just wanted to let everyone know my plans for what is happening to Avalanche, 
 As always donations are welcome and hugely help future development of the app. Thank's loads to everyone who has given monetary support so far, and a special thanks to all those that have contributed code/translations!
 
 If you want to get involved in the redevelopment of Avalanche then just email:      avalanche ^at^ keithcirkel ^dot^ co ^dot^ uk
+
+==You can also follow the development on avalanche at [http://twitter.com/avalanche-rt @avalanche on twitter]==
