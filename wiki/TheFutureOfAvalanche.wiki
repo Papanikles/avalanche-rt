@@ -19,4 +19,4 @@ As always donations are welcome and hugely help future development of the app. T
 
 If you want to get involved in the redevelopment of Avalanche then just email:      avalanche ^at^ keithcirkel ^dot^ co ^dot^ uk
 
-==You can also follow the development on avalanche at [http://twitter.com/avalanche-rt @avalanche on twitter]==
+==You can also follow the development on avalanche at [http://twitter.com/avalanchert @avalanche on twitter]==
