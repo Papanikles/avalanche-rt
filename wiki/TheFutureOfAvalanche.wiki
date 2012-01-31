@@ -2,7 +2,7 @@
 #labels Featured,Phase-Requirements
 
 = `*`Update`*` =
-Due to my busy schedule in real life, I've not been able to commit as much time to avalanche over the last month that I'd hoped. This has meant I have pushed back the release of Avalanche to end of *July*, from end of *June*. For those interested in the finite details of development, check out [https://github.com/keithcirkel/avalanche/tree/develop The Avalanche github develop branch]
+Due to my busy schedule in real life, I've not been able to commit as much time to avalanche over the last month that I'd hoped. This has meant I have pushed back the release of Avalanche. For those interested in the finite details of development, check out [https://github.com/AvalancheBT/Avalanche The Avalanche github develop branch]. So as for a timescale for a new release, the best I can give you is "Soon".
 
 ----
 
@@ -10,8 +10,8 @@ I just wanted to let everyone know my plans for what is happening to Avalanche, 
 
 = What is happening to Avalanche =
 
-  * Avalanche is being completely re-written. 1.0.0 will be out end of ~~June~~ July
-  * Alpha/Beta releases of 1.0.0 will be released ~~around May/June~~ throughout July, with an Alpha on July 1st.
+  * Avalanche is being completely re-written. 1.0.0 will be out end of ~~June~~ *Soon*
+  * Alpha/Beta releases of 1.0.0 will be released ~~around May/June~~ *Soon*, with an Alpha ~~on July 1st~~ *Soon*.
   * Avalanche will no longer use PHP (huge thanks to [http://github.com/kghost KGhost] and [http://github.com/azuwis Azuwis] (see [http://code.google.com/p/avalanche-rt/issues/detail?id=10 Issue #10])
   * Avalanche will be less dependant on rTorrent, (more on that when 1.0.0 is released); Avalanche 1.1.0 will support many servers.
   * Because of the above, Avalanche will be released as a Google Chrome app alongside a server app.
